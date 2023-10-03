@@ -4,6 +4,7 @@ services:
   tomcat:
     build:
       context: ./TomcatServer
+      dockerfile: Dockerfile
     container_name: tomcat
     stdin_open: true
     tty: true

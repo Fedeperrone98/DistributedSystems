@@ -15,4 +15,4 @@ ENV MAVEN_HOME=/usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 ENV PATH=$MAVEN_HOME/bin:$PATH
 
-COPY "./server/dsmt_server/target/dsmt_server.war" "/usr/local/tomcat/webapps/"
+# COPY ./server/demo/target/demo.war /usr/local/tomcat/webapps
