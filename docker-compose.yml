@@ -31,11 +31,3 @@ services:
       - MYSQL_ROOT_PASSWORD=""
     volumes:
       - ./Database:/workspace
-
-  client:
-    image: node:latest
-    container_name: frontend
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./Client:/workspace
