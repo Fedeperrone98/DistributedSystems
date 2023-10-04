@@ -16,6 +16,8 @@ services:
   erlang:
     image: erlang:latest
     container_name: erlang
+    ports:
+      - 8081:8080
     stdin_open: true
     tty: true
     volumes:
