@@ -37,4 +37,7 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
       - MYSQL_ROOT_PASSWORD=""
     volumes:
-      - ./Database:/var/lib/mysql
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
