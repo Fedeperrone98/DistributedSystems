@@ -8,13 +8,18 @@ services:
     container_name: tomcat
     stdin_open: true
     tty: true
+    environment:
+      - DB_HOST=mysql
+      - DB_ROOT=root
+      - DB_PASS=root
+      - DB_PORT=3306
+      - DB_NAME=app
     ports:
       - 8080:8080
     volumes:
       - ./TomcatServer:/workspace
 
   erlang:
-    image: erlang:latest
     build:
       context: ./ErlangServer
       dockerfile: Dockerfile
@@ -34,7 +39,6 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      - MYSQL_ROOT_PASSWORD=""
+      - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./Database/data:/var/lib/mysql
