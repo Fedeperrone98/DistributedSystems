@@ -23,7 +23,7 @@ init(_) ->
 
   Dispatcher = cowboy_router:compile([{'_', Routes}]),
 
-  {ok, Pid} = cowboy:start_clear(chat_listener, [{port, Port}], #{env => #{dispatch => Dispatcher}}),
+  {ok, Pid} = cowboy:start_clear(cowboy_routes, [{port, Port}], #{env => #{dispatch => Dispatcher}}),
   io:format("[cowboy_listener] -> new cowboy listener initialized with pid ~p at port ~p~n", [Pid, Port]),
   {ok, []}.
 

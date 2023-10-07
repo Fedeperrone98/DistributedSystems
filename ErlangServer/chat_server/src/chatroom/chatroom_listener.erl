@@ -10,5 +10,5 @@ init(Req, _State)->
 
 % override of the cowboy_websocket websocket_handle/2 method
 websocket_handle(Frame, State) -> 
-  io:format("[chatroom listener] -> Received frame: ~p, along with state: ~p",[Frame, State]),
+  io:format("[chatroom listener] -> Received frame: ~p, along with state: ~p~n",[Frame, State]),
   {ok, State}.
