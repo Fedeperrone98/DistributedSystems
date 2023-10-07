@@ -1,4 +1,4 @@
-test_app
+chat_server
 =====
 
 An OTP application

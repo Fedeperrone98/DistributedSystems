@@ -1,19 +1,17 @@
 %%%-------------------------------------------------------------------
-%% @doc test_app public API
+%% @doc chat_server public API
 %% @end
 %%%-------------------------------------------------------------------
 
--module(test_app_app).
+-module(chat_server_app).
 
 -behaviour(application).
 
 -export([start/2, stop/1]).
 
 start(_StartType, _StartArgs) ->
-       {ok, _} = cowboy:start_http(http_listener, 100, [
-           {port, 8080}  % Porta su cui Cowboy ascolterà
-       ]),
-       test_app_sup:start_link().
+    io:format("[chat_server_app] -> starting a new supervisor~n"),
+    chat_server_sup:start_link().
 
 stop(_State) ->
     ok.

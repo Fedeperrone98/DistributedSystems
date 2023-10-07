@@ -1,9 +1,9 @@
 %%%-------------------------------------------------------------------
-%% @doc test_app top level supervisor.
+%% @doc chat_server top level supervisor.
 %% @end
 %%%-------------------------------------------------------------------
 
--module(test_app_sup).
+-module(chat_server_sup).
 
 -behaviour(supervisor).
 
@@ -14,7 +14,7 @@
 -define(SERVER, ?MODULE).
 
 start_link() ->
-    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
+    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 %% sup_flags() = #{strategy => strategy(),         % optional
 %%                 intensity => non_neg_integer(), % optional
@@ -26,10 +26,18 @@ start_link() ->
 %%                  type => worker(),       % optional
 %%                  modules => modules()}   % optional
 init([]) ->
+    io:format("[chat_server_sup] -> initializing the supervisor~n"),
     SupFlags = #{strategy => one_for_all,
-                 intensity => 0,
-                 period => 1},
-    ChildSpecs = [],
+                 intensity => 1,
+                 period => 60},
+    
+    Listener = #{
+        id => cowboy_listener,
+        start => {cowboy_listener, start_link, []},
+        restart => permanent
+    },
+
+    ChildSpecs = [Listener],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions
