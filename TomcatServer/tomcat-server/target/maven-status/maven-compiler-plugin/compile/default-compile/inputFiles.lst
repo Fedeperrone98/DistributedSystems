@@ -1,2 +1,3 @@
 /workspace/tomcat-server/src/main/java/daos/MySQLDao.java
-/workspace/tomcat-server/src/main/java/LoginServlet.java
+/workspace/tomcat-server/src/main/java/servlets/LoginServlet.java
+/workspace/tomcat-server/src/main/java/App.java

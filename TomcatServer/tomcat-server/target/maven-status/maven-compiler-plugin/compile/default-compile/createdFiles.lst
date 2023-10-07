@@ -1,2 +1,3 @@
+App.class
 daos/MySQLDao.class
-LoginServlet.class
+servlets/LoginServlet.class
