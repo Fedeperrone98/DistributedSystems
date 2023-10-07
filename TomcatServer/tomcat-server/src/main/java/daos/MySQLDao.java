@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MySQLDao {
-  Connection db = null;
+  private Connection db = null;
 
   public MySQLDao(String host, int port, String dbname) {
     try {
@@ -22,5 +22,9 @@ public class MySQLDao {
       System.out.println("Inner Exception: " + cnfe.getMessage());
       System.out.println("Stack\n:" + cnfe.getStackTrace());
     }
+  }
+
+  public Connection getDb() {
+    return db;
   }
 }

@@ -13,12 +13,13 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "Login", value = "/login")
 public class LoginServlet extends HttpServlet {
 
-  MySQLDao sqldb = new MySQLDao(System.getenv("DB_HOST"), Integer.parseInt(System.getenv("DB_PORT")),
-      System.getenv("DB_NAME"));
+  MySQLDao sqlDao = null;
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+    sqlDao = (MySQLDao) getServletContext().getAttribute("databaseConnection");
+    System.out.println(sqlDao.getDb().toString());
     request.setAttribute("name", "bho");
     dispatcher.forward(request, response);
   }
