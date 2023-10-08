@@ -1,26 +1,28 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
 
-  <html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+  <script src="index.js" defer></script>
+  <title>Welcome</title>
+</head>
 
-  <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="index.css">
-  </head>
-
-  <body style="margin: 0px;">
-    <div class="page">
-      <div class="login-card">
-        <h1>Login</h1>
-        <input type="text" placeholder="username" />
-        <input type="password" placeholder="password" />
-        <div class="full-name">
-          <input type="text" placeholder="First Name" />
-          <input type="text" placeholder="Second Name" />
-        </div>
-        <button>Log In</button>
-        Haven't you registered yet? <a href="">Sign Up</a>
+<body style="margin: 0px;">
+  <div class="page">
+    <div class="login-card">
+      <h1 id="title">Log In</h1>
+      <div class="full-name" id="addinfos">
+        <input type="text" placeholder="First Name" />
+        <input type="text" placeholder="Second Name" />
       </div>
+      <input type="text" placeholder="username" />
+      <input type="password" placeholder="password" />
+      <button id="actionbutton" onclick="handleLogin()">Log In</button>
+      <p id="toggler">You don't have an account? <a href="" onclick="toggleSignUp(event)">Sign Up</a></p>
     </div>
-  </body>
+  </div>
+</body>
 
-  </html>
+</html>
