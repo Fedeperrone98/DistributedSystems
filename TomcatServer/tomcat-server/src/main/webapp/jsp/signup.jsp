@@ -1,11 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
 <html>
   <head>
-    <title>Login page</title>
+    <title>Signup page</title>
   </head>
 
   <body>
-    <h1>Login</h1>
+    Hello <%= request.getAttribute("name") %>
+    <h1>Signup</h1>
   </body>
 
 </html>
