@@ -14,4 +14,3 @@ RUN wget -q "https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries/a
 ENV MAVEN_HOME=/usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 ENV PATH=$MAVEN_HOME/bin:$PATH
-
