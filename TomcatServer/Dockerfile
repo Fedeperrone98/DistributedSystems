@@ -15,4 +15,3 @@ ENV MAVEN_HOME=/usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 ENV PATH=$MAVEN_HOME/bin:$PATH
 
-COPY ./tomcat-server/target/tomcat-server.war /usr/local/tomcat/webapps
