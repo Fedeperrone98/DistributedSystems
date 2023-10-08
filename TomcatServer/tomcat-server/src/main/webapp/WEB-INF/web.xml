@@ -6,6 +6,6 @@
         https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd">
   <display-name>Archetype Created Web Application</display-name>
   <listener>
-    <listener-class>AppContextListener</listener-class>
+    <listener-class>com.unipi.dsmt.app.AppContextListener</listener-class>
   </listener>
 </web-app>

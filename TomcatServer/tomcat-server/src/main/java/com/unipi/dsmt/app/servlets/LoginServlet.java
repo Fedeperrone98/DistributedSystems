@@ -1,8 +1,8 @@
-package servlets;
+package com.unipi.dsmt.app.servlets;
 
 import java.io.IOException;
 
-import daos.MySQLDao;
+import com.unipi.dsmt.app.daos.MySQLDao;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

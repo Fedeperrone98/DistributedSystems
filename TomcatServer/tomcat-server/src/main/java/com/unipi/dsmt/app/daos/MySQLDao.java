@@ -1,4 +1,4 @@
-package daos;
+package com.unipi.dsmt.app.daos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
