@@ -13,11 +13,10 @@ public class AccessController {
   private static final String SECRET_KEY = System.getenv("JWT_SECRET"); // Chiave segreta per firmare il JWT
   static String token;
 
-  public static void setToken(HttpServletRequest request, String username, String password) {
+  public static void setToken(HttpServletRequest request, String username) {
 
     Map<String, Object> claims = new HashMap<>();
     claims.put("username", username);
-    claims.put("password", password);
 
     token = Jwts.builder()
         .setClaims(claims)

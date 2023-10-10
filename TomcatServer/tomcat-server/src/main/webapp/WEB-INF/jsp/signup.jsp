@@ -15,6 +15,15 @@
     <div class="signup-card">
 
       <h1 id="title">Sign up</h1>
+      <%
+        // Check if the user failed the login
+        String rParam = request.getParameter("error");
+        if (rParam != null) {
+      %>
+        <p> <%= rParam %> </p>
+      <%
+        }
+      %>
 
       <form method="post" action="${pageContext.request.contextPath}/signup">
 

@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.unipi.dsmt.app.daos.UserDAO;
 import com.unipi.dsmt.app.entities.User;
 import com.unipi.dsmt.app.enums.Department;
+import com.unipi.dsmt.app.utils.AccessController;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -27,10 +28,10 @@ public class SignUpServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        // UserDAO userDAO = new UserDAO((Connection)
-        // getServletContext().getAttribute("databaseConnection"));
+        UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
 
         String username = Optional.ofNullable(request.getParameter("username")).orElse("");
         String password = Optional.ofNullable(request.getParameter("password")).orElse("");
@@ -41,8 +42,18 @@ public class SignUpServlet extends HttpServlet {
         User userInfo = new User(username, password, firstname, surname, true, new Date(System.currentTimeMillis()),
                 Department.valueOf(department));
 
-        System.out.println(String.format("[Server] -> Received SignUp Request:\n%s", userInfo.toString()));
+        System.out.println(String.format("[Server] -> Received SignUp Request: %s", userInfo.toString()));
 
-        // userDAO.save(userInfo);
+        String resultMessage = userDAO.save(userInfo);
+
+        RequestDispatcher dispatcher = null;
+        if (resultMessage != "") {
+            response.sendRedirect(String.format("%s/signup?error=%s", request.getContextPath(), resultMessage));
+            return;
+        }
+
+        AccessController.setToken(request, username);
+        dispatcher = request.getRequestDispatcher(request.getContextPath() + "/home");
+        dispatcher.forward(request, response);
     }
 }

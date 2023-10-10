@@ -13,19 +13,19 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         // User user = UserLoginDTO.checkLogin(username, password);
         Boolean exists = UserLoginDTO.checkLogin(username, password);
 
-        //if (user != null){
-        if (exists){
+        // if (user != null){
+        if (exists) {
             // successful login
-            AccessController.setToken(request, username, password);
+            AccessController.setToken(request, username);
             response.sendRedirect(request.getContextPath() + "/home");
-        }else{
+        } else {
             // failed login
             response.sendRedirect(request.getContextPath() + "/index.jsp?r=error");
         }

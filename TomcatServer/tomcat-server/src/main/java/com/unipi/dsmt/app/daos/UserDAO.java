@@ -13,7 +13,7 @@ public class UserDAO {
     userConnection = db;
   }
 
-  public void save(User userInfo) {
+  public String save(User userInfo) {
     String sqlString = "INSERT INTO user(username, password, name, surname, department, onlineFlag, creationTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
     try {
       PreparedStatement statement = userConnection.prepareStatement(sqlString);
@@ -24,9 +24,11 @@ public class UserDAO {
       statement.setString(5, userInfo.getDepartment().toString());
       statement.setBoolean(6, userInfo.getOnline_flag());
       statement.setDate(7, userInfo.getCreationTime());
-      statement.executeUpdate();
+      int changedCount = statement.executeUpdate();
+      return changedCount == 0 ? "user already exists" : "";
     } catch (SQLException e) {
       e.printStackTrace();
+      return e.getMessage();
     }
 
   }
