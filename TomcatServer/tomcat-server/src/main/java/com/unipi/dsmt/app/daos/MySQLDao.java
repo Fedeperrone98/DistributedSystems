@@ -13,7 +13,7 @@ public class MySQLDao {
       db = DriverManager.getConnection(
           String.format("jdbc:mysql://%s:%d/%s", host, port, dbname),
           System.getenv("DB_ROOT"), System.getenv("DB_PASS"));
-      System.out.println("[MySQL] -> Connection Succeded");
+      System.out.println(String.format("[MYSQL] -> Connected to database %s", dbname));
     } catch (SQLException sqle) {
       System.out.println("SQLException: " + sqle.getMessage());
       System.out.println("SQLState: " + sqle.getSQLState());
