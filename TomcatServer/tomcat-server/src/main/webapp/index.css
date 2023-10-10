@@ -33,21 +33,7 @@ input {
 .login-card > button {
   padding: 0.3rem 0.5rem 0.3rem 0.5rem;
 }
-.full-name {
-  width: 80%;
-  display: none;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 0.2rem;
-}
-.full-name > input {
-  width: 40%;
-}
-.departments {
-  width: 70%;
-  display: none;
-}
+
 .actionbutton {
   width: 50%;
 }
