@@ -2,8 +2,6 @@ package com.unipi.dsmt.app.servlets;
 
 import java.io.IOException;
 
-import com.unipi.dsmt.app.utils.AccessController;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
