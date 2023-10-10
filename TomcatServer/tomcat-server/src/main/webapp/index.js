@@ -15,7 +15,7 @@ function toggleSignUp(event) {
   const fullname = document.getElementById("addinfos");
   fullname.style.display = isSignup ? "flex" : "none";
 
-  const roles = document.getElementById("role");
+  const roles = document.getElementById("departments");
   roles.style.display = isSignup ? "inline-block" : "none";
 
   const actionbutton = document.getElementById("actionbutton");
