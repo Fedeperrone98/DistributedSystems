@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/signup.css=1.2">
+  <link rel="stylesheet" href="./css/signup.css?v=1.2">
   <title>Sign Up</title>
 </head>
 
@@ -18,13 +18,12 @@
 
       <form method="post" action="${pageContext.request.contextPath}/signup">
 
-        <div class="full-name" id="addinfos">
-          <input type="text" name="name" placeholder="First Name" />
-          <input type="text" name="surname" placeholder="Second Name" />
-        </div>
-        
+        <input type="text" name="name" placeholder="First Name" />
+        <br>
+        <input type="text" name="surname" placeholder="Second Name" />        
+        <br>
         <input type="text" name="username" placeholder="username" />
-
+        <br>
         <input type="password" name="password" placeholder="password" />
         <br>
         <label>Choose your department:
@@ -36,6 +35,7 @@
           <option value="Selling">Selling</option>
         </select>
       </label>
+      <br>
         <button class="actionbutton" id="actionbutton" onclick="handleLogin()">Sign Up</button>
     </form>
       <p>You have an account? <a href="${pageContext.request.contextPath}/login">Sign in</a></p>
