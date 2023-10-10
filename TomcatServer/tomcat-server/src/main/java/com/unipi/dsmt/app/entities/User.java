@@ -1,32 +1,29 @@
 package com.unipi.dsmt.app.entities;
 
-import com.google.protobuf.Timestamp;
+import java.sql.Date;
+
+import com.unipi.dsmt.app.enums.Department;
 
 public class User {
-    String username;
-    String password;
-    String name;
-    String surname;
-    enum department{
-        IT,
-        HR,
-        Administration,
-        Buying,
-        Selling
-    };
-    Boolean online_flag;
-    Timestamp creationTime;
 
+    private String username;
+    private String password;
+    private String name;
+    private String surname;
+    private Boolean online_flag;
+    private Date creationTime;
+    private Department department;
 
-    public User(String username, String password, String name, String surname, Boolean online_flag, Timestamp creationTime) {
+    public User(String username, String password, String name, String surname, Boolean online_flag,
+            Date creationTime, Department department) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.online_flag = online_flag;
         this.creationTime = creationTime;
+        this.department = department;
     }
-
 
     public String getUsername() {
         return this.username;
@@ -72,25 +69,33 @@ public class User {
         this.online_flag = online_flag;
     }
 
-    public Timestamp getCreationTime() {
+    public Date getCreationTime() {
         return this.creationTime;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public Department getDepartment() {
+        return this.department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @Override
     public String toString() {
         return "{" +
-            " username='" + getUsername() + "'" +
-            ", password='" + getPassword() + "'" +
-            ", name='" + getName() + "'" +
-            ", surname='" + getSurname() + "'" +
-            ", online_flag='" + isOnline_flag() + "'" +
-            ", creationTime='" + getCreationTime() + "'" +
-            "}";
+                " username='" + getUsername() + "'" +
+                ", password='" + getPassword() + "'" +
+                ", name='" + getName() + "'" +
+                ", surname='" + getSurname() + "'" +
+                ", online_flag='" + isOnline_flag() + "'" +
+                ", creationTime='" + getCreationTime() + "'" +
+                ", department='" + getDepartment() + "'" +
+                "}";
     }
-
 
 }

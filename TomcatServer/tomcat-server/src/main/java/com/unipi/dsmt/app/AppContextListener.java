@@ -1,13 +1,38 @@
 package com.unipi.dsmt.app;
 
-import com.unipi.dsmt.app.daos.MySQLDao;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 public class AppContextListener implements ServletContextListener {
+  private Connection db = null;
+
+  private Connection initDB(String host, int port, String dbname) {
+    try {
+      Class.forName("com.mysql.cj.jdbc.Driver");
+      db = DriverManager.getConnection(
+          String.format("jdbc:mysql://%s:%d/%s", host, port, dbname),
+          System.getenv("DB_ROOT"), System.getenv("DB_PASS"));
+      System.out.println(String.format("[MYSQL] -> Connected to database %s", dbname));
+      return db;
+    } catch (SQLException sqle) {
+      System.out.println("SQLException: " + sqle.getMessage());
+      System.out.println("SQLState: " + sqle.getSQLState());
+      System.out.println("VendorError: " + sqle.getErrorCode());
+      return null;
+    } catch (ClassNotFoundException cnfe) {
+      System.out.println("Inner Exception: " + cnfe.getMessage());
+      System.out.println("Stack\n:" + cnfe.getStackTrace());
+      return null;
+    }
+  }
+
   public void contextInitialized(ServletContextEvent event) {
-    MySQLDao sqldao = new MySQLDao(
+    Connection sqldao = initDB(
         System.getenv("DB_HOST"),
         Integer.parseInt(System.getenv("DB_PORT")),
         System.getenv("DB_NAME"));
