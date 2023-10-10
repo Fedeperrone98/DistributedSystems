@@ -1,17 +1,15 @@
 package com.unipi.dsmt.app.entities;
 
-import java.util.Date;
-
-import com.google.protobuf.Timestamp;
+import java.sql.Date;
 
 public class Appointament {
-    User host;
-    User guest;
-    String content;
-    Date timeslot;
-    Timestamp creationTime;
+    private User host;
+    private User guest;
+    private String content;
+    private Date timeslot;
+    private Date creationTime;  
 
-    public Appointament(User host, User guest, String content, Date timeslot, Timestamp creationTime) {
+    public Appointament(User host, User guest, String content, Date timeslot, Date creationTime) {
         this.host = host;
         this.guest = guest;
         this.content = content;
@@ -51,11 +49,11 @@ public class Appointament {
         this.timeslot = timeslot;
     }
 
-    public Timestamp getCreationTime() {
+    public Date getCreationTime() {
         return this.creationTime;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
 

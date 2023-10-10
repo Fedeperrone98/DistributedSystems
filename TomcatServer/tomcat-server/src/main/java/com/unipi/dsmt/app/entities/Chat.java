@@ -1,18 +1,16 @@
 package com.unipi.dsmt.app.entities;
 
+import java.sql.Date;
 import java.util.List;
 
-import com.google.protobuf.Timestamp;
-
 public class Chat {
-    int id;
-    User user1;
-    User user2;
-    List<Message> messages;
-    Timestamp creationTime;
+    private int id;
+    private User user1;
+    private User user2;
+    private List<Message> messages;
+    private Date creationTime;
 
-
-    public Chat(int id, User user1, User user2, List<Message> messages, Timestamp creationTime) {
+    public Chat(int id, User user1, User user2, List<Message> messages, Date creationTime) {
         this.id = id;
         this.user1 = user1;
         this.user2 = user2;
@@ -44,14 +42,21 @@ public class Chat {
         this.user2 = user2;
     }
 
-    public Timestamp getCreationTime() {
+    public List<Message> getMessages() {
+        return this.messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public Date getCreationTime() {
         return this.creationTime;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
+    public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
-
 
     @Override
     public String toString() {
@@ -59,6 +64,7 @@ public class Chat {
             " id='" + getId() + "'" +
             ", user1='" + getUser1() + "'" +
             ", user2='" + getUser2() + "'" +
+            ", messages='" + getMessages() + "'" +
             ", creationTime='" + getCreationTime() + "'" +
             "}";
     }
