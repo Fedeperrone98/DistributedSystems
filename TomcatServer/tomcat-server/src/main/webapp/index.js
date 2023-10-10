@@ -11,8 +11,12 @@ function handleSignup() {
 function toggleSignUp(event) {
   event.preventDefault();
   isSignup = !isSignup;
+
   const fullname = document.getElementById("addinfos");
   fullname.style.display = isSignup ? "flex" : "none";
+
+  const roles = document.getElementById("role");
+  roles.style.display = isSignup ? "inline-block" : "none";
 
   const actionbutton = document.getElementById("actionbutton");
   actionbutton.innerHTML = isSignup ? "Sign Up" : "Log In";

@@ -11,7 +11,7 @@ public class MySQLDao {
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
       db = DriverManager.getConnection(
-          String.format("jdbc:mysql://%s:%d", host, port),
+          String.format("jdbc:mysql://%s:%d/%s", host, port, dbname),
           System.getenv("DB_ROOT"), System.getenv("DB_PASS"));
       System.out.println("[MySQL] -> Connection Succeded");
     } catch (SQLException sqle) {

@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="index.css">
-  <script src="index.js" defer></script>
+  <link rel="stylesheet" href="./index.css">
+  <script src="./index.js" defer></script>
   <title>Welcome</title>
 </head>
 
@@ -19,7 +19,14 @@
       </div>
       <input type="text" placeholder="username" />
       <input type="password" placeholder="password" />
-      <button id="actionbutton" onclick="handleLogin()">Log In</button>
+      <select class="departments" id="departments">
+        <option value="IT">Information Technologies</option>
+        <option value="HR">Human Resources</option>
+        <option value="Administration">Administration</option>
+        <option value="Buying">Buying</option>
+        <option value="Selling">Selling</option>
+      </select>
+      <button class="actionbutton" id="actionbutton" onclick="handleLogin()">Log In</button>
       <p id="toggler">You don't have an account? <a href="" onclick="toggleSignUp(event)">Sign Up</a></p>
     </div>
   </div>
