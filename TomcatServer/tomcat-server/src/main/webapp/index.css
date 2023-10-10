@@ -44,10 +44,10 @@ input {
 .full-name > input {
   width: 40%;
 }
-.departments{
+.departments {
   width: 70%;
   display: none;
 }
-.actionbutton{
+.actionbutton {
   width: 50%;
 }
