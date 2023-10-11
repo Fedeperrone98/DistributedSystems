@@ -22,4 +22,16 @@ public class ErrorHandler {
       return;
     }
   }
+
+  public static void setPopupErrorMessage(HttpServletRequest request, String message) {
+    request.getSession().setAttribute("error", message);
+  }
+
+  public static String getPopupErrorMessage(HttpServletRequest request) {
+    return (String) request.getSession().getAttribute("error");
+  }
+
+  public static void clearPopupErrorMessage(HttpServletRequest request) {
+    request.getSession().removeAttribute("error");
+  }
 }

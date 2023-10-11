@@ -18,7 +18,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            System.out.println("sono nella do get del login servlet");
             String token = AccessController.getToken(request);
             if (token == null) {
                 request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
@@ -37,13 +36,13 @@ public class LoginServlet extends HttpServlet {
             UserLoginDTO userInfo = AuthenticationHandlers.unpackPostLogin(request);
 
             if (!userDAO.exists(userInfo.getUsername())) {
-                request.setAttribute("error", "Username doesn't exist");
-                request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+                ErrorHandler.setPopupErrorMessage(request, "Username doesn't exist");
+                response.sendRedirect(request.getContextPath() + "/login");
                 return;
             }
             if (!userDAO.valid(userInfo.getUsername(), userInfo.getPassword())) {
-                request.setAttribute("error", "Incorrect Password");
-                request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+                ErrorHandler.setPopupErrorMessage(request, "Incorrect Password");
+                response.sendRedirect(request.getContextPath() + "/login");
                 return;
             }
             AccessController.setToken(request, userInfo.getUsername());

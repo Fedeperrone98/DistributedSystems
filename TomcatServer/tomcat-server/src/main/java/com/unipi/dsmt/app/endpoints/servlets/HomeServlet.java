@@ -3,6 +3,7 @@ package com.unipi.dsmt.app.endpoints.servlets;
 import java.io.IOException;
 
 import com.unipi.dsmt.app.utils.AccessController;
+import com.unipi.dsmt.app.utils.ErrorHandler;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -18,10 +19,11 @@ public class HomeServlet extends HttpServlet {
             throws IOException, ServletException {
         String token = AccessController.getToken(request);
         if (token == null) {
-            request.setAttribute("error", "Invalid Token");
+            ErrorHandler.setPopupErrorMessage(request, "Invalid/Expired token. Login again.");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
         }
-        String targetJSP = token == null ? request.getContextPath() : "/WEB-INF/jsp/home.jsp";
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(targetJSP);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
         requestDispatcher.forward(request, response);
     }
 

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,16 @@ public class AccessController {
   }
 
   public static String getToken(HttpServletRequest request) {
-    return (String) request.getSession().getAttribute("TOKEN");
+    String token = (String) request.getSession().getAttribute("TOKEN");
+    if (token == null)
+      return null;
+
+    Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+    Date expirationDate = claims.getExpiration();
+    Date now = new Date();
+    if (expirationDate.before(now))
+      return null;
+
+    return token;
   }
 }

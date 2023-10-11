@@ -21,9 +21,14 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        String targetJSP = "/WEB-INF/jsp/signup.jsp";
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(targetJSP);
-        requestDispatcher.forward(request, response);
+
+        try {
+            String targetJSP = "/WEB-INF/jsp/signup.jsp";
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(targetJSP);
+            requestDispatcher.forward(request, response);
+        } catch (Exception e) {
+            ErrorHandler.safeDispatchToErrorPage(request, response, e);
+        }
     }
 
     @Override
@@ -34,8 +39,8 @@ public class SignUpServlet extends HttpServlet {
             String resultMessage = userDAO.save(userInfo);
 
             if (resultMessage != "") {
-                request.setAttribute("error", resultMessage);
-                request.getRequestDispatcher("/WEB-INF/jsp/signup.jsp").forward(request, response);
+                ErrorHandler.setPopupErrorMessage(request, resultMessage);
+                response.sendRedirect(request.getContextPath() + "/signup");
                 return;
             }
 

@@ -1,23 +1,27 @@
-
-  <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+  <%@ page import="com.unipi.dsmt.app.utils.ErrorHandler" %>
     <!DOCTYPE html>
     <html lang="en">
 
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="/css/authentication_page.css">
+      <link rel="stylesheet" href="css/authentication_page.css?v=1.3">
+      <script src="js/authentication_page.js?v=1.1"></script>
       <title>Welcome</title>
     </head>
 
     <body style="margin: 0px;">
 
       <div class="page">
-        <% String rParam=(String)request.getAttribute("error"); if(rParam !=null){ %>
-          <label class="error-label">
-            <%= rParam %>
+        <% String error=ErrorHandler.getPopupErrorMessage(request); if(error !=null){ %>
+          <label class="error-label" id="error-label">
+            <p>
+              <%= error %>
+            </p>
+            <button class="error-button" onclick="hideLabel()">X</button>
           </label>
-          <%}%>
+          <%} ErrorHandler.clearPopupErrorMessage(request);%>
             <form method="post" action="${pageContext.request.contextPath}/login" class="login-card">
               <h1 id="title">Log In</h1>
               <div class="input">

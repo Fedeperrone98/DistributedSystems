@@ -1,20 +1,26 @@
-<%@ page import="com.unipi.dsmt.app.utils.AccessController" %>
-  <%@ page contentType="text/html;charset=UTF-8" %>
-    <!DOCTYPE html>
-    <html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" %>
+  <!DOCTYPE html>
+  <html lang="en">
 
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="refresh" content="0;url=${pageContext.request.contextPath}/login">
-      <title>NON DOVRESTI ESSERE QUI</title>
-    </head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=${pageContext.request.contextPath}/login">
+    <link rel="stylesheet" href="./css/index.css?v=1.0">
+    <title>Welcome</title>
+  </head>
 
-    <body
-      style="margin: 0px; display: flex; width: 100vw; height: 100vh; justify-content: center; align-items: center; font-size: 40px; font-weight: 600;">
+  <body>
+    <div class="lds-roller">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </body>
 
-      Mannagg' a Tomcat
-
-    </body>
-
-    </html>
+  </html>
