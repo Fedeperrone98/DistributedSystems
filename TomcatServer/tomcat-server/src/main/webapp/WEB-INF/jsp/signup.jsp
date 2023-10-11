@@ -27,16 +27,16 @@
 
       <form method="post" action="${pageContext.request.contextPath}/signup">
 
-        <input type="text" name="name" placeholder="First Name" />
+        <input type="text" name="name" placeholder="First Name" required/>
         <br>
-        <input type="text" name="surname" placeholder="Second Name" />        
+        <input type="text" name="surname" placeholder="Second Name" required/>        
         <br>
-        <input type="text" name="username" placeholder="username" />
+        <input type="text" name="username" placeholder="username" required/>
         <br>
-        <input type="password" name="password" placeholder="password" />
+        <input type="password" name="password" placeholder="password" required/>
         <br>
         <label>Choose your department:
-        <select class="departments" id="departments" name="department">
+        <select class="departments" id="departments" name="department" required>
           <option value="IT">Information Technologies</option>
           <option value="HR">Human Resources</option>
           <option value="Administration">Administration</option>
@@ -45,7 +45,7 @@
         </select>
       </label>
       <br>
-        <button class="actionbutton" id="actionbutton" onclick="handleLogin()">Sign Up</button>
+        <button class="actionbutton" id="actionbutton" onclick="handleLogin()" type="submit">Sign Up</button>
     </form>
       <p>You have an account? <a href="${pageContext.request.contextPath}/">Sign in</a></p>
     </div>
