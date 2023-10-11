@@ -18,6 +18,7 @@ public class BaseServlet extends HttpServlet {
       System.out.println("2");
       if (token == null) {
         System.out.println("3");
+        System.out.println(request.getContextPath());
         response.sendRedirect(request.getContextPath() + "/login");
         return;
       }

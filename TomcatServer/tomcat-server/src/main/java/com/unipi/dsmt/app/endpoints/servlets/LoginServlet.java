@@ -1,6 +1,5 @@
 package com.unipi.dsmt.app.endpoints.servlets;
 
-import java.io.IOException;
 import java.sql.Connection;
 
 import com.unipi.dsmt.app.daos.UserDAO;
@@ -19,7 +18,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+            System.out.println("sono nella do get del login servlet");
+            String token = AccessController.getToken(request);
+            if (token == null) {
+                request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+                return;
+            }
+            response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);
         }
@@ -33,12 +38,12 @@ public class LoginServlet extends HttpServlet {
 
             if (!userDAO.exists(userInfo.getUsername())) {
                 request.setAttribute("error", "Username doesn't exist");
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
                 return;
             }
             if (!userDAO.valid(userInfo.getUsername(), userInfo.getPassword())) {
                 request.setAttribute("error", "Incorrect Password");
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
                 return;
             }
             AccessController.setToken(request, userInfo.getUsername());

@@ -8,12 +8,12 @@
   <listener>
     <listener-class>com.unipi.dsmt.app.AppContextListener</listener-class>
   </listener>
-  <servlet>
+  <!-- <servlet>
     <servlet-name>BaseServlet</servlet-name>
     <servlet-class>com.unipi.dsmt.app.endpoints.servlets.BaseServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>BaseServlet</servlet-name>
     <url-pattern>/app/</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
 </web-app>

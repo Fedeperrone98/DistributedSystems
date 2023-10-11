@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/authentication_page.css?v=1.0">
+  <link rel="stylesheet" href="../../css/authentication_page.css?v=1.3">
   <title>Sign Up</title>
 </head>
 
@@ -49,7 +49,7 @@
             </select>
           </div>
           <button type="submit">Sign Up</button>
-          <p>You have an account? <a href="${pageContext.request.contextPath}/">Sign in</a></p>
+          <p>You have an account? <a href="${pageContext.request.contextPath}/login">Sign in</a></p>
         </form>
   </div>
 

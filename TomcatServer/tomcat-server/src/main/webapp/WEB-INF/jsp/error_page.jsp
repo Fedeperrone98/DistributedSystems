@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" href="../../css/error_page.css?v=1.2">
   <title>Error login</title>
   <% String message=(String) request.getAttribute("message"); %>
     <% String stack=(String) request.getAttribute("stack"); %>
