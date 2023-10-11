@@ -15,7 +15,7 @@
 
       <div class="page">
         <% String error=ErrorHandler.getPopupErrorMessage(request); if(error !=null){ %>
-          <label class="error-label">
+          <label class="error-label" id="error-label">
             <p>
               <%= error %>
             </p>
