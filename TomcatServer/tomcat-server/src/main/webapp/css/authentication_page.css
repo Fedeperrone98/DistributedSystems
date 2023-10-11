@@ -1,0 +1,63 @@
+.page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #663500;
+  background-image: url("https://www.transparenttextures.com/patterns/retina-wood.png");
+}
+
+.login-card {
+  width: 40%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 2rem 0.4rem black;
+  background: linear-gradient(130deg, rgba(65, 177, 255, 0.7) 0%, rgba(232, 245, 255, 0.7) 100%);
+  backdrop-filter: blur(10px);
+}
+.login-card > h1 {
+  position: absolute;
+  top: 3%;
+}
+.login-card > .input {
+  width: 67%;
+  font-size: 15px;
+}
+.login-card > .input > input {
+  width: 100%;
+  padding: 0.2rem 0.4rem 0.2rem 0.4rem;
+}
+.login-card > button {
+  padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+  width: 50%;
+}
+.login-card > .input > select {
+  width: 100%;
+  padding: 0.2rem 0.4rem 0.2rem 0.4rem;
+}
+.half {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  width: 67%;
+}
+.half > .input {
+  width: 100%;
+}
+.half > label {
+  text-align: center;
+}
+.error-label {
+  position: static;
+  top: 0;
+  width: 100%;
+  min-height: 3rem;
+  background-color: rgb(124, 0, 0);
+  color: white;
+  text-align: center;
+}
