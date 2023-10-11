@@ -47,7 +47,7 @@
       <br>
         <button class="actionbutton" id="actionbutton" onclick="handleLogin()">Sign Up</button>
     </form>
-      <p>You have an account? <a href="${pageContext.request.contextPath}/login">Sign in</a></p>
+      <p>You have an account? <a href="${pageContext.request.contextPath}/">Sign in</a></p>
     </div>
 
   </div>
