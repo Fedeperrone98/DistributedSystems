@@ -23,6 +23,7 @@ public class HomeServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+        request.getSession().setAttribute("username", AccessController.getUsername(request));
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
         requestDispatcher.forward(request, response);
     }
