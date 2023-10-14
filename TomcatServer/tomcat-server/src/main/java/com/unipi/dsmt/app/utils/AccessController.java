@@ -1,5 +1,8 @@
 package com.unipi.dsmt.app.utils;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +16,10 @@ public class AccessController {
   private static final int EXPIRATION_TIME = 86400000; // Tempo di scadenza del JWT (1 giorno)
   private static final String SECRET_KEY = System.getenv("JWT_SECRET"); // Chiave segreta per firmare il JWT
   static String token;
+
+  /**
+   * TOKEN CONTROLLER
+   */
 
   public static void setToken(HttpServletRequest request, String username) {
 
@@ -42,4 +49,25 @@ public class AccessController {
 
     return token;
   }
+
+  /** END TOKEN CONTROLLER */
+
+  /**
+   * PASSWORD CONTROLLER
+   * 
+   * @throws NoSuchAlgorithmException
+   */
+  public static String encryptPassword(String plaintext) throws NoSuchAlgorithmException {
+    byte[] byteString = MessageDigest.getInstance("SHA-256").digest(plaintext.getBytes(StandardCharsets.UTF_8));
+    StringBuilder hexString = new StringBuilder(2 * byteString.length);
+    for (int i = 0; i < byteString.length; i++) {
+      String hex = Integer.toHexString(0xff & byteString[i]);
+      if (hex.length() == 1) {
+        hexString.append('0');
+      }
+      hexString.append(hex);
+    }
+    return hexString.toString();
+  }
+  /** END PASSWORD CONTROLLER */
 }
