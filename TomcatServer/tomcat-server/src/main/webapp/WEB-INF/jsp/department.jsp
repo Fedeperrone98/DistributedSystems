@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.unipi.dsmt.app.dtos.UserDepartmentDTO" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +18,7 @@
   <div class="page">
     <% String department_name = (String) request.getParameter("name"); %>
     <h1><%=department_name%></h1>
+    <% ArrayList<UserDepartmentDTO> users = (ArrayList<UserDepartmentDTO>) request.getSession().getAttribute("users"); %>
   </div>
   
 </body>

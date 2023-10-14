@@ -1,5 +1,9 @@
 package com.unipi.dsmt.app.endpoints.servlets;
 
+import java.util.ArrayList;
+
+import com.unipi.dsmt.app.daos.UserDAO;
+import com.unipi.dsmt.app.dtos.UserDepartmentDTO;
 import com.unipi.dsmt.app.utils.AccessController;
 import com.unipi.dsmt.app.utils.ErrorHandler;
 
@@ -19,6 +23,9 @@ public class DepartmentServlet extends HttpServlet{
                 response.sendRedirect(request.getContextPath() + "/login");
                 return;
             }
+            String department = (String) request.getParameter("name");
+            ArrayList<UserDepartmentDTO> users = UserDAO.getUsersFromDepartment(department);
+            request.getSession().setAttribute("users", users);
             request.getRequestDispatcher("/WEB-INF/jsp/department.jsp").forward(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);

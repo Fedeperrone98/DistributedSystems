@@ -5,11 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 
+import com.unipi.dsmt.app.dtos.UserDepartmentDTO;
 import com.unipi.dsmt.app.entities.User;
 
 public class UserDAO {
-  private Connection userConnection = null;
+  private static Connection userConnection = null;
 
   public UserDAO(Connection db) {
     userConnection = db;
@@ -50,6 +52,20 @@ public class UserDAO {
     } catch (SQLIntegrityConstraintViolationException e) {
       return "User already exists";
     }
+  }
+
+  public static ArrayList<UserDepartmentDTO> getUsersFromDepartment(String department) throws SQLException{
+    ArrayList<UserDepartmentDTO> result = new ArrayList<>();
+    String sqlString = "SELECT username, name, surname, onlineFlag FROM user WHERE department=?";
+    PreparedStatement statement = userConnection.prepareStatement(sqlString);
+    statement.setString(1, department);
+    ResultSet set = statement.executeQuery();
+    while(set.next()) {
+      UserDepartmentDTO user = new UserDepartmentDTO(set.getString("username"), set.getString("name"), 
+        set.getString("surname"), set.getBoolean("onlineFlag"));
+      result.add(user);
+    }
+    return result;
   }
 
 }
