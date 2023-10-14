@@ -18,10 +18,10 @@
    <h1>Hello <%=username%></h1>
    <div class="department-list">
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department?name=IT">Information Technologies</a></p>
+     <p><a href="${pageContext.request.contextPath}/department?name=Information Technologies">Information Technologies</a></p>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department?name=HR">Human Resources</a></p>
+     <p><a href="${pageContext.request.contextPath}/department?name=Human Resources">Human Resources</a></p>
     </div>
     <div class="department">
      <p><a href="${pageContext.request.contextPath}/department?name=Administration">Administration</a></p>

@@ -54,11 +54,27 @@ public class UserDAO {
     }
   }
 
+  public static Boolean setOnlineFlag(Boolean flag, String username) throws SQLException{
+    String sqlString = "UPDATE user SET onlineFlag = ? WHERE username = ?";
+    PreparedStatement statement = userConnection.prepareStatement(sqlString);
+    statement.setBoolean(1, flag);
+    statement.setString(2, username);
+    int changedCount = statement.executeUpdate();
+    return changedCount == 1 ? true : false;
+  }
+
   public static ArrayList<UserDepartmentDTO> getUsersFromDepartment(String department) throws SQLException{
     ArrayList<UserDepartmentDTO> result = new ArrayList<>();
     String sqlString = "SELECT username, name, surname, onlineFlag FROM user WHERE department=?";
     PreparedStatement statement = userConnection.prepareStatement(sqlString);
-    statement.setString(1, department);
+    String dep_name;
+    if(department.equals("Information Technologies"))
+      dep_name = "IT";
+    else if(department.equals("Human Resources"))
+      dep_name = "HR";
+    else 
+      dep_name = department;
+    statement.setString(1, dep_name);
     ResultSet set = statement.executeQuery();
     while(set.next()) {
       UserDepartmentDTO user = new UserDepartmentDTO(set.getString("username"), set.getString("name"), 

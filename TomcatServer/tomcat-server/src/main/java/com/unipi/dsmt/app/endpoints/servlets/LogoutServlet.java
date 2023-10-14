@@ -1,7 +1,7 @@
 package com.unipi.dsmt.app.endpoints.servlets;
 
-import java.io.IOException;
-
+import com.unipi.dsmt.app.daos.UserDAO;
+import com.unipi.dsmt.app.utils.AccessController;
 import com.unipi.dsmt.app.utils.ErrorHandler;
 
 import jakarta.servlet.annotation.WebServlet;
@@ -15,8 +15,10 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
         try {
+            String username = AccessController.getUsername(request);
+            UserDAO.setOnlineFlag(false, username);
             response.sendRedirect(request.getContextPath() + "/login");
-        } catch (IOException e) {
+        } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);
         }
     }
