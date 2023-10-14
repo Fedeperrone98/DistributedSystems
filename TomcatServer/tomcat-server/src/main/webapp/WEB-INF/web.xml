@@ -8,4 +8,14 @@
   <listener>
     <listener-class>com.unipi.dsmt.app.AppContextListener</listener-class>
   </listener>
+  <filter>
+    <filter-name>AccessFilter</filter-name>
+    <filter-class>com.unipi.dsmt.app.filters.AccessFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AccessFilter</filter-name>
+    <url-pattern>/home</url-pattern>
+    <url-pattern>/profile</url-pattern>
+    <url-pattern>/department</url-pattern>
+  </filter-mapping>
 </web-app>

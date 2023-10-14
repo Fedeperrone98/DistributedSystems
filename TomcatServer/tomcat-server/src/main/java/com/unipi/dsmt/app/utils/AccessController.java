@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AccessController {
   private static final int EXPIRATION_TIME = 86400000; // Tempo di scadenza del JWT (1 giorno)
   private static final String SECRET_KEY = System.getenv("JWT_SECRET"); // Chiave segreta per firmare il JWT
-  static String token;
 
   /**
    * TOKEN CONTROLLER
@@ -26,7 +25,7 @@ public class AccessController {
     Map<String, Object> claims = new HashMap<>();
     claims.put("username", username);
 
-    token = Jwts.builder()
+    String token = Jwts.builder()
         .setClaims(claims)
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
@@ -44,8 +43,10 @@ public class AccessController {
     Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     Date expirationDate = claims.getExpiration();
     Date now = new Date();
-    if (expirationDate.before(now))
+    if (expirationDate.before(now)) {
+      request.getSession().setAttribute("TOKEN", null);
       return null;
+    }
 
     return token;
   }
@@ -69,9 +70,13 @@ public class AccessController {
     }
     return hexString.toString();
   }
+
   /** END PASSWORD CONTROLLER */
-  
+
   public static String getUsername(HttpServletRequest request) {
+    String token = (String) request.getSession().getAttribute("TOKEN");
+    if (token == null)
+      return null;
     Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     String username = (String) claims.get("username");
     return username;

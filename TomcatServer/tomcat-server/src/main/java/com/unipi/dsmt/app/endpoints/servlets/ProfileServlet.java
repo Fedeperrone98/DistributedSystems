@@ -1,5 +1,7 @@
 package com.unipi.dsmt.app.endpoints.servlets;
 
+import java.sql.Connection;
+
 import com.unipi.dsmt.app.daos.UserDAO;
 import com.unipi.dsmt.app.dtos.UserProfileDTO;
 import com.unipi.dsmt.app.utils.AccessController;
@@ -12,22 +14,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "ProfileServlet", value = "/profile")
-public class ProfileServlet extends HttpServlet{
+public class ProfileServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response){
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String token = AccessController.getToken(request);
-            if (token == null) {
-                ErrorHandler.setPopupErrorMessage(request, "Invalid/Expired token. Login again.");
-                response.sendRedirect(request.getContextPath() + "/login");
-                return;
-            }
+            UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             // set my username
             request.getSession().setAttribute("my_username", AccessController.getUsername(request));
 
             // get required userinfo from username
             String username = (String) request.getParameter("username");
-            UserProfileDTO user_info = UserDAO.getUserFromUsername(username);
+            UserProfileDTO user_info = userDAO.getUserFromUsername(username);
             request.getSession().setAttribute("user_info", user_info);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");

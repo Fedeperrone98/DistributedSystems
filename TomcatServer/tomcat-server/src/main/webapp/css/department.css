@@ -1,28 +1,30 @@
 .page {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #663500;
-    background-image: url("https://www.transparenttextures.com/patterns/retina-wood.png");
-  }
+  width: calc(100vw - 20%);
+  margin-left: 20%;
+  min-height: calc(100vh - 2.5rem);
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #663500;
+  background-image: url("https://www.transparenttextures.com/patterns/retina-wood.png");
+}
 
-  .user-card {
-    width: 30%;
-    height: 30%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 0px 2rem 0.4rem black;
-    background: linear-gradient(130deg, rgba(65, 177, 255, 0.5) 0%, rgba(232, 245, 255, 0.5) 100%);
-    backdrop-filter: blur(10px);
-  }
+.user-card {
+  width: 30%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 2rem 0.4rem black;
+  background: linear-gradient(130deg, rgba(65, 177, 255, 0.5) 0%, rgba(232, 245, 255, 0.5) 100%);
+  backdrop-filter: blur(10px);
+}
 
-  /* Style the links */
- .user-card a {
+/* Style the links */
+.user-card a {
   text-decoration: none;
   color: black; /* Change this to your desired link text color */
- }
+}

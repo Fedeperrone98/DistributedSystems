@@ -1,5 +1,7 @@
 package com.unipi.dsmt.app.endpoints.servlets;
 
+import java.sql.Connection;
+
 import com.unipi.dsmt.app.daos.UserDAO;
 import com.unipi.dsmt.app.utils.AccessController;
 import com.unipi.dsmt.app.utils.ErrorHandler;
@@ -15,8 +17,9 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
         try {
+            UserDAO userDAO = new UserDAO((Connection) request.getServletContext().getAttribute("databaseConneciton"));
             String username = AccessController.getUsername(request);
-            UserDAO.setOnlineFlag(false, username);
+            userDAO.setOnlineFlag(false, username);
             response.sendRedirect(request.getContextPath() + "/login");
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);

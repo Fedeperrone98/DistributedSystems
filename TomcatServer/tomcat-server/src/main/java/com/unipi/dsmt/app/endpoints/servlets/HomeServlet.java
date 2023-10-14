@@ -13,16 +13,9 @@ import jakarta.servlet.http.HttpServletResponse;
 public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        try{
-            String token = AccessController.getToken(request);
-            if (token == null) {
-                ErrorHandler.setPopupErrorMessage(request, "Invalid/Expired token. Login again.");
-                response.sendRedirect(request.getContextPath() + "/login");
-                return;
-            }
+        try {
             // set my username
             request.getSession().setAttribute("my_username", AccessController.getUsername(request));
-            
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
             requestDispatcher.forward(request, response);
         } catch (Exception e) {

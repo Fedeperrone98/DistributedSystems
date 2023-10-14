@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
             AccessController.setToken(request, userInfo.getUsername());
-            UserDAO.setOnlineFlag(true, userInfo.getUsername());
+            userDAO.setOnlineFlag(true, userInfo.getUsername());
             response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);
