@@ -18,19 +18,19 @@
    <h1>Hello <%=username%></h1>
    <div class="department-list">
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department">Information Technologies</a></p>
+     <p><a href="${pageContext.request.contextPath}/department?name=IT">Information Technologies</a></p>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department">Human Resources</a></p>
+     <p><a href="${pageContext.request.contextPath}/department?name=HR">Human Resources</a></p>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department">Administration</a></p>
+     <p><a href="${pageContext.request.contextPath}/department?name=Administration">Administration</a></p>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department">Buying</a></p>
+     <p><a href="${pageContext.request.contextPath}/department?name=Buying">Buying</a></p>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department">Selling</a></p>
+     <p><a href="${pageContext.request.contextPath}/department?name=Selling">Selling</a></p>
     </div>
    </div>
   </div>
