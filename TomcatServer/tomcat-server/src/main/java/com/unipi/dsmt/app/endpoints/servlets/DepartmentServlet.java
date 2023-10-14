@@ -23,9 +23,14 @@ public class DepartmentServlet extends HttpServlet{
                 response.sendRedirect(request.getContextPath() + "/login");
                 return;
             }
+            // get users work in that department
             String department = (String) request.getParameter("name");
             ArrayList<UserDepartmentDTO> users = UserDAO.getUsersFromDepartment(department);
             request.getSession().setAttribute("users", users);
+            
+            // set my_username
+            request.getSession().setAttribute("my_username", AccessController.getUsername(request));
+            
             request.getRequestDispatcher("/WEB-INF/jsp/department.jsp").forward(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);

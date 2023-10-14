@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.unipi.dsmt.app.dtos.UserDepartmentDTO" %>
 <!DOCTYPE html>
@@ -20,13 +21,17 @@
     <h1><%=department_name%> Department</h1>
     <% ArrayList<UserDepartmentDTO> users = (ArrayList<UserDepartmentDTO>) request.getSession().getAttribute("users"); 
        for (UserDepartmentDTO user : users){
-
+        String test = user.getUsername();
+        System.out.println(test);
     %>
+    <c:set var="usr_name" value="${test}"/>
     <div class="user-card">
-      <label>Name:</label><p> <%=user.getName()%></p>
-      <label>Surname:</label><p> <%=user.getSurname()%></p>
-      <label>Username:</label><p> <%=user.getUsername()%></p>
-      <label>Online:</label><p> <%=user.isOnline_flag()%></p>
+      <a href="${pageContext.request.contextPath}/profile?username=${usr_name}">
+        <label>Name:</label><p> <%=user.getName()%></p>
+        <label>Surname:</label><p> <%=user.getSurname()%></p>
+        <label>Username:</label><p> <%=user.getUsername()%></p>
+        <label>Online:</label><p> <%=user.isOnline_flag()%></p>
+      </a>
     </div>
     <%
        }

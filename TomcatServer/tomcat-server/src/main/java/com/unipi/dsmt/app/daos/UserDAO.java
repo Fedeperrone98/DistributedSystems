@@ -8,6 +8,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import com.unipi.dsmt.app.dtos.UserDepartmentDTO;
+import com.unipi.dsmt.app.dtos.UserProfileDTO;
 import com.unipi.dsmt.app.entities.User;
 
 public class UserDAO {
@@ -82,6 +83,18 @@ public class UserDAO {
       result.add(user);
     }
     return result;
+  }
+
+  public static UserProfileDTO getUserFromUsername(String username) throws SQLException{
+    String sqlString = "SELECT name, surname, onlineFlag, department FROM user WHERE username=?";
+    PreparedStatement statement = userConnection.prepareStatement(sqlString);
+    statement.setString(1, username);
+    ResultSet set = statement.executeQuery();
+    set.next();
+    UserProfileDTO user = new UserProfileDTO(username, set.getString("name"), set.getString("surname"),
+      set.getBoolean("onlineFlag"), set.getString("department"));
+    return user;
+      
   }
 
 }

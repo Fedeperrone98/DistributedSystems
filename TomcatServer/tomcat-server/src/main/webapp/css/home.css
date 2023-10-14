@@ -19,3 +19,9 @@
     background: linear-gradient(130deg, rgba(65, 177, 255, 0.5) 0%, rgba(232, 245, 255, 0.5) 100%);
     backdrop-filter: blur(10px);
   }
+
+  /* Style the links */
+ .department a {
+  text-decoration: none;
+  color: black; /* Change this to your desired link text color */
+ }

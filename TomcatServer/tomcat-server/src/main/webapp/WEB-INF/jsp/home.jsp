@@ -14,23 +14,33 @@
    <jsp:include page="/WEB-INF/jsp/nav_bar.jsp" />
   </div>
   <div class="page">
-   <% String username = (String) request.getSession().getAttribute("username"); %>
-   <h1>Hello <%=username%></h1>
+   <% String my_username = (String) request.getSession().getAttribute("my_username"); %>
+   <h1>Hello <%=my_username%></h1>
    <div class="department-list">
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department?name=Information Technologies">Information Technologies</a></p>
+      <a href="${pageContext.request.contextPath}/department?name=Information Technologies">
+        <p>Information Technologies</p>
+      </a>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department?name=Human Resources">Human Resources</a></p>
+      <a href="${pageContext.request.contextPath}/department?name=Human Resources">
+        <p>Human Resources</p>
+      </a>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department?name=Administration">Administration</a></p>
+      <a href="${pageContext.request.contextPath}/department?name=Administration">
+     <p>Administration</p>
+    </a>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department?name=Buying">Buying</a></p>
+      <a href="${pageContext.request.contextPath}/department?name=Buying">
+     <p>Buying</p>
+    </a>
     </div>
     <div class="department">
-     <p><a href="${pageContext.request.contextPath}/department?name=Selling">Selling</a></p>
+      <a href="${pageContext.request.contextPath}/department?name=Selling">
+     <p>Selling</p>
+    </a>
     </div>
    </div>
   </div>
