@@ -4,7 +4,7 @@ USE DSMTDB;
 
 CREATE TABLE IF NOT EXISTS user (
     username varchar(16) NOT NULL,
-    password varchar(12) NOT NULL,
+    password text NOT NULL,
     name varchar(16) NOT NULL,
     surname varchar(16) NOT NULL,
     department ENUM('IT', 'HR', 'Administration','Buying', 'Selling') NOT NULL,
