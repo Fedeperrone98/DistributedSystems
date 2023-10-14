@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  
+ <head>
   <title>Home</title>
-</head>
+ </head>
 
-<body style="margin: 0px;">
+ <body style="margin: 0px">
   <h1>hello</h1>
-</body>
-
+ </body>
 </html>

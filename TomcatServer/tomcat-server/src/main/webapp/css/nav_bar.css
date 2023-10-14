@@ -1,0 +1,33 @@
+/* Style the navbar */
+#navbar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(130deg, rgba(65, 177, 255, 0.5) 0%, rgba(232, 245, 255, 0.5) 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px; /* Add some padding to the navbar */
+ }
+ 
+ .navitem {
+  margin: 0 10px; /* Adjust the gap between items */
+ }
+ 
+ /* Style the links */
+ .navitem a {
+  text-decoration: none;
+  color: black; /* Change this to your desired link text color */
+ }
+ 
+ /* Style for the notification icon */
+ #nonotification a {
+  font-size: 24px; /* Adjust the font size as needed */
+  text-decoration: none;
+  color: #fff; /* Change this to your desired color */
+ }
+ li.navitem a:hover {
+  background-color: rgba(65, 176, 255, 0.262);
+  padding: 10px;
+ }
+ 
