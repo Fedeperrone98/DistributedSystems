@@ -10,6 +10,9 @@
  </head>
 
  <body style="margin: 0px">
+  <div>
+   <jsp:include page="/WEB-INF/jsp/nav_bar.jsp" />
+  </div>
   <div class="page">
    <% String username = (String) request.getSession().getAttribute("username"); %>
    <h1>Hello <%=username%></h1>
