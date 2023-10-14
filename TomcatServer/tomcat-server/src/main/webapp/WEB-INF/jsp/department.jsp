@@ -11,7 +11,7 @@
 
 <body style="margin: 0px;">
   <div class="page">
-    <% String department_name = (String) request.getSession().getAttribute("department"); %>
+    <% String department_name = (String) request.getParameter("name"); %>
     <h1><%=department_name%></h1>
   </div>
   

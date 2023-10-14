@@ -18,6 +18,7 @@ public class DepartmentServlet extends HttpServlet{
                 request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
                 return;
             }
+            request.getRequestDispatcher("/WEB-INF/jsp/department.jsp").forward(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);
         }
