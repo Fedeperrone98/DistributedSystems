@@ -70,4 +70,10 @@ public class AccessController {
     return hexString.toString();
   }
   /** END PASSWORD CONTROLLER */
+  
+  public static String getUsername(HttpServletRequest request) {
+    Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+    String username = (String) claims.get("username");
+    return username;
+  }
 }
