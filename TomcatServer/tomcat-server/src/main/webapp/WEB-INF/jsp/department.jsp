@@ -10,6 +10,9 @@
 </head>
 
 <body style="margin: 0px;">
+  <div>
+    <jsp:include page="/WEB-INF/jsp/nav_bar.jsp" />
+   </div>
   <div class="page">
     <% String department_name = (String) request.getParameter("name"); %>
     <h1><%=department_name%></h1>

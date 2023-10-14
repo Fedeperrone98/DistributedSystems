@@ -15,7 +15,8 @@ public class DepartmentServlet extends HttpServlet{
         try {
             String token = AccessController.getToken(request);
             if (token == null) {
-                request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+                ErrorHandler.setPopupErrorMessage(request, "Invalid/Expired token. Login again.");
+                response.sendRedirect(request.getContextPath() + "/login");
                 return;
             }
             request.getRequestDispatcher("/WEB-INF/jsp/department.jsp").forward(request, response);
