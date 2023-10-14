@@ -4,5 +4,5 @@
  <li id="profile" class="navitem"><a href="#">Profile</a></li>
  <li id="meetings" class="navitem"><a href="#">Meetings</a></li>
  <li id="notification"><a href="#">&#128276;</a></li>
- <li id="logout" class="navitem"><a href="#">Log Out</a></li>
+ <li id="logout" class="navitem"><a href="${pageContext.request.contextPath}/logout">Log Out</a></li>
 </ul>
