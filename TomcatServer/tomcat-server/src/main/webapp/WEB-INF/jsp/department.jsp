@@ -7,8 +7,8 @@
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/department.css?v=1.5">
-        <script src="js/searchbar.js?v=1.7" defer></script>
+        <link rel="stylesheet" href="css/department.css?v=1.6">
+        <script src="js/home.js?v=1.8" defer></script>
         <title>Department page</title>
       </head>
 
@@ -42,7 +42,7 @@
                       </h1>
                       <h2>
                         <% String department_name=(String) request.getParameter("name"); %>
-                        <%=department_name%>
+                          <%=department_name%>
                       </h2>
                       <h3>
                         <%= user.getName() %>
