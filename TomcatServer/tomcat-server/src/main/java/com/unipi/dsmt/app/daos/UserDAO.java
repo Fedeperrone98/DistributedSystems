@@ -94,7 +94,34 @@ public class UserDAO {
     UserProfileDTO user = new UserProfileDTO(username, set.getString("name"), set.getString("surname"),
         set.getBoolean("onlineFlag"), set.getString("department"));
     return user;
+  }
 
+  public ArrayList<UserProfileDTO> getUsersFromNameAndSurname(String name, String surname) throws SQLException {
+    ArrayList<UserProfileDTO> result = new ArrayList<>();
+    String sqlString = "SELECT username, onlineFlag, department FROM user WHERE name=? and surname=?";
+    PreparedStatement statement = userConnection.prepareStatement(sqlString);
+    statement.setString(1, name);
+    statement.setString(2, surname);
+    ResultSet set = statement.executeQuery();
+    while(set.next()){
+      UserProfileDTO user = new UserProfileDTO(set.getString("username"), name, surname,
+          set.getBoolean("onlineFlag"), set.getString("department"));
+      result.add(user);
+    }
+    return result;
+  }
+
+  public ArrayList<UserProfileDTO> getUsers() throws SQLException {
+    ArrayList<UserProfileDTO> result = new ArrayList<>();
+    String sqlString = "SELECT username, name, surname, onlineFlag, department FROM user ";
+    PreparedStatement statement = userConnection.prepareStatement(sqlString);
+    ResultSet set = statement.executeQuery();
+    while(set.next()){
+      UserProfileDTO user = new UserProfileDTO(set.getString("username"), set.getString("name"), set.getString("surname"),
+          set.getBoolean("onlineFlag"), set.getString("department"));
+      result.add(user);
+    }
+    return result;
   }
 
 }
