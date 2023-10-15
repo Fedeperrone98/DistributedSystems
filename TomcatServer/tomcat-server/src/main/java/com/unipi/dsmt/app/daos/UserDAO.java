@@ -113,7 +113,7 @@ public class UserDAO {
 
   public ArrayList<UserProfileDTO> getUsers() throws SQLException {
     ArrayList<UserProfileDTO> result = new ArrayList<>();
-    String sqlString = "SELECT username, name, surname, onlineFlag, department FROM user ";
+    String sqlString = "SELECT username, name, surname, onlineFlag, department FROM user ORDER BY onlineFlag DESC";
     PreparedStatement statement = userConnection.prepareStatement(sqlString);
     ResultSet set = statement.executeQuery();
     while(set.next()){
