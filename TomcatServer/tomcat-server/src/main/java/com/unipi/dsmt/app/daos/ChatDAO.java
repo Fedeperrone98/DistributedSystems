@@ -15,7 +15,7 @@ public class ChatDAO {
     chatConnection = db;
   }
 
-  public ArrayList<ChatStorageDTO> getChatsFromUsername(String currentUsername, String username) throws SQLException{
+  public ArrayList<ChatStorageDTO> getChatsFromUsername(String currentUsername) throws SQLException{
     ArrayList<ChatStorageDTO> result = new ArrayList<>();
     String sqlString = "SELECT chat.user1, chat.user2, chat.id, message.creationTime AS last_message_time" +
                         "FROM chat" + 
@@ -23,10 +23,10 @@ public class ChatDAO {
                           "SELECT chatID, MAX(creationTime) as max_time FROM message GROUP BY chatID" +
                         ")AS latest_message ON chat.id = latest_message.chatID" +
                         "INNER JOIN message ON chat.id=message.chatID AND latest_message.max_time = message.creationTime" +
-                        "WHERE chat.user1=? || chat.user2=?";
+                        "WHERE chat.user1=? OR chat.user2=?";
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
     statement.setString(1, currentUsername);
-    statement.setString(2, username);
+    statement.setString(2, currentUsername);
     ResultSet set = statement.executeQuery();
     while (set.next()) {
       String user;
