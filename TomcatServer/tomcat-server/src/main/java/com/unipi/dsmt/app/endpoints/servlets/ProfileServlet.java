@@ -19,14 +19,15 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            // set my username
-            request.getSession().setAttribute("my_username", AccessController.getUsername(request));
-
-            // get required userinfo from username
-            String username = (String) request.getParameter("username");
-            UserProfileDTO user_info = userDAO.getUserFromUsername(username);
-            request.getSession().setAttribute("user_info", user_info);
-
+            String mine = (String) request.getParameter("mine");
+            String username;
+            if(mine.equals("yes")){
+                username = AccessController.getUsername(request);
+            }else{
+                username = (String) request.getParameter("username");
+            }
+            UserProfileDTO userInfo = userDAO.getUserFromUsername(username);
+            request.setAttribute("user_info", userInfo);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
             requestDispatcher.forward(request, response);
         } catch (Exception e) {

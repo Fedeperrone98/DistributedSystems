@@ -6,41 +6,34 @@
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="css/profile.css?v=1.4">
-      <title>Profile</title>
+      <link rel="stylesheet" href="css/profile.css?v=1.6">
+      <title>Profile page</title>
     </head>
 
     <body style="margin: 0px;">
-      <div>
-        <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp" />
-      </div>
-      <div class="page">
-        <% UserProfileDTO user=(UserProfileDTO) request.getSession().getAttribute("user_info"); %>
-          <div class="user-card">
-            <label>Name:</label>
-            <p>
-              <%=user.getName()%>
-            </p>
-            <label>Surname:</label>
-            <p>
-              <%=user.getSurname()%>
-            </p>
-            <label>Username:</label>
-            <p>
-              <%=user.getUsername()%>
-            </p>
-            <label>Department:</label>
-            <p>
-              <%=user.getDepartment()%>
-            </p>
-            <label>Online:</label>
-            <p>
-              <%=user.isOnline_flag()%>
-            </p>
+      <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp" />
+        <div class="page">
+          <div class="centerize-board">
+            <div class="users-board">
+              <% UserProfileDTO user = (UserProfileDTO)request.getAttribute("user_info"); %>
+                <% String className="flag" ; %>
+                  <% if(user.isOnline_flag()){ className +=" connected" ; } %>
+                    <div class="user-card">
+                      <h1>
+                        <%= user.getUsername() %>
+                      </h1>
+                      <h2>
+                        <%= user.getDepartment() %>
+                      </h2>
+                      <h3>
+                        <%= user.getName() %>
+                          <%= user.getSurname() %>
+                      </h3>
+                      <div class="<%= className %>"></div>
+                    </div>
+            </div>
           </div>
-
-      </div>
-
+        </div>
     </body>
 
     </html>
