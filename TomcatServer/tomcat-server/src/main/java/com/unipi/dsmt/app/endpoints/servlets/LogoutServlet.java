@@ -15,9 +15,9 @@ import jakarta.servlet.http.HttpServletResponse;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().invalidate();
         try {
-            UserDAO userDAO = new UserDAO((Connection) request.getServletContext().getAttribute("databaseConneciton"));
+            request.getSession().invalidate();
+            UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             String username = AccessController.getUsername(request);
             userDAO.setOnlineFlag(false, username);
             response.sendRedirect(request.getContextPath() + "/login");
