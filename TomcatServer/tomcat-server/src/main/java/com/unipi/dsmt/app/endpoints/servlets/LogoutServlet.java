@@ -16,10 +16,10 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            request.getSession().invalidate();
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             String username = AccessController.getUsername(request);
             userDAO.setOnlineFlag(false, username);
+            request.getSession().invalidate();
             response.sendRedirect(request.getContextPath() + "/login");
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);
