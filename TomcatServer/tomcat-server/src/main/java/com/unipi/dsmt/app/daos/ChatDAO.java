@@ -7,12 +7,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.unipi.dsmt.app.dtos.ChatStorageDTO;
+import com.unipi.dsmt.app.entities.Chat;
 
 public class ChatDAO {
   private Connection chatConnection = null;
 
   public ChatDAO(Connection db) {
     chatConnection = db;
+  }
+
+  public boolean exixts(String username) throws SQLException{
+    String sqlString = "SELECT chatID FROM chat WHERE user1=? or user2=?";
+    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
+    statement.setString(1, username);
+    statement.setString(2, username);
+    ResultSet set = statement.executeQuery();
+    return set.next();
+  }
+
+  public void save(Chat chat) throws SQLException{
+    String sqlString = "INSERT INTO chat(user1, user2, creationTime) VALUES (?, ?, ?)";
+    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
+    statement.setString(1, chat.getUser1().getUsername());
+    statement.setString(2, chat.getUser2().getUsername());
+    statement.setDate(3, chat.getCreationTime());
+    statement.executeUpdate();
   }
 
   public ArrayList<ChatStorageDTO> getChatsFromUsername(String currentUsername) throws SQLException{

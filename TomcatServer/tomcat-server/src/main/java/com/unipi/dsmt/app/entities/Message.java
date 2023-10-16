@@ -3,24 +3,16 @@ package com.unipi.dsmt.app.entities;
 import java.sql.Date;
 
 public class Message {
-    private int id;
     private String content;
     private User sender;
     private Date creationTime;
+    private int chatID;
 
-    public Message(int id, String content, User sender, Date creationTime) {
-        this.id = id;
+    public Message(String content, User sender, Date creationTime, int chatID) {
         this.content = content;
         this.sender = sender;
         this.creationTime = creationTime;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.chatID = chatID;
     }
 
     public String getContent() {
@@ -47,14 +39,12 @@ public class Message {
         this.creationTime = creationTime;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", content='" + getContent() + "'" +
-            ", sender='" + getSender() + "'" +
-            ", creationTime='" + getCreationTime() + "'" +
-            "}";
+    public int getChatID() {
+        return this.chatID;
+    }
+
+    public void setChatID(int chatID) {
+        this.chatID = chatID;
     }
 
 }

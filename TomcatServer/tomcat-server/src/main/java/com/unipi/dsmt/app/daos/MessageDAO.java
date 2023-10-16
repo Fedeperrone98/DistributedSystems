@@ -7,12 +7,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.unipi.dsmt.app.dtos.MessageChatDTO;
+import com.unipi.dsmt.app.entities.Message;
 
 public class MessageDAO {
   private Connection messageConnection = null;
 
   public MessageDAO(Connection db) {
     messageConnection = db;
+  }
+
+  public void save(Message message) throws SQLException{
+    String sqlString = "INSERT INTO message(content, sender, chatID, creationTime) VALUES (?, ?, ?, ?)";
+    PreparedStatement statement = messageConnection.prepareStatement(sqlString);
+    statement.setString(1, message.getContent());
+    statement.setString(2, message.getSender().getUsername());
+    statement.setInt(3, message.getChatID());
+    statement.setDate(4, message.getCreationTime());
+    statement.executeUpdate();
   }
 
   public ArrayList<MessageChatDTO> getMessagesFromChatId(int chatId) throws SQLException{
