@@ -19,8 +19,8 @@ public class ChatDAO {
   public void save(Chat chat) throws SQLException {
     String sqlString = "INSERT INTO chat(user1, user2, creationTime) VALUES (?, ?, ?)";
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
-    statement.setString(1, chat.getUser1().getUsername());
-    statement.setString(2, chat.getUser2().getUsername());
+    statement.setString(1, chat.getUser1());
+    statement.setString(2, chat.getUser2());
     statement.setDate(3, chat.getCreationTime());
     statement.executeUpdate();
   }
@@ -54,19 +54,21 @@ public class ChatDAO {
   }
 
   public int getChatIDFromUser1User2(String user1, String user2) throws SQLException {
-    String sqlString = "SELECT chatID FROM chat WHERE (user1 = ? and user2 = ?) or (user1=? and user2=?)";
+    String sqlString = "SELECT id FROM chat WHERE (user1 = ? and user2 = ?) or (user1=? and user2=?)";
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
     statement.setString(1, user1);
     statement.setString(2, user2);
     statement.setString(3, user2);
     statement.setString(4, user1);
     ResultSet set = statement.executeQuery();
-    set.next();
-    return set.getInt("chatID");
+    if(set.next())
+      return set.getInt("id");
+    else
+      return -1;
   }
 
   public void deleteChatFromChatID(int chatID) throws SQLException {
-    String sqlString = "DELETE FROM chat WHERE chatID=?";
+    String sqlString = "DELETE FROM chat WHERE id=?";
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
     statement.setInt(1, chatID);
     statement.executeUpdate();
