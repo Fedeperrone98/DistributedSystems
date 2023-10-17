@@ -23,9 +23,7 @@
               <datalist id="online-users">
                 <% for(UserDepartmentDTO user : (List<UserDepartmentDTO>)request.getAttribute("onlineUsers")){ %>
                   <option>
-                    <%= user.getName() %>
-                      <%= user.getSurname() %>
-                        <%= user.getUsername() %>
+                    <%= user.getUsername() %>
                   </option>
                   <%}%>
               </datalist>
