@@ -3,8 +3,8 @@ package com.unipi.dsmt.app.endpoints.servlets;
 import java.sql.Connection;
 import java.util.List;
 
-import com.unipi.dsmt.app.daos.ChatDAO;
-import com.unipi.dsmt.app.dtos.ChatStorageDTO;
+import com.unipi.dsmt.app.daos.MessageDAO;
+import com.unipi.dsmt.app.dtos.MessageChatDTO;
 import com.unipi.dsmt.app.utils.AccessController;
 import com.unipi.dsmt.app.utils.ErrorHandler;
 
@@ -18,10 +18,14 @@ public class ChatServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+            int chatID = Integer.parseInt(request.getParameter("chatID"));
+            String username = (String) request.getParameter("username");
+            request.setAttribute("username", username);
+            MessageDAO messageDAO = new MessageDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+            List<MessageChatDTO> messageList = messageDAO.getMessagesFromChatId(chatID);
+            request.setAttribute("messageList", messageList);
             String currentUsername = AccessController.getUsername(request);
-            List<ChatStorageDTO> chats= chatDAO.getChatsFromUsername(currentUsername);
-            request.setAttribute("chats", chats);
+            request.setAttribute("currentUsername", currentUsername);
             request.getRequestDispatcher("/WEB-INF/jsp/chat.jsp").forward(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);

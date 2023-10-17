@@ -16,15 +16,6 @@ public class ChatDAO {
     chatConnection = db;
   }
 
-  public boolean exixts(String username) throws SQLException{
-    String sqlString = "SELECT chatID FROM chat WHERE user1=? or user2=?";
-    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
-    statement.setString(1, username);
-    statement.setString(2, username);
-    ResultSet set = statement.executeQuery();
-    return set.next();
-  }
-
   public void save(Chat chat) throws SQLException{
     String sqlString = "INSERT INTO chat(user1, user2, creationTime) VALUES (?, ?, ?)";
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
@@ -36,12 +27,12 @@ public class ChatDAO {
 
   public ArrayList<ChatStorageDTO> getChatsFromUsername(String currentUsername) throws SQLException{
     ArrayList<ChatStorageDTO> result = new ArrayList<>();
-    String sqlString = "SELECT chat.user1, chat.user2, chat.id, message.creationTime AS last_message_time" +
-                        "FROM chat" + 
-                        "INNER JOIN (" + 
-                          "SELECT chatID, MAX(creationTime) as max_time FROM message GROUP BY chatID" +
-                        ")AS latest_message ON chat.id = latest_message.chatID" +
-                        "INNER JOIN message ON chat.id=message.chatID AND latest_message.max_time = message.creationTime" +
+    String sqlString = "SELECT chat.user1, chat.user2, chat.id, message.creationTime AS last_message_time " +
+                        "FROM chat " + 
+                        "INNER JOIN ( " + 
+                          "SELECT chatID, MAX(creationTime) as max_time FROM message GROUP BY chatID " +
+                        ")AS latest_message ON chat.id = latest_message.chatID " +
+                        "INNER JOIN message ON chat.id=message.chatID AND latest_message.max_time = message.creationTime " +
                         "WHERE chat.user1=? OR chat.user2=?";
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
     statement.setString(1, currentUsername);
@@ -57,5 +48,22 @@ public class ChatDAO {
       result.add(chat);
     }
     return result;
+  }
+
+  public int getChatIDFromUser1User2(String user1, String user2) throws SQLException{
+    String sqlString = "SELECT chatID FROM chat WHERE user1 = ? and user2 = ?";
+    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
+    statement.setString(1, user1);
+    statement.setString(2, user2);
+    ResultSet set = statement.executeQuery();
+    set.next();
+    return set.getInt("chatID");
+  }
+
+  public void deleteChatFromChatID(int chatID) throws SQLException {
+    String sqlString = "DELETE FROM chat WHERE chatID=?";
+    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
+    statement.setInt(1, chatID);
+    statement.executeUpdate();
   }
 }

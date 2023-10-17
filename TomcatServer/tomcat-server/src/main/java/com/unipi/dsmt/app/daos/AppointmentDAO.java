@@ -1,6 +1,7 @@
 package com.unipi.dsmt.app.daos;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,5 +41,14 @@ public class AppointmentDAO {
       result.add(appointment);
     }
     return result;
+  }
+
+  public void deleteAppointment(String host, String guest, Date timeslot) throws SQLException{
+    String sqlString = "DELETE FROM appointment WHERE host=? and guest=? and timeslot=?";
+    PreparedStatement statement = appointmentConnection.prepareStatement(sqlString);
+    statement.setString(1, host);
+    statement.setString(2, guest);
+    statement.setDate(3, timeslot);
+    statement.executeUpdate();
   }
 }

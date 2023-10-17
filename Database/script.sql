@@ -19,14 +19,15 @@ CREATE TABLE IF NOT EXISTS chat (
     user2 varchar(16) NOT NULL,
     creationTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user1) REFERENCES user(username),
-    FOREIGN KEY (user2) REFERENCES user(username)
+    FOREIGN KEY (user2) REFERENCES user(username),
+    UNIQUE(user1, user2)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE IF NOT EXISTS message (
     messageID INT PRIMARY KEY AUTO_INCREMENT,
     content varchar(256) NOT NULL,
-    sender varchar(32) NOT NULL,
+    sender varchar(16) NOT NULL,
     chatID INT NOT NULL,
     creationTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender) REFERENCES user(username),

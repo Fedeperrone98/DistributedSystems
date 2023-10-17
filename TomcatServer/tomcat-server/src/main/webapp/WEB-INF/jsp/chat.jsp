@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.unipi.dsmt.app.dtos.MessageChatDTO" %>
+  <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +14,27 @@
 <body style="margin: 0px;">
   <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp" />
   <div class="page">
-    
+    <div>
+      <%String username = (String) request.getAttribute("username");%>
+      <h1>
+        <%=username%>
+      </h1>
+    </div>
+    <div class="messages-board">
+      <%List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList");%>
+      <%String currentUsername = (String) request.getAttribute("currentUsername");%>
+        <%for(MessageChatDTO message : messageList){%>
+          <%String className="message-card ";%>
+          <%if(currentUsername.equals(message.getSender()))%>
+            <%className += sender;%>
+          <%else%>
+          <%className += receiver;%>
+          <div class="<%= className %>">
+            <label><%=message.getContent()%></label>
+            <label><%=message.getCreationTime().toString()></label>
+          </div>
+          <%}%>
+    </div>
   </div>
 </body>
 
