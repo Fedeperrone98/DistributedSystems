@@ -21,17 +21,15 @@
       </h1>
     </div>
     <div class="messages-board">
-      <%List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList");%>
-      <%String currentUsername = (String) request.getAttribute("currentUsername");%>
-        <%for(MessageChatDTO message : messageList){%>
-          <%String className="message-card ";%>
-          <%if(currentUsername.equals(message.getSender()))%>
-            <%className += sender;%>
-          <%else%>
-          <%className += receiver;%>
+      <% List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList"); %>
+      <% String currentUsername = (String) request.getAttribute("currentUsername"); %>
+        <% for(MessageChatDTO message : messageList){ %>
+          <% String className="message-card "; %>
+          <% if(currentUsername.equals(message.getSender())){ className += "sender"; }%>
+          <% else{ className += "receiver";} %>
           <div class="<%= className %>">
-            <label><%=message.getContent()%></label>
-            <label><%=message.getCreationTime().toString()></label>
+            <label><%= message.getContent() %></label>
+            <label><%= message.getCreationTime().toString() %></label>
           </div>
           <%}%>
     </div>

@@ -45,8 +45,9 @@
             </div>
             <div class="chat-history-container">
               <h1>Recent Chats</h1>
-              <div class="grid">
+              <div class="grid">                
                 <% for(ChatStorageDTO chat : chatList){ %>
+                  <a href="${pageContext.request.contextPath}/chat?chatID=<%=chat.getId_chat()%>&username=<%=chat.getUsername()%>">
                   <div class="chat-card">
                     <h1>
                       <%= chat.getUsername() %>
@@ -57,6 +58,7 @@
                     <% String className="flag" + (chat.getOnlineState() ? " connected" : "" ) ; %>
                       <div class="<%= className %>"></div>
                   </div>
+                  </a>
                   <%}%>
               </div>
             </div>

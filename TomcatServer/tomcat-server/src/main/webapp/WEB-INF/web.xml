@@ -19,5 +19,6 @@
     <url-pattern>/department</url-pattern>
     <url-pattern>/logout</url-pattern>
     <url-pattern>/meetings</url-pattern>
+    <url-pattern>/chat</url-pattern>
   </filter-mapping>
 </web-app>
