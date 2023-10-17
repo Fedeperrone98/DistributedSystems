@@ -19,6 +19,9 @@
       </h1>
     </div>
     <div>
+      timeslot X appointments
+    </div>
+    <div>
       <a href="${pageContext.request.contextPath}/chat?chatID=-1&username=<%=username%>">
         <button type="submit"> Start chat</button>
       </a>
