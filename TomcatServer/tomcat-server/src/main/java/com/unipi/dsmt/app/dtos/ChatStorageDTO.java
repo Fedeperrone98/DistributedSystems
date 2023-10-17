@@ -6,11 +6,13 @@ public class ChatStorageDTO {
     int id_chat;
     String username;
     Date lastMessageTime;
+    boolean onlineState;
 
-    public ChatStorageDTO(int id_chat, String username, Date lastMessageTime) {
+    public ChatStorageDTO(int id_chat, String username, Date lastMessageTime, boolean isOnline) {
         this.id_chat = id_chat;
         this.username = username;
         this.lastMessageTime = lastMessageTime;
+        this.onlineState = isOnline;
     }
 
     public int getId_chat() {
@@ -35,6 +37,18 @@ public class ChatStorageDTO {
 
     public void setLastMessageTime(Date lastMessageTime) {
         this.lastMessageTime = lastMessageTime;
+    }
+
+    public boolean isOnlineState() {
+        return this.onlineState;
+    }
+
+    public boolean getOnlineState() {
+        return this.onlineState;
+    }
+
+    public void setOnlineState(boolean onlineState) {
+        this.onlineState = onlineState;
     }
 
 }
