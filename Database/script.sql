@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS chat (
     user2 varchar(16) NOT NULL,
     creationTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user1) REFERENCES user(username),
-    FOREIGN KEY (user2) REFERENCES user(username)
+    FOREIGN KEY (user2) REFERENCES user(username),
+    UNIQUE(user1, user2)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

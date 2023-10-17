@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
   <%@ page import="com.unipi.dsmt.app.dtos.UserProfileDTO" %>
+  <%@ page import="com.unipi.dsmt.app.dtos.ChatStorageDTO" %>
+  <%@ page import="java.util.List" %>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -31,6 +33,19 @@
                       </h3>
                       <div class="<%= className %>"></div>
                     </div>
+            </div>
+            <div class="chats-board">
+              <% List<ChatStorageDTO> chatList = (List<ChatStorageDTO>) request.getAttribute("chatList");%>
+                <%for(ChatStorageDTO chat : chatList){%>
+                  <div class="chat-card">
+                    <h1>
+                      <%=chat.getUsername()%>
+                    </h1>
+                    <label>
+                      <%=chat.getLastMessageTime().toString()%>
+                    </label>
+                  </div>
+                  <%}%>
             </div>
           </div>
         </div>

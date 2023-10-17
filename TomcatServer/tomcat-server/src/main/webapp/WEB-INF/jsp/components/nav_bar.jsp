@@ -2,7 +2,7 @@
 
   <nav class="navbar">
     <a href="${pageContext.request.contextPath}/home">Home</a>
-    <a href="${pageContext.request.contextPath}/profile?mine=yes">Profile</a>
+    <a href="${pageContext.request.contextPath}/profile">Profile</a>
     <a href="${pageContext.request.contextPath}/meetings">Meetings</a>
     <a href="${pageContext.request.contextPath}/logout"><img src="icons/close.png" width="30px" height="30px"></a>
     <div class="notification">
