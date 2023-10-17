@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="com.unipi.dsmt.app.dtos.MessageChatDTO" %>
   <%@ page import="java.util.List" %>
+  <%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,11 +26,13 @@
       <% String currentUsername = (String) request.getAttribute("currentUsername"); %>
         <% for(MessageChatDTO message : messageList){ %>
           <% String className="message-card "; %>
-          <% if(currentUsername.equals(message.getSender())){ className += "sender"; }%>
-          <% else{ className += "receiver";} %>
+          <% if(currentUsername.equals(message.getSender())){ className += "sender"; }
+           else{ className += "receiver";} %>
           <div class="<%= className %>">
             <label><%= message.getContent() %></label>
-            <label><%= message.getCreationTime().toString() %></label>
+            <% SimpleDateFormat dateFormat = new SimpleDateFormat("dd:MM:yyyy-HH:mm:ss"); %>
+            <% String formattedDate = dateFormat.format(message.getCreationTime()); %>
+            <label><%= formattedDate %></label>
           </div>
           <%}%>
     </div>

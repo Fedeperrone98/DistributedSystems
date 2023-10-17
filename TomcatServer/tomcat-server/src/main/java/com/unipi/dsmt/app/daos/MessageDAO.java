@@ -28,7 +28,7 @@ public class MessageDAO {
 
   public ArrayList<MessageChatDTO> getMessagesFromChatId(int chatId) throws SQLException{
     ArrayList<MessageChatDTO> result = new ArrayList<>();
-    String sqlString = "SELECT content, sender, creationTime FROM message WHERE chatID=?";
+    String sqlString = "SELECT content, sender, creationTime FROM message WHERE chatID=? ORDER BY creationTime";
     PreparedStatement statement = messageConnection.prepareStatement(sqlString);
     statement.setInt(1, chatId);
     ResultSet set = statement.executeQuery();
