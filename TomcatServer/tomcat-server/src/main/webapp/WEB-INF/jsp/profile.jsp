@@ -8,7 +8,7 @@
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="stylesheet" href="css/profile.css?v=1.8">
+          <link rel="stylesheet" href="css/profile.css?v=1.9">
           <title>Profile page</title>
           <% UserProfileDTO requestingUser=(UserProfileDTO) request.getAttribute("user_info"); %>
             <% List<ChatStorageDTO> chatList =(List<ChatStorageDTO>) request.getAttribute("chatList"); %>
@@ -45,19 +45,20 @@
             </div>
             <div class="chat-history-container">
               <h1>Recent Chats</h1>
-              <div class="grid">                
+              <div class="grid">
                 <% for(ChatStorageDTO chat : chatList){ %>
-                  <a href="${pageContext.request.contextPath}/chat?chatID=<%=chat.getId_chat()%>&username=<%=chat.getUsername()%>">
-                  <div class="chat-card">
-                    <h1>
-                      <%= chat.getUsername() %>
-                    </h1>
-                    <label>
-                      <%= chat.getLastMessageTime() %>
-                    </label>
-                    <% String className="flag" + (chat.getOnlineState() ? " connected" : "" ) ; %>
-                      <div class="<%= className %>"></div>
-                  </div>
+                  <a
+                    href="${pageContext.request.contextPath}/chat?chatID=<%=chat.getId_chat()%>&username=<%=chat.getUsername()%>">
+                    <div class="chat-card">
+                      <h1>
+                        <%= chat.getUsername() %>
+                      </h1>
+                      <label>
+                        <%= chat.getLastMessageTime() %>
+                      </label>
+                      <% String className="flag" + (chat.getOnlineState() ? " connected" : "" ) ; %>
+                        <div class="<%= className %>"></div>
+                    </div>
                   </a>
                   <%}%>
               </div>
