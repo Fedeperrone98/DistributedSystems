@@ -1,1 +1,1 @@
-docker cp ./Database/script.sql database:/usr
+docker cp ./Database/addChatMessages.sql database:/usr
