@@ -1,18 +1,16 @@
-package com.unipi.dsmt.app.entities;
+package com.unipi.dsmt.app.dtos;
 
 import java.sql.Date;
 
-public class Message {
-    private String content;
-    private User sender;
-    private Date creationTime;
-    private int chatID;
+public class MessageChatDTO {
+    String content;
+    String sender;
+    Date creationTime;
 
-    public Message(String content, User sender, Date creationTime, int chatID) {
+    public MessageChatDTO(String content, String sender, Date creationTime) {
         this.content = content;
         this.sender = sender;
         this.creationTime = creationTime;
-        this.chatID = chatID;
     }
 
     public String getContent() {
@@ -23,11 +21,11 @@ public class Message {
         this.content = content;
     }
 
-    public User getSender() {
+    public String getSender() {
         return this.sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
@@ -37,14 +35,6 @@ public class Message {
 
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
-    }
-
-    public int getChatID() {
-        return this.chatID;
-    }
-
-    public void setChatID(int chatID) {
-        this.chatID = chatID;
     }
 
 }

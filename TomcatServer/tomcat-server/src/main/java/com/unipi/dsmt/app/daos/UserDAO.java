@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
-import com.unipi.dsmt.app.dtos.UserDepartmentDTO;
 import com.unipi.dsmt.app.dtos.UserProfileDTO;
 import com.unipi.dsmt.app.entities.User;
 
@@ -64,9 +63,9 @@ public class UserDAO {
     return changedCount == 1 ? true : false;
   }
 
-  public ArrayList<UserDepartmentDTO> getUsersFromDepartment(String department) throws SQLException {
-    ArrayList<UserDepartmentDTO> result = new ArrayList<>();
-    String sqlString = "SELECT username, name, surname, onlineFlag FROM user WHERE department=?";
+  public ArrayList<UserProfileDTO> getUsersFromDepartment(String department) throws SQLException {
+    ArrayList<UserProfileDTO> result = new ArrayList<>();
+    String sqlString = "SELECT username, name, surname, onlineFlag, department FROM user WHERE department=?";
     PreparedStatement statement = userConnection.prepareStatement(sqlString);
     String dep_name;
     if (department.equals("Information Technologies"))
@@ -78,8 +77,8 @@ public class UserDAO {
     statement.setString(1, dep_name);
     ResultSet set = statement.executeQuery();
     while (set.next()) {
-      UserDepartmentDTO user = new UserDepartmentDTO(set.getString("username"), set.getString("name"),
-          set.getString("surname"), set.getBoolean("onlineFlag"));
+      UserProfileDTO user = new UserProfileDTO(set.getString("username"), set.getString("name"),
+          set.getString("surname"), set.getBoolean("onlineFlag"), department);
       result.add(user);
     }
     return result;

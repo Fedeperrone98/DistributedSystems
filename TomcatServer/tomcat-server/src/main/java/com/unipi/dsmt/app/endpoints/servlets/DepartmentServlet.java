@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import com.unipi.dsmt.app.daos.UserDAO;
-import com.unipi.dsmt.app.dtos.UserDepartmentDTO;
+import com.unipi.dsmt.app.dtos.UserProfileDTO;
 import com.unipi.dsmt.app.utils.AccessController;
 import com.unipi.dsmt.app.utils.ErrorHandler;
 
@@ -23,16 +23,16 @@ public class DepartmentServlet extends HttpServlet {
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             // get users work in that department
             String department = (String) request.getParameter("name");
-            List<UserDepartmentDTO> users = userDAO.getUsersFromDepartment(department);
-            users = users.stream().filter(new Predicate<UserDepartmentDTO>() {
+            List<UserProfileDTO> users = userDAO.getUsersFromDepartment(department);
+            users = users.stream().filter(new Predicate<UserProfileDTO>() {
                 @Override
-                public boolean test(UserDepartmentDTO user) {
+                public boolean test(UserProfileDTO user) {
                     return !user.getUsername().equals(currentUsername);
                 }
             }).toList();
-            List<UserDepartmentDTO> onlineList = users.stream().filter(new Predicate<UserDepartmentDTO>() {
+            List<UserProfileDTO> onlineList = users.stream().filter(new Predicate<UserProfileDTO>() {
                 @Override
-                public boolean test(UserDepartmentDTO user) {
+                public boolean test(UserProfileDTO user) {
                     return user.isOnline_flag();
                 }
             }).toList();
