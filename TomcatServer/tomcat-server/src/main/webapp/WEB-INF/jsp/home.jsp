@@ -36,6 +36,7 @@
               <% for(UserProfileDTO user : (List<UserProfileDTO>)request.getAttribute("usersList")){ %>
                 <% String className="flag" ; %>
                   <% if(user.isOnline_flag()){ className +=" connected" ; } %>
+                  <a href="${pageContext.request.contextPath}/view?username=<%=user.getUsername()%>">
                     <div class="user-card">
                       <h1>
                         <%= user.getUsername() %>
@@ -49,6 +50,7 @@
                       </h3>
                       <div class="<%= className %>"></div>
                     </div>
+                  </a>
                     <%}%>
             </div>
           </div>

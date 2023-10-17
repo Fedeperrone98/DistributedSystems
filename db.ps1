@@ -1,1 +1,1 @@
-docker cp ./Database/addChatMessages.sql database:/usr
+docker cp ./Database/addAppointment.sql database:/usr
