@@ -39,4 +39,18 @@ public class MessageDAO {
     }
     return result;
   }
+
+  public void deleteMessageFromChatID(int chatID) throws SQLException {
+    String sqlString = "DELETE FROM message WHERE chatID=?";
+    PreparedStatement statement = messageConnection.prepareStatement(sqlString);
+    statement.setInt(1, chatID);
+    statement.executeUpdate();
+  }
+
+  public void deleteMessageFromMessageID(int messageID) throws SQLException {
+    String sqlString = "DELETE FROM message WHERE chatID=?";
+    PreparedStatement statement = messageConnection.prepareStatement(sqlString);
+    statement.setInt(1, messageID);
+    statement.executeUpdate();
+  }
 }

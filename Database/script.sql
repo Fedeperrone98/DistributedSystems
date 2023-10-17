@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS chat (
 CREATE TABLE IF NOT EXISTS message (
     messageID INT PRIMARY KEY AUTO_INCREMENT,
     content varchar(256) NOT NULL,
-    sender varchar(32) NOT NULL,
+    sender varchar(16) NOT NULL,
     chatID INT NOT NULL,
     creationTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (sender) REFERENCES user(username),
