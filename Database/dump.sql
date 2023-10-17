@@ -60,7 +60,8 @@ CREATE TABLE `chat` (
   KEY `user1` (`user1`),
   KEY `user2` (`user2`),
   CONSTRAINT `chat_ibfk_1` FOREIGN KEY (`user1`) REFERENCES `user` (`username`),
-  CONSTRAINT `chat_ibfk_2` FOREIGN KEY (`user2`) REFERENCES `user` (`username`)
+  CONSTRAINT `chat_ibfk_2` FOREIGN KEY (`user2`) REFERENCES `user` (`username`),
+  UNIQUE(user1, user2)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
