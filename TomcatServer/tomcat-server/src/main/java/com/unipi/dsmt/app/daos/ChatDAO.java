@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.unipi.dsmt.app.dtos.ChatStorageDTO;
 import com.unipi.dsmt.app.entities.Chat;
@@ -29,7 +27,7 @@ public class ChatDAO {
 
   public ArrayList<ChatStorageDTO> getChatsFromUsername(String currentUsername) throws SQLException {
     ArrayList<ChatStorageDTO> result = new ArrayList<>();
-    String sqlString = "SELECT latest_message.max_time, chat.user1, chat.user2, chat.id CASE " +
+    String sqlString = "SELECT latest_message.max_time, chat.user1, chat.user2, chat.id, CASE " +
         "WHEN chat.user1 = ? THEN chat.user2 ELSE chat.user1 END AS other_user, " +
         "user.onlineFlag FROM chat JOIN user ON (chat.user1=? AND chat.user2=user.username) OR (chat.user1=user.username AND chat.user2=?) "
         +
@@ -48,7 +46,7 @@ public class ChatDAO {
           ? set.getString("user2")
           : set.getString("user1");
       boolean isOnlineState = set.getBoolean("user.onlineFlag");
-      ChatStorageDTO chat = new ChatStorageDTO(set.getInt("chat.id"), user, set.getDate("last_message_time"),
+      ChatStorageDTO chat = new ChatStorageDTO(set.getInt("chat.id"), user, set.getDate("latest_message.max_time"),
           isOnlineState);
       result.add(chat);
     }
