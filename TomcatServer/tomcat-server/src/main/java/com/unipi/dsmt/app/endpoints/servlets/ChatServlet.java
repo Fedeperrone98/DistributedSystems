@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.unipi.dsmt.app.daos.MessageDAO;
+import com.unipi.dsmt.app.daos.UserDAO;
 import com.unipi.dsmt.app.dtos.MessageChatDTO;
 import com.unipi.dsmt.app.utils.AccessController;
 import com.unipi.dsmt.app.utils.ErrorHandler;
@@ -22,6 +23,9 @@ public class ChatServlet extends HttpServlet {
             String username = (String) request.getParameter("username");
             request.setAttribute("username", username);
             MessageDAO messageDAO = new MessageDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+            UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+            boolean isOnline = userDAO.getOnlineStateOfUsername(username);
+            request.setAttribute("isOnline", isOnline);
             List<MessageChatDTO> messageList = messageDAO.getMessagesFromChatId(chatID);
             request.setAttribute("messageList", messageList);
             String currentUsername = AccessController.getUsername(request);

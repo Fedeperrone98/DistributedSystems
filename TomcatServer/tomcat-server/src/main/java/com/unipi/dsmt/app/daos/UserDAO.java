@@ -54,6 +54,16 @@ public class UserDAO {
     }
   }
 
+  public boolean getOnlineStateOfUsername(String username) throws SQLException {
+    String sqlString = "SELECT onlineFlag FROM user WHERE username=?";
+    PreparedStatement statement = userConnection.prepareStatement(sqlString);
+    statement.setString(1, username);
+    ResultSet set = statement.executeQuery();
+    if (set.next())
+      return set.getBoolean("onlineFlag");
+    throw new SQLException("No Such Username");
+  }
+
   public Boolean setOnlineFlag(Boolean flag, String username) throws SQLException {
     String sqlString = "UPDATE user SET onlineFlag = ? WHERE username = ?";
     PreparedStatement statement = userConnection.prepareStatement(sqlString);

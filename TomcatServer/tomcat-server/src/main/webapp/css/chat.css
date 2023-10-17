@@ -1,9 +1,83 @@
 .page {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #663500;
-    background-image: url("https://www.transparenttextures.com/patterns/retina-wood.png");
-  }
+  width: 100%;
+  min-height: calc(100vh - 2.5rem);
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #663500;
+  background-image: url("https://www.transparenttextures.com/patterns/retina-wood.png");
+}
+.chat-name {
+  position: fixed;
+  top: 4rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flag {
+  width: 21px;
+  margin-right: 2rem;
+  margin-top: 0.3rem;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 0, 24, 1) 0%, rgba(212, 0, 7, 1) 60%);
+}
+.connected {
+  background: radial-gradient(circle, rgba(39, 255, 0, 1) 0%, rgba(29, 193, 0, 1) 60%);
+}
+.messages-board {
+  position: fixed;
+  top: 12rem;
+  width: 95%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  gap: 0.2rem;
+}
+.messages-board::-webkit-scrollbar {
+  width: 10px;
+}
+.messages-board::-webkit-scrollbar-thumb {
+  background: rgba(224, 224, 224, 1);
+  border-radius: 4rem;
+}
+.message-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.sender {
+  justify-content: start;
+}
+.receiver {
+  justify-content: end;
+}
+.message-card > .message-box {
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  backdrop-filter: blur(5px);
+  position: relative;
+}
+.message-box > label:nth-child(1) {
+  font-size: 17px;
+}
+.message-box > label:nth-child(2) {
+  font-size: 10px;
+  margin-top: 0.8rem;
+  margin-bottom: 0.2rem;
+}
+.sender > .message-box {
+  background: rgba(65, 177, 255, 0.8);
+  box-shadow: 0px 0px 0.5rem 0.1rem rgba(65, 177, 255, 0.8);
+}
+.receiver > .message-box {
+  background: rgba(232, 245, 255, 0.8);
+  box-shadow: 0px 0px 0.5rem 0.1rem rgba(232, 245, 255, 0.8);
+}
+.receiver > .message-box > label:nth-child(2) {
+  text-align: end;
+}
