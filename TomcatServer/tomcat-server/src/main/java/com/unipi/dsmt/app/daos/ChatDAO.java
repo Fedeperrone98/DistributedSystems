@@ -59,4 +59,11 @@ public class ChatDAO {
     set.next();
     return set.getInt("chatID");
   }
+
+  public void deleteChatFromChatID(int chatID) throws SQLException {
+    String sqlString = "DELETE FROM chat WHERE chatID=?";
+    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
+    statement.setInt(1, chatID);
+    statement.executeUpdate();
+  }
 }
