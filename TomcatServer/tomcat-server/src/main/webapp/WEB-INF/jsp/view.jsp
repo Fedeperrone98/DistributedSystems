@@ -22,9 +22,9 @@
       timeslot X appointments
     </div>
     <div>
-      <a href="${pageContext.request.contextPath}/chat?chatID=-1&username=<%=username%>">
+      <form method="post" action="${pageContext.request.contextPath}/chat?username=<%=username%>">
         <button type="submit"> Start chat</button>
-      </a>
+      </form>
     </div>
   </div>
 </body>

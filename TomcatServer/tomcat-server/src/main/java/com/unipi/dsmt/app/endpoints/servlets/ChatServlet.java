@@ -19,50 +19,58 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "ChatServlet", value = "/chat")
 public class ChatServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            MessageDAO messageDAO = new MessageDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    try {
+      MessageDAO messageDAO = new MessageDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+      UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
 
-            String username = (String) request.getParameter("username");
-            request.setAttribute("username", username);
+      String username = (String) request.getParameter("username");
+      request.setAttribute("username", username);
 
-            boolean isOnline = userDAO.getOnlineStateOfUsername(username);
-            request.setAttribute("isOnline", isOnline);
+      boolean isOnline = userDAO.getOnlineStateOfUsername(username);
+      request.setAttribute("isOnline", isOnline);
 
-            int chatID = Integer.parseInt(request.getParameter("chatID"));
+      int chatID = Integer.parseInt(request.getParameter("chatID"));
 
-            String currentUsername = AccessController.getUsername(request);
-            request.setAttribute("currentUsername", currentUsername);
+      String currentUsername = AccessController.getUsername(request);
+      request.setAttribute("currentUsername", currentUsername);
 
-            List<MessageChatDTO> messageList;
-            if (chatID == -1) {
-                // verifico se esiste già una chat tra currentUsername e username
-                int retrievedChatID = chatDAO.getChatIDFromUser1User2(username, currentUsername);
-                if (retrievedChatID == -1) {
-                    // se no creo una nuova chat
-                    Chat chat = new Chat(currentUsername, username, new Date(System.currentTimeMillis()));
-                    chatDAO.save(chat);
-                    request.setAttribute("messageList", null);
-                    request.getRequestDispatcher("/WEB-INF/jsp/chat.jsp").forward(request, response);
-                    return;
-                } else {
-                    // altrimenti ottengo il chatID
-                    messageList = messageDAO.getMessagesFromChatId(retrievedChatID);
-                    request.setAttribute("messageList", messageList);
-                    request.getRequestDispatcher("/WEB-INF/jsp/chat.jsp").forward(request, response);
-                    return;
-                }
-            }
+      List<MessageChatDTO> messageList = messageDAO.getMessagesFromChatId(chatID);
+      request.setAttribute("messageList", messageList);
 
-            messageList = messageDAO.getMessagesFromChatId(chatID);
-            request.setAttribute("messageList", messageList);
-
-            request.getRequestDispatcher("/WEB-INF/jsp/chat.jsp").forward(request, response);
-        } catch (Exception e) {
-            ErrorHandler.safeDispatchToErrorPage(request, response, e);
-        }
+      request.getRequestDispatcher("/WEB-INF/jsp/chat.jsp").forward(request, response);
+    } catch (Exception e) {
+        ErrorHandler.safeDispatchToErrorPage(request, response, e);
     }
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    try {
+      ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+
+      String currentUsername = AccessController.getUsername(request);
+      request.setAttribute("currentUsername", currentUsername);
+
+      String username = (String) request.getParameter("username");
+
+      // verifico se esiste già una chat tra currentUsername e username
+      int retrievedChatID = chatDAO.getChatIDFromUser1User2(username, currentUsername);
+      if (retrievedChatID == -1) {
+          // se no creo una nuova chat
+          Chat chat = new Chat(currentUsername, username, new Date(System.currentTimeMillis()));
+          chatDAO.save(chat);
+          retrievedChatID = chatDAO.getChatIDFromUser1User2(username, currentUsername);
+          response.sendRedirect(request.getContextPath() + "/chat?chatID=" + retrievedChatID + "&username=" + username);
+          return;
+      } else {
+          // altrimenti faccio la get
+          response.sendRedirect(request.getContextPath() + "/chat?chatID=" + retrievedChatID + "&username=" + username);
+          return;
+      }
+    } catch (Exception e) {
+        ErrorHandler.safeDispatchToErrorPage(request, response, e);
+    }
+  }
 }
