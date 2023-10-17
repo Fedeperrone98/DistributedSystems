@@ -54,7 +54,7 @@
                     <label>
                       <%= chat.getLastMessageTime() %>
                     </label>
-                    <% String className="flag" + chat.getOnlineState() ? " connected" : "" ; %>
+                    <% String className="flag" + (chat.getOnlineState() ? " connected" : "" ) ; %>
                       <div class="<%= className %>"></div>
                   </div>
                   <%}%>

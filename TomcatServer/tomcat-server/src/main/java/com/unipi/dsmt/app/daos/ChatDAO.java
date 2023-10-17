@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.unipi.dsmt.app.dtos.ChatStorageDTO;
 import com.unipi.dsmt.app.entities.Chat;
@@ -27,17 +29,19 @@ public class ChatDAO {
 
   public ArrayList<ChatStorageDTO> getChatsFromUsername(String currentUsername) throws SQLException {
     ArrayList<ChatStorageDTO> result = new ArrayList<>();
-    String sqlString = "SELECT chat.user1, chat.user2, user.onlineFlag, chat.id, message.creationTime AS last_message_time "
+    String sqlString = "SELECT latest_message.max_time, chat.user1, chat.user2, chat.id CASE " +
+        "WHEN chat.user1 = ? THEN chat.user2 ELSE chat.user1 END AS other_user, " +
+        "user.onlineFlag FROM chat JOIN user ON (chat.user1=? AND chat.user2=user.username) OR (chat.user1=user.username AND chat.user2=?) "
         +
-        "FROM chat " +
-        "INNER JOIN ( " +
-        "SELECT chatID, MAX(creationTime) as max_time FROM message GROUP BY chatID " +
-        ")AS latest_message ON chat.id = latest_message.chatID " +
-        "INNER JOIN user ON user.username=chat.user1 OR user.username=chat.user2" +
-        "WHERE chat.user1=? OR chat.user2=?";
+        "JOIN (SELECT chatID, MAX(creationTime) as max_time FROM message GROUP BY chatID) " +
+        "AS latest_message ON chat.id = latest_message.chatID " +
+        "WHERE chat.user1=? OR chat.user2=?;";
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
     statement.setString(1, currentUsername);
     statement.setString(2, currentUsername);
+    statement.setString(3, currentUsername);
+    statement.setString(4, currentUsername);
+    statement.setString(5, currentUsername);
     ResultSet set = statement.executeQuery();
     while (set.next()) {
       String user = set.getString("user1").equals(currentUsername)
