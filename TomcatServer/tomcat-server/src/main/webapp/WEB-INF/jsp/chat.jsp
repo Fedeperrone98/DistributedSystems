@@ -30,9 +30,7 @@
            else{ className += "receiver";} %>
           <div class="<%= className %>">
             <label><%= message.getContent() %></label>
-            <% SimpleDateFormat dateFormat = new SimpleDateFormat("dd:MM:yyyy-HH:mm:ss"); %>
-            <% String formattedDate = dateFormat.format(message.getCreationTime()); %>
-            <label><%= formattedDate %></label>
+            <label><%= message.getCreationTime().toString() %></label>
           </div>
           <%}%>
     </div>

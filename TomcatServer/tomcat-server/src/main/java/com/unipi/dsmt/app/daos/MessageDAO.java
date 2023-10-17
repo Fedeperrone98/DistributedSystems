@@ -34,7 +34,7 @@ public class MessageDAO {
     ResultSet set = statement.executeQuery();
     while (set.next()) {
       MessageChatDTO message = new MessageChatDTO(set.getString("content"), set.getString("sender"), 
-      set.getDate("creationTime"));
+      set.getTimestamp("creationTime"));
       result.add(message);
     }
     return result;

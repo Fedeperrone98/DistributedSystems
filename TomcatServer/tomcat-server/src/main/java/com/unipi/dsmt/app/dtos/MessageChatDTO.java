@@ -1,13 +1,13 @@
 package com.unipi.dsmt.app.dtos;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class MessageChatDTO {
     String content;
     String sender;
-    Date creationTime;
+    Timestamp creationTime;
 
-    public MessageChatDTO(String content, String sender, Date creationTime) {
+    public MessageChatDTO(String content, String sender, Timestamp creationTime) {
         this.content = content;
         this.sender = sender;
         this.creationTime = creationTime;
@@ -29,12 +29,21 @@ public class MessageChatDTO {
         this.sender = sender;
     }
 
-    public Date getCreationTime() {
+    public Timestamp getCreationTime() {
         return this.creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(Timestamp creationTime) {
         this.creationTime = creationTime;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " content='" + getContent() + "'" +
+            ", sender='" + getSender() + "'" +
+            ", creationTime='" + getCreationTime() + "'" +
+            "}";
     }
 
 }
