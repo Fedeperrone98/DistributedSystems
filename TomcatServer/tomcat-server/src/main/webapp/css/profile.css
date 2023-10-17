@@ -89,3 +89,6 @@
 .chat-card > .connected {
   background: radial-gradient(circle, rgba(39, 255, 0, 1) 0%, rgba(29, 193, 0, 1) 60%);
 }
+a {
+  text-decoration: none;
+}
