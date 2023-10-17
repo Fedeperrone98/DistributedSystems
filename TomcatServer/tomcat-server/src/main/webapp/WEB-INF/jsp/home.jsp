@@ -8,7 +8,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/home.css?v=1.9" />
-        <script src="js/searchbar.js?v=1.7" defer></script>
+        <script src="js/searchbar.js?v=1.9" defer></script>
         <title>Home Page</title>
       </head>
 
@@ -23,9 +23,7 @@
               <datalist id="online-users">
                 <% for(UserProfileDTO user : (List<UserProfileDTO>)request.getAttribute("onlineUsers")){ %>
                   <option>
-                    <%= user.getName() %>
-                      <%= user.getSurname() %>
-                        <%= user.getUsername() %>
+                    <%= user.getUsername() %>
                   </option>
                   <%}%>
               </datalist>
@@ -36,20 +34,19 @@
               <% for(UserProfileDTO user : (List<UserProfileDTO>)request.getAttribute("usersList")){ %>
                 <% String className="flag" ; %>
                   <% if(user.isOnline_flag()){ className +=" connected" ; } %>
-                    <a href="${pageContext.request.contextPath}/view?username=<%=user.getUsername()%>">
-                      <div class="user-card">
-                        <h1>
-                          <%= user.getUsername() %>
-                        </h1>
-                        <h2>
-                          <%= user.getDepartment() %>
-                        </h2>
-                        <h3>
-                          <%= user.getName() %>
-                            <%= user.getSurname() %>
-                        </h3>
-                        <div class="<%= className %>"></div>
-                      </div>
+                    <a class="user-card"
+                      href="${pageContext.request.contextPath}/view?username=<%=user.getUsername()%>">
+                      <h1>
+                        <%= user.getUsername() %>
+                      </h1>
+                      <h2>
+                        <%= user.getDepartment() %>
+                      </h2>
+                      <h3>
+                        <%= user.getName() %>
+                          <%= user.getSurname() %>
+                      </h3>
+                      <div class="<%= className %>"></div>
                     </a>
                     <%}%>
             </div>
