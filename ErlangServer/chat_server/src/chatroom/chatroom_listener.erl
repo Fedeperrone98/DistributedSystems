@@ -22,5 +22,5 @@ websocket_info(Info, State) ->
 
 % called when connection terminate
 terminate(Reason, _Req, State) ->
-  io:format("[chatroom listener] Terminate => logout request received from Pid: ~p, Reason: ~p ~n", [self(), Reason]),
+  io:format("[chatroom listener] -> Closed websocket connection on host: ~p, Reason: ~p ~n", [self(), Reason]),
   {ok, State}.

@@ -8,7 +8,8 @@
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="stylesheet" href="css/chat.css?v=1.5">
+          <link rel="stylesheet" href="css/chat.css?v=1.9">
+          <script src="js/chat.js?v=1.7" defer></script>
           <title>Chat page</title>
           <%String username=(String) request.getAttribute("username");%>
             <% List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList"); %>
@@ -22,31 +23,36 @@
             <div class="chat-name">
               <% String flagType="flag" + (isOnline ? " connected" : "" ); %>
                 <div class="<%= flagType %>"></div>
-                <h1>
+                <h1 id="other_user">
                   <%= username %>
                 </h1>
             </div>
-            <div class="messages-board">
-              <% if(messageList !=null){ %>
-                <% for(MessageChatDTO message : messageList){ %>
-                  <% String className="message-card " + (currentUsername.equals(message.getSender()) ? "sender"
-                    : "receiver" ); %>
-                    <div class="<%= className %>">
-                      <div class="message-box">
-                        <label>
-                          <%= message.getContent() %>
-                        </label>
-                        <label>
-                          <%= message.getCreationTime().toString() %>
-                        </label>
+            <div class="board-container">
+              <div class="messages-board">
+                <% if(messageList !=null){ %>
+                  <% for(MessageChatDTO message : messageList){ %>
+                    <% String className="message-card " + (currentUsername.equals(message.getSender()) ? "sender"
+                      : "receiver" ); %>
+                      <div class="<%= className %>">
+                        <div class="message-box">
+                          <label>
+                            <%= message.getContent() %>
+                          </label>
+                          <label>
+                            <%= message.getCreationTime().toString() %>
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                    <%}%>
                       <%}%>
+                        <%}%>
+              </div>
             </div>
-            <form action="">
-              <input type="text"/>
-            </form>
+            <div class="centerize-msgbar">
+              <div class="message-bar">
+                <input type="text" placeholder="Send Message" onkeypress="handleSend(event)" />
+                <img src="icons/send.png">
+              </div>
+            </div>
           </div>
         </body>
 

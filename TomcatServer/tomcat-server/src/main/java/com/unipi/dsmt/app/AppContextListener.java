@@ -3,6 +3,7 @@ package com.unipi.dsmt.app;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.TimeZone;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
@@ -40,6 +41,7 @@ public class AppContextListener implements ServletContextListener {
     // Get the servlet context and store the database connection
     ServletContext context = event.getServletContext();
     context.setAttribute("databaseConnection", sqldao);
+    TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
   }
 
   public void contextDestroyed(ServletContextEvent event) {

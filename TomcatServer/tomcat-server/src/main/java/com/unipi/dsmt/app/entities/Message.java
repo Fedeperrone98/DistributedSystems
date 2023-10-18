@@ -1,14 +1,14 @@
 package com.unipi.dsmt.app.entities;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Message {
     private String content;
-    private User sender;
-    private Date creationTime;
+    private String sender;
+    private Timestamp creationTime;
     private int chatID;
 
-    public Message(String content, User sender, Date creationTime, int chatID) {
+    public Message(String content, String sender, Timestamp creationTime, int chatID) {
         this.content = content;
         this.sender = sender;
         this.creationTime = creationTime;
@@ -23,19 +23,19 @@ public class Message {
         this.content = content;
     }
 
-    public User getSender() {
+    public String getSender() {
         return this.sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
-    public Date getCreationTime() {
+    public Timestamp getCreationTime() {
         return this.creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(Timestamp creationTime) {
         this.creationTime = creationTime;
     }
 

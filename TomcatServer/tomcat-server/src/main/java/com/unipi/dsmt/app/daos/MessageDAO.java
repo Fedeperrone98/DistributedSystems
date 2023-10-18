@@ -16,25 +16,25 @@ public class MessageDAO {
     messageConnection = db;
   }
 
-  public void save(Message message) throws SQLException{
+  public void save(Message message) throws SQLException {
     String sqlString = "INSERT INTO message(content, sender, chatID, creationTime) VALUES (?, ?, ?, ?)";
     PreparedStatement statement = messageConnection.prepareStatement(sqlString);
     statement.setString(1, message.getContent());
-    statement.setString(2, message.getSender().getUsername());
+    statement.setString(2, message.getSender());
     statement.setInt(3, message.getChatID());
-    statement.setDate(4, message.getCreationTime());
+    statement.setTimestamp(4, message.getCreationTime());
     statement.executeUpdate();
   }
 
-  public ArrayList<MessageChatDTO> getMessagesFromChatId(int chatId) throws SQLException{
+  public ArrayList<MessageChatDTO> getMessagesFromChatId(int chatId) throws SQLException {
     ArrayList<MessageChatDTO> result = new ArrayList<>();
     String sqlString = "SELECT content, sender, creationTime FROM message WHERE chatID=? ORDER BY creationTime";
     PreparedStatement statement = messageConnection.prepareStatement(sqlString);
     statement.setInt(1, chatId);
     ResultSet set = statement.executeQuery();
     while (set.next()) {
-      MessageChatDTO message = new MessageChatDTO(set.getString("content"), set.getString("sender"), 
-      set.getTimestamp("creationTime"));
+      MessageChatDTO message = new MessageChatDTO(set.getString("content"), set.getString("sender"),
+          set.getTimestamp("creationTime"));
       result.add(message);
     }
     return result;
