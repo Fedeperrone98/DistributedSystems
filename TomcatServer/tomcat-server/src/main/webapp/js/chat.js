@@ -1,8 +1,7 @@
 const ws = new WebSocket("ws://localhost:8081/chat"); // cambiare in deploy
 const messageList = [...document.querySelectorAll(".messages-board > .message-card").values()];
 const chatID = new URL(location.href).searchParams.get("chatID");
-const messageBoard = document.querySelector(".messages-board");
-messageBoard.scrollTo({ behavior: "instant", top: messageBoard.scrollHeight });
+const messagesBoard = document.querySelector(".messages-board");
 
 function runFetch(data) {
   fetch("http://localhost:8080/app/message", {
@@ -53,4 +52,4 @@ function handleSend(event) {
   }
 }
 
-ws.onmessage;
+messagesBoard.scrollTo({ behavior: "instant", top: messagesBoard.scrollHeight });
