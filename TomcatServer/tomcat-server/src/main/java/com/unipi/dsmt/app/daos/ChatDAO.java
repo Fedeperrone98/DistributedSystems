@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.unipi.dsmt.app.dtos.ChatStorageDTO;
@@ -16,13 +17,21 @@ public class ChatDAO {
     chatConnection = db;
   }
 
-  public void save(Chat chat) throws SQLException {
+  public int save(Chat chat) throws SQLException {
     String sqlString = "INSERT INTO chat(user1, user2, creationTime) VALUES (?, ?, ?)";
-    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
+    PreparedStatement statement = chatConnection.prepareStatement(sqlString, Statement.RETURN_GENERATED_KEYS);
     statement.setString(1, chat.getUser1());
     statement.setString(2, chat.getUser2());
     statement.setDate(3, chat.getCreationTime());
-    statement.executeUpdate();
+    int rowInserted = statement.executeUpdate();
+
+    if(rowInserted == 1){
+      ResultSet generatedKey = statement.getGeneratedKeys();
+      if(generatedKey.next()){
+        int insertedRowId = generatedKey.getInt(1);
+        return insertedRowId;
+      }
+    } throw new SQLException("Chat not correctly inserted");
   }
 
   public ArrayList<ChatStorageDTO> getChatsFromUsername(String currentUsername) throws SQLException {

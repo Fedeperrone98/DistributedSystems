@@ -60,8 +60,8 @@ public class ChatServlet extends HttpServlet {
       if (retrievedChatID == -1) {
           // se no creo una nuova chat
           Chat chat = new Chat(currentUsername, username, new Date(System.currentTimeMillis()));
-          chatDAO.save(chat);
-          retrievedChatID = chatDAO.getChatIDFromUser1User2(username, currentUsername);
+          retrievedChatID = chatDAO.save(chat);
+          // retrievedChatID = chatDAO.getChatIDFromUser1User2(username, currentUsername);
           response.sendRedirect(request.getContextPath() + "/chat?chatID=" + retrievedChatID + "&username=" + username);
           return;
       } else {

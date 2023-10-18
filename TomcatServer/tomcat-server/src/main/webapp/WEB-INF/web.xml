@@ -20,6 +20,5 @@
     <url-pattern>/logout</url-pattern>
     <url-pattern>/meetings</url-pattern>
     <url-pattern>/chat</url-pattern>
-    <url-pattern>/view</url-pattern>
   </filter-mapping>
 </web-app>

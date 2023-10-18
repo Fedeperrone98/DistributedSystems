@@ -34,8 +34,8 @@
               <% for(UserProfileDTO user : (List<UserProfileDTO>)request.getAttribute("usersList")){ %>
                 <% String className="flag" ; %>
                   <% if(user.isOnline_flag()){ className +=" connected" ; } %>
-                    <a class="user-card"
-                      href="${pageContext.request.contextPath}/view?username=<%=user.getUsername()%>">
+                    <div class="user-card">
+                      <!-- href="${pageContext.request.contextPath}/view?username=<%=user.getUsername()%>" -->
                       <h1>
                         <%= user.getUsername() %>
                       </h1>
@@ -47,8 +47,11 @@
                           <%= user.getSurname() %>
                       </h3>
                       <div class="<%= className %>"></div>
-                    </a>
-                    <%}%>
+                      <form method="post" action="${pageContext.request.contextPath}/chat?username=<%=user.getUsername()%>">
+                        <button type="submit"> Start chat</button>
+                      </form>
+                    </div>
+                    <%}%>                    
             </div>
           </div>
           <jsp:include page="/WEB-INF/jsp/components/sidebar.jsp" />
