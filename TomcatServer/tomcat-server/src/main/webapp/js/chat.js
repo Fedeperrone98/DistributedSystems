@@ -1,4 +1,4 @@
-const ws = new WebSocket(`${webSocketUrl}/chat`);
+const ws = new WebSocket(`${webSocketUrl}/chat?username=${currentUsername}`);
 
 const messageList = [...document.querySelectorAll(".messages-board > .message-card").values()];
 const chatID = new URL(location.href).searchParams.get("chatID");
@@ -45,6 +45,7 @@ function appendMessageComponent(message, instant) {
 
 function handleSend(event) {
   if (event.key === "Enter") {
+    const other_username = document.getElementById("other_user").innerText;
     const message = event.target.value;
     const instant = Date.now();
     event.target.value = "";

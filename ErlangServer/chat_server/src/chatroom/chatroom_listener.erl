@@ -5,9 +5,13 @@
 
 % called when cowboy receives a request
 init(Req, _State)->
-  io:format("[chatroom_listener] -> initializing new websocket at pid: ~p~n",[self()]),
   % handing the websocket to cowboy_websocket module passing it the request using infinite idle timeout option
-  {cowboy_websocket, Req, none, #{idle_timeout => infinity}}.
+  #{username:=CurrentUsername} = cowboy_req:match_qs([{username, nonempty}], Req),
+  io:format("[chatroom_listener] -> initializing new websocket at pid: ~p for user ~p~n",[self(),CurrentUsername]),
+  RegisterPid = whereis(registry),
+  RegisterPid ! {register, CurrentUsername, self()},
+  InitialState = #{username => CurrentUsername, register_pid => RegisterPid},
+  {cowboy_websocket, Req, InitialState, #{idle_timeout => infinity}}.
 
 % override of the cowboy_websocket websocket_handle/2 method
 websocket_handle(Frame, State) -> 
@@ -23,4 +27,6 @@ websocket_info(Info, State) ->
 % called when connection terminate
 terminate(Reason, _Req, State) ->
   io:format("[chatroom listener] -> Closed websocket connection on host: ~p, Reason: ~p ~n", [self(), Reason]),
+  #{username := Username, register_pid := RegisterPid} = State,
+  RegisterPid ! {unregister, Username},
   {ok, State}.

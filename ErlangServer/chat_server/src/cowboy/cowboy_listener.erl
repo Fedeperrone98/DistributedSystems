@@ -3,9 +3,11 @@
 
 %% API
 -export([start_link/0, init/1, handle_call/3, handle_cast/2]).
+-import(registry, [start_registry/0]).
 
 start_link() ->
   io:format("[cowboy_listener] -> starting new gen_server link~n"),
+  start_registry(),
   gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 routes() ->
