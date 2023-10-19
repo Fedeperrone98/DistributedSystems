@@ -1,17 +1,8 @@
-const ws = new WebSocket("ws://localhost:8081/chat"); // cambiare in deploy
+const ws = new WebSocket(`${webSocketUrl}/chat`);
+
 const messageList = [...document.querySelectorAll(".messages-board > .message-card").values()];
 const chatID = new URL(location.href).searchParams.get("chatID");
 const messagesBoard = document.querySelector(".messages-board");
-
-function runFetch(data) {
-  fetch("http://localhost:8080/app/message", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}
 
 function format(/** @type {Date}*/ date) {
   const year = date.getFullYear();
@@ -21,6 +12,16 @@ function format(/** @type {Date}*/ date) {
   const minutes = String(date.getMinutes()).padStart(2, "0");
   const seconds = String(date.getSeconds()).padStart(2, "0");
   return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}.0`;
+}
+
+function runFetch(data) {
+  fetch(`${fetchUrl}/message`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 function appendMessageComponent(message, instant) {
