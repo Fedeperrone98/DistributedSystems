@@ -1,4 +1,4 @@
-const isNgrok = true;
+const isNgrok = false;
 const tomcatCodeString = "e030-82-84-59-44";
 const erlangUrlNumber = "0";
 const erlangPort = "15472";
