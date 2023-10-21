@@ -7,6 +7,7 @@
 init(Req, _State)->
   % handing the websocket to cowboy_websocket module passing it the request using infinite idle timeout option
   #{username:=CurrentUsername} = cowboy_req:match_qs([{username, nonempty}], Req),
+  % TODO: handle username query string missing
   io:format("[chatroom_listener] -> initializing new websocket at pid: ~p for user ~p~n",[self(),CurrentUsername]),
   RegisterPid = whereis(registry),
   RegisterPid ! {register, CurrentUsername, self()},
