@@ -7,7 +7,7 @@
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/department.css?v=1.6">
+        <link rel="stylesheet" href="css/department.css?v=1.7">
         <script src="js/searchbar.js?v=1.8" defer></script>
         <title>Department page</title>
       </head>
@@ -46,6 +46,10 @@
                           <%= user.getSurname() %>
                       </h3>
                       <div class="<%= className %>"></div>
+                      <form method="post"
+                        action="${pageContext.request.contextPath}/chat?username=<%=user.getUsername()%>">
+                        <button type="submit"> Start chat</button>
+                      </form>
                     </div>
                     <%}%>
             </div>
