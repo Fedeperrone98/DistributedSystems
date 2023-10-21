@@ -88,7 +88,7 @@ public class UserDAO {
     ResultSet set = statement.executeQuery();
     while (set.next()) {
       UserProfileDTO user = new UserProfileDTO(set.getString("username"), set.getString("name"),
-          set.getString("surname"), set.getBoolean("onlineFlag"), department);
+          set.getString("surname"), set.getBoolean("onlineFlag"), dep_name);
       result.add(user);
     }
     return result;
