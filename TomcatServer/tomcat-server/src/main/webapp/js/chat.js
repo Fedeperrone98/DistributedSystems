@@ -63,7 +63,7 @@ function handleSend(event) {
 messagesBoard.scrollTo({ behavior: "instant", top: messagesBoard.scrollHeight });
 
 ws.onmessage = (event) => {
-  const message = JSON.parse(event.data);
+  const message = event.data;
   appendMessageComponent(message, Date.now(), "receiver");
 };
 ws.onerror = (event) => {

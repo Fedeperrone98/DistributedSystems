@@ -13,11 +13,13 @@ registry_loop(Mappings) ->
       io:format("[Register] -> adding user ~p with pid ~p~n",[Username, Pid]),
       NewMappings = maps:put(Username, Pid, Mappings),
       registry_loop(NewMappings);
-    {lookup, Username, Caller} ->
+    {forward, Username, Content} ->
       case maps:get(Username, Mappings, undefined) of 
-        Pid when Pid =/= undefined -> Caller ! {username_pid, Pid};
-        _ -> Caller ! {username_pid, undefined}
-      end;
+        Pid when Pid =/= undefined -> 
+          io:format("[Register] -> forwarding message to ~p~n",[Pid]),
+          Pid ! {forwarded_message, Content}
+      end,
+      registry_loop(Mappings);
     {unregister, Username} ->
       io:format("[Register] -> removing user ~p from registry~n", [Username]),
       NewMappings = maps:remove(Username, Mappings),
