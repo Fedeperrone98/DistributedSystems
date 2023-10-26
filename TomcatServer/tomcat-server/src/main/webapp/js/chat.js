@@ -24,10 +24,10 @@ function runFetch(data) {
   });
 }
 
-function appendMessageComponent(message, instant) {
+function appendMessageComponent(message, instant, type) {
   const newMessageComponent = document.createElement("div");
   newMessageComponent.classList.add("message-card");
-  newMessageComponent.classList.add("sender");
+  newMessageComponent.classList.add(type);
   newMessageComponent.innerHTML = `
     <div class="message-box">
     <label>
@@ -50,8 +50,22 @@ function handleSend(event) {
     const instant = Date.now();
     event.target.value = "";
     runFetch({ chatID, message, timestampMillis: instant });
-    appendMessageComponent(message, instant);
+    appendMessageComponent(message, instant, "sender");
+    ws.send(
+      JSON.stringify({
+        username: other_username,
+        message,
+      })
+    );
   }
 }
 
 messagesBoard.scrollTo({ behavior: "instant", top: messagesBoard.scrollHeight });
+
+ws.onmessage = (event) => {
+  const message = JSON.parse(event.data);
+  appendMessageComponent(message, Date.now(), "receiver");
+};
+ws.onerror = (event) => {
+  console.error(event);
+};

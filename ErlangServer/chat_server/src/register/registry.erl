@@ -14,7 +14,7 @@ registry_loop(Mappings) ->
       NewMappings = maps:put(Username, Pid, Mappings),
       registry_loop(NewMappings);
     {lookup, Username, Caller} ->
-      case maps:get(Username, Mappings) of 
+      case maps:get(Username, Mappings, undefined) of 
         Pid when Pid =/= undefined -> Caller ! {username_pid, Pid};
         _ -> Caller ! {username_pid, undefined}
       end;

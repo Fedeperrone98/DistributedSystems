@@ -15,8 +15,21 @@ init(Req, _State)->
   {cowboy_websocket, Req, InitialState, #{idle_timeout => infinity}}.
 
 % override of the cowboy_websocket websocket_handle/2 method
-websocket_handle(Frame, State) -> 
+websocket_handle(Frame={text, Message}, State) -> 
   io:format("[chatroom listener] -> Received frame: ~p, along with state: ~p~n",[Frame, State]),
+  DecodedMessage = jsone:try_decode(Message),
+  case DecodedMessage of
+    {ok, MessageMap} ->
+      Destination = maps:get(<<"username">>, MessageMap),
+      Message = maps:get(<<"message">>, MessageMap)
+      #{register_pid := RegsiterPid} = State,
+      RegisterPid ! {lookup, Destination, self()}
+      receive
+        {username_pid, Pid} when Pid =/= undefined ->
+          io:format("[chatroom listener] -> Found destination user at pid ~p~n", [Pid]),
+          Pid ! {forward_message, Message}
+      end
+    end,
   {ok, State}.
 
 % called when cowboy receives an Erlang message  
