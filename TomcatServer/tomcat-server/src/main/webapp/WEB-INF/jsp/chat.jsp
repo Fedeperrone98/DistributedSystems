@@ -18,7 +18,7 @@
                       var currentUsername = "${currentUsername}";
                     </script>
                     <script src="js/ngrok_setup.js?v=1.7" defer></script>
-                    <script src="js/chat.js?v=1.16" defer></script>
+                    <script src="js/chat.js?v=1.20" defer></script>
         </head>
 
         <body style="margin: 0px;">
