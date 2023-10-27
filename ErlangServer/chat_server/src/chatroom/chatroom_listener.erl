@@ -35,14 +35,13 @@ websocket_handle(Frame={text, Message}, State) ->
 % called when cowboy receives an Erlang message  
 % (=> from another Erlang process).
 websocket_info(Info, State) ->
-  Response = case Info of
+  case Info of
     {forwarded_message, ReceivedMessage} ->
       io:format("[WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessage]),
       {reply, {text, ReceivedMessage}, State};
     _ ->
       {ok, State}
-  end,
-  Response.
+  end.
 
 % called when connection terminate
 terminate(Reason, _Req, State) ->
