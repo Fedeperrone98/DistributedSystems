@@ -12,13 +12,9 @@
           <title>Chat page</title>
           <%String username=(String) request.getAttribute("username");%>
             <% List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList"); %>
-                <% String currentUsername=(String) request.getAttribute("currentUsername"); %>
-                  <% boolean isOnline=(boolean) request.getAttribute("isOnline"); %>
-                    <script lang="text/javascript">
-                      var currentUsername = "${currentUsername}";
-                    </script>
-                    <script src="js/ngrok_setup.js?v=1.7" defer></script>
-                    <script src="js/chat.js?v=1.20" defer></script>
+                <% boolean isOnline=(boolean) request.getAttribute("isOnline"); %>
+                  <script src="js/ngrok_setup.js?v=1.7" defer></script>
+                  <script src="js/chat.js?v=1.20" defer></script>
         </head>
 
         <body style="margin: 0px;">

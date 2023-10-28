@@ -9,7 +9,7 @@ init(Req, _State)->
   #{username:=CurrentUsername} = cowboy_req:match_qs([{username, nonempty}], Req),
   % TODO: handle username query string missing
   io:format("[chatroom_listener] -> initializing new websocket at pid: ~p for user ~p~n",[self(),CurrentUsername]),
-  RegisterPid = whereis(registry),
+  RegisterPid = whereis(chat_registry),
   InitialState = #{username => CurrentUsername, register_pid => RegisterPid},
   {cowboy_websocket, Req, InitialState, #{idle_timeout => infinity}}.
 
@@ -27,8 +27,8 @@ websocket_handle(Frame={text, Message}, State) ->
     {ok, MessageMap, _} ->
       Destination = maps:get(<<"username">>, MessageMap),
       Content = maps:get(<<"message">>, MessageMap),
-      #{username := _, register_pid := RegisterPid} = State,
-      RegisterPid ! {forward, Destination, Content}
+      #{username := Sender, register_pid := RegisterPid} = State,
+      RegisterPid ! {forward, Destination, Content, Sender}
   end,
   {ok, State}.
 
