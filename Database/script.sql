@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS chat (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS message (
-    messageID INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     content varchar(256) NOT NULL,
     sender varchar(16) NOT NULL,
     chatID INT NOT NULL,
@@ -42,4 +42,15 @@ CREATE TABLE IF NOT EXISTS appointment (
     PRIMARY KEY (host, guest, timeslot),
     FOREIGN KEY (host) REFERENCES user(username),
     FOREIGN KEY (guest) REFERENCES user(username)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS notification (
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user varchar(16) NOT NULL,
+    sender varchar(16) NOT NULL,
+    chatID int NOT NULL,
+    creationTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user) REFERENCES user(username),
+    FOREIGN KEY (sender) REFERENCES user(username),
+    FOREIGN KEY (chatID) REFERENCES chat(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
