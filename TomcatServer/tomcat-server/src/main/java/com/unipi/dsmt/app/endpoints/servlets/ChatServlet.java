@@ -27,7 +27,6 @@ public class ChatServlet extends HttpServlet {
       UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
 
       String currentUsername = AccessController.getUsername(request);
-      request.setAttribute("currentUsername", currentUsername);
 
       int chatID = Integer.parseInt(request.getParameter("chatID"));
       chatDAO.validateChatIDWithUsername(chatID, currentUsername);
@@ -52,8 +51,6 @@ public class ChatServlet extends HttpServlet {
       ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
 
       String currentUsername = AccessController.getUsername(request);
-      request.setAttribute("currentUsername", currentUsername);
-
       String username = (String) request.getParameter("username");
 
       // verifico se esiste già una chat tra currentUsername e username
