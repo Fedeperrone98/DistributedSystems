@@ -25,13 +25,14 @@ public class ChatDAO {
     statement.setDate(3, chat.getCreationTime());
     int rowInserted = statement.executeUpdate();
 
-    if(rowInserted == 1){
+    if (rowInserted == 1) {
       ResultSet generatedKey = statement.getGeneratedKeys();
-      if(generatedKey.next()){
+      if (generatedKey.next()) {
         int insertedRowId = generatedKey.getInt(1);
         return insertedRowId;
       }
-    } throw new SQLException("Chat not correctly inserted");
+    }
+    throw new SQLException("Chat not correctly inserted");
   }
 
   public ArrayList<ChatStorageDTO> getChatsFromUsername(String currentUsername) throws SQLException {
@@ -70,7 +71,7 @@ public class ChatDAO {
     statement.setString(3, user2);
     statement.setString(4, user1);
     ResultSet set = statement.executeQuery();
-    if(set.next())
+    if (set.next())
       return set.getInt("id");
     else
       return -1;
@@ -81,5 +82,29 @@ public class ChatDAO {
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
     statement.setInt(1, chatID);
     statement.executeUpdate();
+  }
+
+  public void validateChatIDWithUsername(int chatID, String username) throws SQLException {
+    String sqlString = "SELECT id FROM chat WHERE id=? and user1<>? and user2<>?";
+    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
+    statement.setInt(1, chatID);
+    statement.setString(2, username);
+    statement.setString(3, username);
+    ResultSet set = statement.executeQuery();
+    if (set.next())
+      throw new SQLException("Invalid chat for username");
+
+  }
+
+  public String getDestinationOfChatID(int chatID, String currentUsername) throws SQLException {
+    String sqlString = "SELECT id, user1, user2 FROM chat WHERE id=?";
+    PreparedStatement statement = chatConnection.prepareStatement(sqlString);
+    statement.setInt(1, chatID);
+    ResultSet set = statement.executeQuery();
+    if (!set.next())
+      throw new SQLException("invalid chat id");
+    String user1 = set.getString("user1");
+    String user2 = set.getString("user2");
+    return currentUsername.equals(user1) ? user2 : user1;
   }
 }

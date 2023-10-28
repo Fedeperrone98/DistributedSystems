@@ -22,26 +22,27 @@ public class ChatServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     try {
+      ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
       MessageDAO messageDAO = new MessageDAO((Connection) getServletContext().getAttribute("databaseConnection"));
       UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
 
-      String username = (String) request.getParameter("username");
+      String currentUsername = AccessController.getUsername(request);
+      request.setAttribute("currentUsername", currentUsername);
+
+      int chatID = Integer.parseInt(request.getParameter("chatID"));
+      chatDAO.validateChatIDWithUsername(chatID, currentUsername);
+      String username = chatDAO.getDestinationOfChatID(chatID, currentUsername);
       request.setAttribute("username", username);
 
       boolean isOnline = userDAO.getOnlineStateOfUsername(username);
       request.setAttribute("isOnline", isOnline);
-
-      int chatID = Integer.parseInt(request.getParameter("chatID"));
-
-      String currentUsername = AccessController.getUsername(request);
-      request.setAttribute("currentUsername", currentUsername);
 
       List<MessageChatDTO> messageList = messageDAO.getMessagesFromChatId(chatID);
       request.setAttribute("messageList", messageList);
 
       request.getRequestDispatcher("/WEB-INF/jsp/chat.jsp").forward(request, response);
     } catch (Exception e) {
-        ErrorHandler.safeDispatchToErrorPage(request, response, e);
+      ErrorHandler.safeDispatchToErrorPage(request, response, e);
     }
   }
 
@@ -58,18 +59,18 @@ public class ChatServlet extends HttpServlet {
       // verifico se esiste già una chat tra currentUsername e username
       int retrievedChatID = chatDAO.getChatIDFromUser1User2(username, currentUsername);
       if (retrievedChatID == -1) {
-          // se no creo una nuova chat
-          Chat chat = new Chat(currentUsername, username, new Date(System.currentTimeMillis()));
-          retrievedChatID = chatDAO.save(chat);
-          response.sendRedirect(request.getContextPath() + "/chat?chatID=" + retrievedChatID + "&username=" + username);
-          return;
+        // se no creo una nuova chat
+        Chat chat = new Chat(currentUsername, username, new Date(System.currentTimeMillis()));
+        retrievedChatID = chatDAO.save(chat);
+        response.sendRedirect(request.getContextPath() + "/chat?chatID=" + retrievedChatID);
+        return;
       } else {
-          // altrimenti faccio la get
-          response.sendRedirect(request.getContextPath() + "/chat?chatID=" + retrievedChatID + "&username=" + username);
-          return;
+        // altrimenti faccio la get
+        response.sendRedirect(request.getContextPath() + "/chat?chatID=" + retrievedChatID);
+        return;
       }
     } catch (Exception e) {
-        ErrorHandler.safeDispatchToErrorPage(request, response, e);
+      ErrorHandler.safeDispatchToErrorPage(request, response, e);
     }
   }
 }
