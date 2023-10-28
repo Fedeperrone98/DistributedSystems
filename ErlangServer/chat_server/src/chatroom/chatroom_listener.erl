@@ -28,7 +28,7 @@ websocket_handle(Frame={text, Message}, State) ->
       Destination = maps:get(<<"username">>, MessageMap),
       Content = maps:get(<<"message">>, MessageMap),
       #{username := Sender, register_pid := RegisterPid} = State,
-      RegisterPid ! {forward, Destination, Content, Sender}
+      RegisterPid ! {forward, Destination, Content, Sender, self()}
   end,
   {ok, State}.
 
@@ -38,7 +38,11 @@ websocket_info(Info, State) ->
   case Info of
     {forwarded_message, ReceivedMessage} ->
       io:format("[WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessage]),
-      {reply, {text, ReceivedMessage}, State};
+      Json = jsone:encode(#{<<"type">> => <<"message">>, <<"content">> => ReceivedMessage}),
+      {reply, {text, Json}, State};
+    {store_notification} ->
+      Json = jsone:encode(#{<<"type">> => <<"notification">>}),
+      {reply, {text, Json}, State};
     _ ->
       {ok, State}
   end.

@@ -14,8 +14,8 @@ function format(/** @type {Date}*/ date) {
   return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}.0`;
 }
 
-function runFetch(data) {
-  fetch(`${fetchUrl}/message`, {
+function runFetch(data, endpoint) {
+  fetch(`${fetchUrl}/${endpoint}`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -49,7 +49,7 @@ function handleSend(event) {
     const message = event.target.value;
     const instant = Date.now();
     event.target.value = "";
-    runFetch({ chatID, message, timestampMillis: instant });
+    runFetch({ chatID, message, timestampMillis: instant }, "message");
     appendMessageComponent(message, instant, "sender");
     ws.send(
       JSON.stringify({
@@ -63,8 +63,20 @@ function handleSend(event) {
 messagesBoard.scrollTo({ behavior: "instant", top: messagesBoard.scrollHeight });
 
 ws.onmessage = (event) => {
-  const message = event.data;
-  appendMessageComponent(message, Date.now(), "receiver");
+  const message = JSON.parse(event.data);
+  if (message.type && message.type === "message") {
+    appendMessageComponent(message.content, Date.now(), "receiver");
+  } else {
+    runFetch(
+      {
+        chatID,
+        user: other_username,
+        sender: currentUsername,
+        timestampMillis: Date.now(),
+      },
+      "notification"
+    );
+  }
 };
 ws.onerror = (event) => {
   console.error(event);

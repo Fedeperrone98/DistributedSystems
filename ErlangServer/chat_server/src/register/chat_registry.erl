@@ -13,14 +13,15 @@ registry_loop(Mappings) ->
       io:format("[Register] -> adding user ~p with pid ~p~n",[Username, Pid]),
       NewMappings = maps:put(Username, Pid, Mappings),
       registry_loop(NewMappings);
-    {forward, Username, Content, Sender} ->
+    {forward, Username, Content, Sender, Caller} ->
       case maps:get(Username, Mappings, undefined) of 
         Pid when Pid =/= undefined-> 
           io:format("[Register] -> forwarding message to ~p~n",[Pid]),
           Pid ! {forwarded_message, Content};
         undefined ->
+          io:format("[Register] -> ~p not in chat~n",[Username]),
           NotificationPid = whereis(notification_registry)
-          NotificationPid ! {increase, Username, Sender}
+          NotificationPid ! {increase, Username, Sender, Caller}
       end,
       registry_loop(Mappings);
     {unregister, Username} ->

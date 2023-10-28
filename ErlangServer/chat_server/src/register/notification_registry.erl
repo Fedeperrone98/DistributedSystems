@@ -13,13 +13,14 @@ registry_loop(Mappings) ->
       io:format("[Register] -> adding user ~p with pid ~p~n",[Username, Pid]),
       NewMappings = maps:put(Username, Pid, Mappings),
       registry_loop(NewMappings);
-    {increase, Username, Sender} ->
+    {increase, Username, Sender, Caller} ->
       case maps:get(Username, Mappings, undefined) of 
         Pid when Pid =/= undefined-> 
           io:format("[Register] -> Pushing new notification to ~p by ~p~n",[Username, Sender]),
           Pid ! {increase, Sender};
         undefined ->
-          io:format("[Register] -> User not online~n")
+          io:format("[Register] -> User not logged, Notifying ~p to store notification~n",[Caller]),
+          Caller ! {store_notification}
       end,
       registry_loop(Mappings);
     {unregister, Username} ->
