@@ -1,0 +1,11 @@
+.page {
+    width: 100%;
+    min-height: calc(100vh - 2.5rem);
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #663500;
+    background-image: url("https://www.transparenttextures.com/patterns/retina-wood.png");
+   }
+   
