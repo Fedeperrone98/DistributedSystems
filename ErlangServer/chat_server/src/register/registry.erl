@@ -15,9 +15,11 @@ registry_loop(Mappings) ->
       registry_loop(NewMappings);
     {forward, Username, Content} ->
       case maps:get(Username, Mappings, undefined) of 
-        Pid when Pid =/= undefined -> 
+        Pid when Pid =/= undefined-> 
           io:format("[Register] -> forwarding message to ~p~n",[Pid]),
-          Pid ! {forwarded_message, Content}
+          Pid ! {forwarded_message, Content};
+        undefined ->
+          io:format("[Register] -> User not online~n")
       end,
       registry_loop(Mappings);
     {unregister, Username} ->

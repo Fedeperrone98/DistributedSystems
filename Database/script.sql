@@ -23,7 +23,6 @@ CREATE TABLE IF NOT EXISTS chat (
     UNIQUE(user1, user2)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 CREATE TABLE IF NOT EXISTS message (
     messageID INT PRIMARY KEY AUTO_INCREMENT,
     content varchar(256) NOT NULL,
