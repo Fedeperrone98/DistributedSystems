@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.unipi.dsmt.app.daos.NotificationDAO;
 import com.unipi.dsmt.app.dtos.NotificationDTO;
+import com.unipi.dsmt.app.endpoints.handlers.NotificationServletHandler;
+import com.unipi.dsmt.app.entities.Notification;
 import com.unipi.dsmt.app.utils.AccessController;
 import com.unipi.dsmt.app.utils.ErrorHandler;
 
@@ -27,6 +29,19 @@ public class NotificationServlet extends HttpServlet{
       request.getRequestDispatcher("/WEB-INF/jsp/notification.jsp").forward(request, response);
     } catch (Exception e) {
         ErrorHandler.safeDispatchToErrorPage(request, response, e);
+    }
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    try {
+      Notification notification = NotificationServletHandler.unpackPostNotification(request);
+      NotificationDAO notificationDAO = new NotificationDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+      notificationDAO.save(notification);
+      response.setStatus(200);
+      return;
+    } catch (Exception e) {
+      ErrorHandler.safeDispatchToErrorPage(request, response, e);
     }
   }
 }
