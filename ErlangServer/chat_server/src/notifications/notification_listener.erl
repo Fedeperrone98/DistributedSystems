@@ -1,7 +1,7 @@
 -module(notification_listener).
 
 %%API
--export([init/2, websocket_handle/2, websocket_info/2, terminate/3]).
+-export([init/2, websocket_handle/2, websocket_info/2, terminate/3, websocket_init/1]).
 
 % called when cowboy receives a request
 init(Req, _State)->
