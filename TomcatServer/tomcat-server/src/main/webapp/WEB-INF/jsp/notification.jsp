@@ -15,7 +15,17 @@
   <body style="margin: 0px;">
     <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp" />
     <div class="page">
-      
+      <div class="notifications-board">
+      <%if (notificationList != null){%>
+        <%for(NotificationDTO notification : notificationList){%>
+          <div class="notification-box">
+            <a href="${pageContext.request.contextPath}/chat?chatID=<%=notification.getChatID()%>">
+              <label> You have new messages from: <%= notification.getSender() %></label>
+            </a>
+          </div>
+        <%}%>
+      <%}%>
+    </div>
     </div>
   </body>
 
