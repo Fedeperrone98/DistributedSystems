@@ -7,6 +7,11 @@ start_notification_registry()->
   io:format("[Notification Register] -> Starting register at pid ~p~n",[Pid]),
   register(notification_registry, Pid).
 
+send_online(_Key, Value, Who) ->
+  Value ! {online, Who}.
+send_offline(_Key, Value, Who) ->
+  Value ! {offline, Who}.
+
 registry_loop(Mappings) ->
   receive 
     {register, Username, Pid} ->
@@ -26,5 +31,13 @@ registry_loop(Mappings) ->
     {unregister, Username} ->
       io:format("[Notification Register] -> removing user ~p from registry~n", [Username]),
       NewMappings = maps:remove(Username, Mappings),
-      registry_loop(NewMappings)
+      registry_loop(NewMappings);
+    {broadcast_online, Who} ->
+      io:format("[Notification Register] -> New user logged in, notifying active users~n"),
+      maps:foreach(fun(Key, Value) -> send_online(Key,Value,Who) end, Mappings),
+      registry_loop(Mappings);
+    {broadcast_offline, Who} ->
+      io:format("[Notification Register] -> user logged out, notifying active users~n"),
+      maps:foreach(fun(Key, Value) -> send_offline(Key,Value,Who) end, Mappings),
+      registry_loop(Mappings)
     end.

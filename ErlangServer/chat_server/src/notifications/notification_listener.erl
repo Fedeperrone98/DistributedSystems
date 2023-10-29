@@ -16,25 +16,36 @@ init(Req, _State)->
 % stores the Username to Pid mapping in the registry
 websocket_init(State)->
   #{username := CurrentUsername, register_pid := RegisterPid} = State,
+  RegisterPid ! {broadcast_online, CurrentUsername},
   RegisterPid ! {register, CurrentUsername, self()},
   {ok, State}.
 
 % called when cowboy receives a text, binary, ping or pong frame from the client
 % override of the cowboy_websocket websocket_handle/2 method
 websocket_handle(Frame, State) -> 
-  io:format("[notification listener] -> Received frame: ~p, along with state: ~p~n",[Frame, State]),
+  io:format("[notification WS:~p] -> Received frame: ~p, along with state: ~p~n",[self(), Frame, State]),
   {ok, State}.
 
 % called when cowboy receives an Erlang message  
 % (=> from another Erlang process).
 websocket_info(Info, State) ->
-  io:format("[notification listener] -> Received info: ~p, along with state: ~p ~n",[Info, State]),
+  io:format("[notification WS:~p] -> Received info: ~p, along with state: ~p ~n",[self(), Info, State]),
   case Info of
-    {increase, Sender} -> {reply, {text, Sender}, State};
-    _ -> {ok, State}
+    {increase, Sender} ->
+      Reply = jsone:encode(#{<<"type">> => <<"message_notification">>, <<"from">> => Sender}), 
+      {reply, {text, Reply}, State};
+    {online, Who} ->
+      Reply = jsone:encode(#{<<"type">> => <<"online_notification">>, <<"who">> => Who}), 
+      {reply, {text, Reply}, State};
+    {offline, Who} ->
+      Reply = jsone:encode(#{<<"type">> => <<"offline_notification">>, <<"who">> => Who}),
+      {reply, {text, Reply}, State}
   end.
 
 % called when connection terminate
 terminate(Reason, _Req, State) ->
-  io:format("[notification listener] Terminate => logout request received from Pid: ~p, Reason: ~p ~n", [self(), Reason]),
+  io:format("[notification WS:~p] -> Closed websocket connection, Reason: ~p ~n", [self(), Reason]),
+  #{username := Username, register_pid := RegisterPid} = State,
+  RegisterPid ! {unregister, Username},
+  RegisterPid ! {broadcast_offline, Username},
   {ok, State}.

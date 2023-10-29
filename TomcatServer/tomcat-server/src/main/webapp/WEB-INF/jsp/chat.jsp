@@ -15,7 +15,7 @@
               <%String username=(String) request.getAttribute("username");%>
                 <% List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList"); %>
                     <% boolean isOnline=(boolean) request.getAttribute("isOnline"); %>
-                      <script src="js/chat.js?v=1.27" defer></script>
+                      <script src="js/chat.js?v=1.29" defer></script>
           </head>
 
           <body style="margin: 0px;">
@@ -23,7 +23,7 @@
               <jsp:param name="loggedUser" value="<%=AccessController.getUsername(request)%>" />
             </jsp:include>
             <div class="page">
-              <div class="chat-name">
+              <div class="chat-name" id="<%=username%>">
                 <% String flagType="flag" + (isOnline ? " connected" : "" ); %>
                   <div class="<%= flagType %>"></div>
                   <h1 id="other_user">

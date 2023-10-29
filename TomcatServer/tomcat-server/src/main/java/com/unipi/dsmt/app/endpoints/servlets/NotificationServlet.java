@@ -42,6 +42,9 @@ public class NotificationServlet extends HttpServlet {
       ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
       NotificationUnpackDTO unpackedNotification = NotificationServletHandler.unpackPostNotification(request);
       int chatID = chatDAO.getChatIDFromUser1User2(unpackedNotification.getSender(), unpackedNotification.getUser());
+      System.out
+          .println(String.format("[Server] -> Received Notification Post Request for chat: %d with users %s;%s", chatID,
+              unpackedNotification.getUser(), unpackedNotification.getSender()));
       Notification notification = new Notification(
           unpackedNotification.getUser(),
           unpackedNotification.getSender(),

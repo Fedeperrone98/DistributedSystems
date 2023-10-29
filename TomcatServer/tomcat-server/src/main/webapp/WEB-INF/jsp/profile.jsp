@@ -51,7 +51,7 @@
                 <div class="grid">
                   <% for(ChatStorageDTO chat : chatList){ %>
                     <a href="${pageContext.request.contextPath}/chat?chatID=<%=chat.getId_chat()%>">
-                      <div class="chat-card">
+                      <div class="chat-card" id="<%=chat.getUsername()%>">
                         <h1>
                           <%= chat.getUsername() %>
                         </h1>

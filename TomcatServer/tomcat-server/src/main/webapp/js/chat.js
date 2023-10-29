@@ -63,13 +63,14 @@ function handleSend(event) {
 messagesBoard.scrollTo({ behavior: "instant", top: messagesBoard.scrollHeight });
 
 cws.onmessage = (event) => {
+  const other_username = document.getElementById("other_user").innerText;
   const message = JSON.parse(event.data);
   if (message.type && message.type === "message") {
     appendMessageComponent(message.content, Date.now(), "receiver");
   } else {
     runFetch(
       {
-        user: currentUsername,
+        user: other_username,
         sender: message.sender,
         timestampMillis: Date.now(),
       },

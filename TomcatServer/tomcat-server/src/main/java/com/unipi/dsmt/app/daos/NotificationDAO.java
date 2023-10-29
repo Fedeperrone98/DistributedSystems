@@ -38,12 +38,13 @@ public class NotificationDAO {
 
   public ArrayList<NotificationDTO> getNotificationFromUser(String user) throws SQLException {
     ArrayList<NotificationDTO> result = new ArrayList<>();
-    String sqlString = "SELECT sender, chatID FROM notification WHERE user=? ORDER BY creationTime";
+    String sqlString = "SELECT sender, chatID, Count(*) as nMessages FROM notification WHERE user=? GROUP BY chatID,sender ORDER BY chatID";
     PreparedStatement statement = notificationConnection.prepareStatement(sqlString);
     statement.setString(1, user);
     ResultSet set = statement.executeQuery();
     while (set.next()) {
-      NotificationDTO notification = new NotificationDTO(set.getString("sender"), set.getInt("chatID"));
+      NotificationDTO notification = new NotificationDTO(set.getString("sender"), set.getInt("chatID"),
+          set.getInt("nMessages"));
       result.add(notification);
     }
     return result;

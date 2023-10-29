@@ -11,21 +11,45 @@ function runNotificationFetch(data, endpoint) {
   });
 }
 
+function createNotificationComponent(sender) {
+  const newNotificationComponent = document.createElement("a");
+  // TODO: append component (come prendere il chatID)
+}
+
+function appendAndIncrementNotificationComponent(notificationBoxID, /**@type {HTMLDivElement}*/ board) {
+  const notificationBox = document.getElementById(notificationBoxID);
+  !notificationBox && board.appendChild(createNotificationComponent(notificationBoxID));
+}
+
 nws.onmessage = (event) => {
-  audio.currentTime = 0;
-  audio.play();
-  const sender = event.data;
-  const notificationLabel = document.querySelector("div.notification > label");
-  notificationLabel.innerHTML = parseInt(notificationLabel.innerHTML) + 1;
-  runNotificationFetch(
-    {
-      user: currentUsername,
-      sender: sender,
-      timestampMillis: Date.now(),
-    },
-    "notification"
-  );
-  // TODO: add also real-time modification for notification page
+  const { type, who, from } = JSON.parse(event.data);
+  if (type === "online_notification") {
+    const flagElement = document.getElementById(who)?.querySelector("div") ?? undefined;
+    flagElement && !flagElement.classList.contains("connected") && flagElement.classList.add("connected");
+    return;
+  }
+  if (type === "offline_notification") {
+    const flagElement = document.getElementById(who)?.querySelector("div") ?? undefined;
+    flagElement && flagElement.classList.contains("connected") && flagElement.classList.remove("connected");
+    return;
+  }
+  if (type === "message_notification") {
+    audio.currentTime = 0;
+    audio.play();
+    const notificationLabel = document.querySelector("div.notification > label");
+    notificationLabel.innerHTML = parseInt(notificationLabel.innerHTML) + 1;
+    runNotificationFetch(
+      {
+        user: currentUsername,
+        sender: from,
+        timestampMillis: Date.now(),
+      },
+      "notification"
+    );
+    const notificationBoard = document.getElementById("notification-board");
+    notificationBoard && appendAndIncrementNotificationComponent(from, notificationBoard);
+    return;
+  }
 };
 
 async function getNotificationNumber() {
