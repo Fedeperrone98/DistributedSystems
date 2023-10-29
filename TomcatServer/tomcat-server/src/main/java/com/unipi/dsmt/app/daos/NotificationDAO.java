@@ -26,13 +26,14 @@ public class NotificationDAO {
     statement.setTimestamp(4, notification.getCreationTime());
     int rowInserted = statement.executeUpdate();
 
-    if(rowInserted == 1){
+    if (rowInserted == 1) {
       ResultSet generatedKey = statement.getGeneratedKeys();
-      if(generatedKey.next()){
+      if (generatedKey.next()) {
         int insertedRowId = generatedKey.getInt(1);
         return insertedRowId;
       }
-    } throw new SQLException("Notification not correctly inserted");
+    }
+    throw new SQLException("Notification not correctly inserted");
   }
 
   public ArrayList<NotificationDTO> getNotificationFromUser(String user) throws SQLException {
@@ -48,11 +49,21 @@ public class NotificationDAO {
     return result;
   }
 
-  public void deleteNotificationFromId(int id) throws SQLException {
-    String sqlString = "DELETE FROM notification WHERE id=?";
+  public void deleteNotificationFromChatID(int chatID) throws SQLException {
+    String sqlString = "DELETE FROM notification WHERE chatID=?";
     PreparedStatement statement = notificationConnection.prepareStatement(sqlString);
-    statement.setInt(1, id);
+    statement.setInt(1, chatID);
     statement.executeUpdate();
   }
-    
+
+  public int getNotificationCountForUser(String user) throws SQLException {
+    String sqlString = "SELECT COUNT(*) AS notification_number FROM notification WHERE user=?";
+    PreparedStatement statement = notificationConnection.prepareStatement(sqlString);
+    statement.setString(1, user);
+    ResultSet set = statement.executeQuery();
+    if (!set.next())
+      throw new SQLException("Invalid user");
+    return set.getInt("notification_number");
+  }
+
 }

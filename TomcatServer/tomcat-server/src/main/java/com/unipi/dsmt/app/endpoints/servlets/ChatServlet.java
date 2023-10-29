@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.unipi.dsmt.app.daos.ChatDAO;
 import com.unipi.dsmt.app.daos.MessageDAO;
+import com.unipi.dsmt.app.daos.NotificationDAO;
 import com.unipi.dsmt.app.daos.UserDAO;
 import com.unipi.dsmt.app.dtos.MessageChatDTO;
 import com.unipi.dsmt.app.entities.Chat;
@@ -25,11 +26,14 @@ public class ChatServlet extends HttpServlet {
       ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
       MessageDAO messageDAO = new MessageDAO((Connection) getServletContext().getAttribute("databaseConnection"));
       UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+      NotificationDAO notificationDAO = new NotificationDAO(
+          (Connection) getServletContext().getAttribute("databaseConnection"));
 
       String currentUsername = AccessController.getUsername(request);
 
       int chatID = Integer.parseInt(request.getParameter("chatID"));
       chatDAO.validateChatIDWithUsername(chatID, currentUsername);
+      notificationDAO.deleteNotificationFromChatID(chatID);
       String username = chatDAO.getDestinationOfChatID(chatID, currentUsername);
       request.setAttribute("username", username);
 

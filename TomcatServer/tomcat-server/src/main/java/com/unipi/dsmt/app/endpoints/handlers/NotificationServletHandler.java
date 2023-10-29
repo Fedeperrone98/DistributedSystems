@@ -7,12 +7,13 @@ import java.sql.Timestamp;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.unipi.dsmt.app.entities.Notification;
+import com.unipi.dsmt.app.dtos.NotificationUnpackDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 public class NotificationServletHandler {
-    public static Notification unpackPostNotification(HttpServletRequest request) throws IOException {
+  public static NotificationUnpackDTO unpackPostNotification(HttpServletRequest request)
+      throws IOException {
     BufferedReader bodyReader = new BufferedReader(new InputStreamReader(request.getInputStream()));
     StringBuilder body = new StringBuilder();
     String bodyLine;
@@ -22,13 +23,11 @@ public class NotificationServletHandler {
     JsonObject bodyJson = new Gson().fromJson(body.toString(), JsonObject.class);
     String user = bodyJson.get("user").getAsString();
     String sender = bodyJson.get("sender").getAsString();
-    int chatID = bodyJson.get("chatID").getAsInt();
     Timestamp creationTime = new Timestamp(bodyJson.get("timestampMillis").getAsLong());
-    System.out.println(String.format("[SERVER] -> received notification store request at: %s", creationTime.toString()));
+    System.out
+        .println(String.format("[SERVER] -> received notification store request at: %s", creationTime.toString()));
     if (user == null || sender == null)
-      return null;
-    if (chatID == -1)
-      throw new IOException("Chat Doesn't Exist");
-    return new Notification(user, sender, chatID, creationTime);
+      throw new IOException("user and sender must be specified");
+    return new NotificationUnpackDTO(user, sender, creationTime);
   }
 }

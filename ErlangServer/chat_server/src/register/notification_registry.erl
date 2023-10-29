@@ -20,7 +20,7 @@ registry_loop(Mappings) ->
           Pid ! {increase, Sender};
         undefined ->
           io:format("[Notification Register] -> User not logged, Notifying ~p to store notification~n",[Caller]),
-          Caller ! {store_notification}
+          Caller ! {store_notification, Sender}
       end,
       registry_loop(Mappings);
     {unregister, Username} ->

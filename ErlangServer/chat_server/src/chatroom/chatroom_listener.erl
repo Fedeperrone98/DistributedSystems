@@ -40,8 +40,8 @@ websocket_info(Info, State) ->
       io:format("[WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessage]),
       Json = jsone:encode(#{<<"type">> => <<"message">>, <<"content">> => ReceivedMessage}),
       {reply, {text, Json}, State};
-    {store_notification} ->
-      Json = jsone:encode(#{<<"type">> => <<"notification">>}),
+    {store_notification, Sender} ->
+      Json = jsone:encode(#{<<"type">> => <<"notification">>, <<"sender">> => Sender}),
       {reply, {text, Json}, State};
     _ ->
       {ok, State}

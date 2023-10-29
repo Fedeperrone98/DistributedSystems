@@ -1,4 +1,4 @@
-const ws = new WebSocket(`${webSocketUrl}/chat?username=${currentUsername}`);
+const cws = new WebSocket(`ws://localhost:8081/chat?username=${currentUsername}`);
 
 const messageList = [...document.querySelectorAll(".messages-board > .message-card").values()];
 const chatID = new URL(location.href).searchParams.get("chatID");
@@ -15,7 +15,7 @@ function format(/** @type {Date}*/ date) {
 }
 
 function runFetch(data, endpoint) {
-  fetch(`${fetchUrl}/${endpoint}`, {
+  fetch(`http://localhost:8080/app/${endpoint}`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -51,7 +51,7 @@ function handleSend(event) {
     event.target.value = "";
     runFetch({ chatID, message, timestampMillis: instant }, "message");
     appendMessageComponent(message, instant, "sender");
-    ws.send(
+    cws.send(
       JSON.stringify({
         username: other_username,
         message,
@@ -62,22 +62,21 @@ function handleSend(event) {
 
 messagesBoard.scrollTo({ behavior: "instant", top: messagesBoard.scrollHeight });
 
-ws.onmessage = (event) => {
+cws.onmessage = (event) => {
   const message = JSON.parse(event.data);
   if (message.type && message.type === "message") {
     appendMessageComponent(message.content, Date.now(), "receiver");
   } else {
     runFetch(
       {
-        chatID,
-        user: other_username,
-        sender: currentUsername,
+        user: currentUsername,
+        sender: message.sender,
         timestampMillis: Date.now(),
       },
       "notification"
     );
   }
 };
-ws.onerror = (event) => {
+cws.onerror = (event) => {
   console.error(event);
 };
