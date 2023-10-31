@@ -74,4 +74,15 @@ public class ChatServlet extends HttpServlet {
       ErrorHandler.safeDispatchToErrorPage(request, response, e);
     }
   }
+
+  @Override
+  protected void doDelete(HttpServletRequest request, HttpServletResponse response){
+    try {
+      ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+			int chatID = Integer.parseInt(request.getParameter("chatID"));
+      chatDAO.deleteChatFromChatID(chatID);
+    } catch (Exception e) {
+      ErrorHandler.safeDispatchToErrorPage(request, response, e);
+    }
+  }
 }
