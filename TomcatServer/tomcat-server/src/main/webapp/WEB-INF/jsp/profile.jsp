@@ -10,7 +10,7 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="css/profile.css?v=1.15">
-            <script src="js/profile.js?v=1.0"></script>
+            <script src="js/profile.js?v=1.1"></script>
             <title>Profile page</title>
             <% UserProfileDTO requestingUser=(UserProfileDTO) request.getAttribute("user_info"); %>
               <% List<ChatStorageDTO> chatList =(List<ChatStorageDTO>) request.getAttribute("chatList"); %>
@@ -65,7 +65,7 @@
                         </div>
                       </a>
                       <button
-                        onclick='deleteChat("<%=chat.getId_chat()%>","${pageContext.request.contextPath}/chat")'>🗑</button>
+                        onclick='deleteChat("<%=chat.getId_chat()%>","${pageContext.request.contextPath}/chat", "<%=chat.getUsername()%>")'>🗑</button>
                     </div>
                     <%}%>
                 </div>

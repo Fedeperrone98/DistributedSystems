@@ -21,7 +21,7 @@ websocket_init(State)->
 
 % override of the cowboy_websocket websocket_handle/2 method
 websocket_handle(Frame={text, Message}, State) ->
-  io:format("[WS:~p] -> Received frame: ~p, along with state: ~p~n",[self(), Frame, State]),
+  io:format("[chatroom WS:~p] -> Received frame: ~p, along with state: ~p~n",[self(), Frame, State]),
   DecodedMessage = jsone:try_decode(Message),
   case DecodedMessage of
     {ok, MessageMap, _} ->
@@ -38,7 +38,7 @@ websocket_handle(Frame={text, Message}, State) ->
 websocket_info(Info, State) ->
   case Info of
     {forwarded_message, ReceivedMessage} ->
-      io:format("[WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessage]),
+      io:format("[chatroom WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessage]),
       Json = jsone:encode(#{<<"type">> => <<"message">>, <<"content">> => ReceivedMessage}),
       {reply, {text, Json}, State};
     {store_notification, Sender} ->
@@ -50,7 +50,7 @@ websocket_info(Info, State) ->
 
 % called when connection terminate
 terminate(Reason, _Req, State) ->
-  io:format("[WS:~p] -> Closed websocket connection, Reason: ~p ~n", [self(), Reason]),
+  io:format("[chatroom WS:~p] -> Closed websocket connection, Reason: ~p ~n", [self(), Reason]),
   #{username := Username, register_pid := RegisterPid} = State,
   RegisterPid ! {unregister, Username},
   {ok, State}.

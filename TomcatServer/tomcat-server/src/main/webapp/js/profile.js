@@ -1,4 +1,4 @@
-async function deleteChat(chatID, path) {
+async function deleteChat(chatID, path, who) {
   const response = await fetch(`${path}?chatID=${chatID}`, {
     method: "DELETE",
     headers: {

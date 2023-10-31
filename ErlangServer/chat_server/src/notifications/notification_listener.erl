@@ -21,7 +21,7 @@ websocket_init(State)->
 
 % called when cowboy receives a text, binary, ping or pong frame from the client
 % override of the cowboy_websocket websocket_handle/2 method
-websocket_handle(Frame={text, Message}, State) -> 
+websocket_handle(_Frame={text, Message}, State) -> 
   if 
     Message == <<"logout">> ->
       #{username := Sender, register_pid := RegisterPid} = State,
