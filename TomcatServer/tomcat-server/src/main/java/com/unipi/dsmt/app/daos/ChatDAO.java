@@ -43,7 +43,7 @@ public class ChatDAO {
         +
         "JOIN (SELECT chatID, MAX(creationTime) as max_time FROM message GROUP BY chatID) " +
         "AS latest_message ON chat.id = latest_message.chatID " +
-        "WHERE chat.user1=? OR chat.user2=?;";
+        "WHERE chat.user1=? OR chat.user2=? ORDER BY user.onlineFlag DESC;";
     PreparedStatement statement = chatConnection.prepareStatement(sqlString);
     statement.setString(1, currentUsername);
     statement.setString(2, currentUsername);
