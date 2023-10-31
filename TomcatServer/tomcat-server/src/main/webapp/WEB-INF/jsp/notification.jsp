@@ -12,6 +12,9 @@
           <title>Notification page</title>
           <% List<NotificationDTO> notificationList = (List<NotificationDTO>) request.getAttribute("notificationList");
               %>
+              <script>
+                const currentPath = "${pageContext.request.contextPath}";
+              </script>
         </head>
 
         <body style="margin: 0px;">

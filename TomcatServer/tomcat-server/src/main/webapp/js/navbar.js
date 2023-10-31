@@ -1,8 +1,8 @@
 const nws = new WebSocket(`ws://localhost:8081/notify?username=${currentUsername}`);
 const audio = new Audio("sounds/alert.wav");
 
-function runNotificationFetch(data, endpoint) {
-  fetch(`http://localhost:8080/app/${endpoint}`, {
+function postNotification(data) {
+  fetch(`http://localhost:8080/app/notification`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -11,14 +11,28 @@ function runNotificationFetch(data, endpoint) {
   });
 }
 
-function createNotificationComponent(sender) {
+function createNotificationComponent(sender, chatID) {
   const newNotificationComponent = document.createElement("a");
-  // TODO: append component (come prendere il chatID)
+  newNotificationComponent.classList.add("anchor");
+  newNotificationComponent.href = `${currentPath}/chat?chatID=${chatID}`;
+  newNotificationComponent.newNotificationComponent.innerHTML = `
+    <div class="notification-box" id="${sender}">
+      <label> You have 1 new messages from: ${sender}</label>
+    </div>
+  `;
 }
 
-function appendAndIncrementNotificationComponent(notificationBoxID, /**@type {HTMLDivElement}*/ board) {
+async function appendAndIncrementNotificationComponent(notificationBoxID, /**@type {HTMLDivElement}*/ board) {
   const notificationBox = document.getElementById(notificationBoxID);
-  !notificationBox && board.appendChild(createNotificationComponent(notificationBoxID));
+  if (!notificationBox) {
+    const chatID = await getNotificationID(notificationBoxID);
+    board.appendChild(createNotificationComponent(notificationBoxID, chatID));
+  } else {
+    const notificationLabel = notificationBox.querySelector("label");
+    const currentText = notificationLabel.innerHTML;
+    const currentCount = parseInt(currentText.split(" ")[3]) + 1;
+    notificationLabel.innerHTML = ` You Have ${currentCount} messages from: ${notificationBoxID}`;
+  }
 }
 
 nws.onmessage = (event) => {
@@ -38,19 +52,27 @@ nws.onmessage = (event) => {
     audio.play();
     const notificationLabel = document.querySelector("div.notification > label");
     notificationLabel.innerHTML = parseInt(notificationLabel.innerHTML) + 1;
-    runNotificationFetch(
-      {
-        user: currentUsername,
-        sender: from,
-        timestampMillis: Date.now(),
-      },
-      "notification"
-    );
+    postNotification({
+      user: currentUsername,
+      sender: from,
+      timestampMillis: Date.now(),
+    });
     const notificationBoard = document.getElementById("notification-board");
     notificationBoard && appendAndIncrementNotificationComponent(from, notificationBoard);
     return;
   }
 };
+
+async function getNotificationID(sender) {
+  const response = await fetch(`http://localhost:8080/app/chatid?sender=${sender}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const { chatID } = await response.json();
+  return chatID;
+}
 
 async function getNotificationNumber() {
   const response = await fetch(`http://localhost:8080/app/notificationcount`, {
