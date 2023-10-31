@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="css/nav_bar.css?v=1.4">
-<script src="js/navbar.js?v=1.19" defer></script>
+<script src="js/navbar.js?v=1.31" defer></script>
 
 <script>
   var currentUsername = '<%=request.getParameter("loggedUser")%>';
@@ -8,7 +8,8 @@
   <a href="${pageContext.request.contextPath}/home">Home</a>
   <a href="${pageContext.request.contextPath}/profile">Profile</a>
   <a href="${pageContext.request.contextPath}/meetings">Meetings</a>
-  <a href="${pageContext.request.contextPath}/logout"><img src="icons/close.png" width="30px" height="30px"></a>
+  <a onclick='handleLogout(event, "${pageContext.request.contextPath}/logout")'><img src="icons/close.png" width="30px"
+      height="30px"></a>
   <div class="notification">
     <a href="${pageContext.request.contextPath}/notification"><img src="icons/bell.png" alt="" width="30px"
         height="30px"></a>

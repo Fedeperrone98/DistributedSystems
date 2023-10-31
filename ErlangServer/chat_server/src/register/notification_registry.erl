@@ -16,6 +16,10 @@ registry_loop(Mappings) ->
   receive 
     {register, Username, Pid} ->
       io:format("[Notification Register] -> adding user ~p with pid ~p~n",[Username, Pid]),
+      case maps:get(Username, Mappings, undefined) of 
+        undefined -> maps:foreach(fun(Key, Value) -> send_online(Key,Value,Username) end, Mappings);
+        _ -> ok
+      end,
       NewMappings = maps:put(Username, Pid, Mappings),
       registry_loop(NewMappings);
     {increase, Username, Sender, Caller} ->
@@ -29,15 +33,8 @@ registry_loop(Mappings) ->
       end,
       registry_loop(Mappings);
     {unregister, Username} ->
-      io:format("[Notification Register] -> removing user ~p from registry~n", [Username]),
-      NewMappings = maps:remove(Username, Mappings),
-      registry_loop(NewMappings);
-    {broadcast_online, Who} ->
-      io:format("[Notification Register] -> New user logged in, notifying active users~n"),
-      maps:foreach(fun(Key, Value) -> send_online(Key,Value,Who) end, Mappings),
-      registry_loop(Mappings);
-    {broadcast_offline, Who} ->
       io:format("[Notification Register] -> user logged out, notifying active users~n"),
-      maps:foreach(fun(Key, Value) -> send_offline(Key,Value,Who) end, Mappings),
-      registry_loop(Mappings)
+      NewMappings = maps:remove(Username, Mappings),
+      maps:foreach(fun(Key, Value) -> send_offline(Key,Value,Username) end, Mappings),
+      registry_loop(NewMappings)
     end.

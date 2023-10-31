@@ -9,7 +9,8 @@
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="css/profile.css?v=1.9">
+            <link rel="stylesheet" href="css/profile.css?v=1.15">
+            <script src="js/profile.js?v=1.0"></script>
             <title>Profile page</title>
             <% UserProfileDTO requestingUser=(UserProfileDTO) request.getAttribute("user_info"); %>
               <% List<ChatStorageDTO> chatList =(List<ChatStorageDTO>) request.getAttribute("chatList"); %>
@@ -50,18 +51,22 @@
                 <h1>Recent Chats</h1>
                 <div class="grid">
                   <% for(ChatStorageDTO chat : chatList){ %>
-                    <a href="${pageContext.request.contextPath}/chat?chatID=<%=chat.getId_chat()%>">
-                      <div class="chat-card" id="<%=chat.getUsername()%>">
-                        <h1>
-                          <%= chat.getUsername() %>
-                        </h1>
-                        <label>
-                          <%= chat.getLastMessageTime() %>
-                        </label>
-                        <% String className="flag" + (chat.getOnlineState() ? " connected" : "" ) ; %>
-                          <div class="<%= className %>"></div>
-                      </div>
-                    </a>
+                    <div class="chat-box">
+                      <a href="${pageContext.request.contextPath}/chat?chatID=<%=chat.getId_chat()%>">
+                        <div class="chat-card" id="<%=chat.getUsername()%>">
+                          <h1>
+                            <%= chat.getUsername() %>
+                          </h1>
+                          <label>
+                            <%= chat.getLastMessageTime() %>
+                          </label>
+                          <% String className="flag" + (chat.getOnlineState() ? " connected" : "" ) ; %>
+                            <div class="<%= className %>"></div>
+                        </div>
+                      </a>
+                      <button
+                        onclick='deleteChat("<%=chat.getId_chat()%>","${pageContext.request.contextPath}/chat")'>🗑</button>
+                    </div>
                     <%}%>
                 </div>
               </div>

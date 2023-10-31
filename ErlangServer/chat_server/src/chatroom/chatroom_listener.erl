@@ -28,7 +28,8 @@ websocket_handle(Frame={text, Message}, State) ->
       Destination = maps:get(<<"username">>, MessageMap),
       Content = maps:get(<<"message">>, MessageMap),
       #{username := Sender, register_pid := RegisterPid} = State,
-      RegisterPid ! {forward, Destination, Content, Sender, self()}
+      RegisterPid ! {forward, Destination, Content, Sender, self()};
+    _ -> ok
   end,
   {ok, State}.
 

@@ -54,21 +54,9 @@
   border-radius: 4rem;
 }
 .chat-card {
-  position: relative;
   width: 100%;
   height: 100%;
-  max-height: 139.3px;
-  background: rgba(224, 224, 224, 1);
-  box-shadow: 0px 0px 0.5rem 0.1rem black;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  border-radius: 4rem;
-}
-.chat-card:hover {
-  background: rgb(255, 255, 255, 1);
+  z-index: 5;
 }
 .chat-card > h1 {
   margin-top: 1.2rem;
@@ -92,4 +80,37 @@
 a {
   text-decoration: none;
   color: blue;
+  max-height: 139.3px;
+}
+.chat-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: 139.9px;
+  background: rgba(224, 224, 224, 1);
+  box-shadow: 0px 0px 0.5rem 0.1rem black;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-radius: 4rem;
+}
+.chat-box:hover {
+  background: rgb(255, 255, 255, 1);
+}
+.chat-box > button {
+  background: none;
+  outline: none;
+  border: none;
+  color: black;
+  font-size: 25px;
+  transition: all 0.2s ease-in-out;
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  top: 36%;
+}
+.chat-box > button:hover {
+  color: rgb(195, 0, 0);
 }

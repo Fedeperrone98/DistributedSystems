@@ -16,14 +16,19 @@ init(Req, _State)->
 % stores the Username to Pid mapping in the registry
 websocket_init(State)->
   #{username := CurrentUsername, register_pid := RegisterPid} = State,
-  RegisterPid ! {broadcast_online, CurrentUsername},
   RegisterPid ! {register, CurrentUsername, self()},
   {ok, State}.
 
 % called when cowboy receives a text, binary, ping or pong frame from the client
 % override of the cowboy_websocket websocket_handle/2 method
-websocket_handle(Frame, State) -> 
-  io:format("[notification WS:~p] -> Received frame: ~p, along with state: ~p~n",[self(), Frame, State]),
+websocket_handle(Frame={text, Message}, State) -> 
+  if 
+    Message == <<"logout">> ->
+      #{username := Sender, register_pid := RegisterPid} = State,
+      io:format("[notification WS:~p] -> Received logout request from: ~p",[self(), Sender]),
+      RegisterPid ! {unregister, Sender};
+    true -> ok
+  end,
   {ok, State}.
 
 % called when cowboy receives an Erlang message  
@@ -45,7 +50,4 @@ websocket_info(Info, State) ->
 % called when connection terminate
 terminate(Reason, _Req, State) ->
   io:format("[notification WS:~p] -> Closed websocket connection, Reason: ~p ~n", [self(), Reason]),
-  #{username := Username, register_pid := RegisterPid} = State,
-  RegisterPid ! {unregister, Username},
-  RegisterPid ! {broadcast_offline, Username},
   {ok, State}.

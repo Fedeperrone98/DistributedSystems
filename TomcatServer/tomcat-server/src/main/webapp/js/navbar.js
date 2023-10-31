@@ -15,7 +15,7 @@ function createNotificationComponent(sender, chatID) {
   const newNotificationComponent = document.createElement("a");
   newNotificationComponent.classList.add("anchor");
   newNotificationComponent.href = `${currentPath}/chat?chatID=${chatID}`;
-  newNotificationComponent.newNotificationComponent.innerHTML = `
+  newNotificationComponent.innerHTML = `
     <div class="notification-box" id="${sender}">
       <label> You have 1 new messages from: ${sender}</label>
     </div>
@@ -31,7 +31,7 @@ async function appendAndIncrementNotificationComponent(notificationBoxID, /**@ty
     const notificationLabel = notificationBox.querySelector("label");
     const currentText = notificationLabel.innerHTML;
     const currentCount = parseInt(currentText.split(" ")[3]) + 1;
-    notificationLabel.innerHTML = ` You Have ${currentCount} messages from: ${notificationBoxID}`;
+    notificationLabel.innerHTML = ` You have ${currentCount} messages from: ${notificationBoxID}`;
   }
 }
 
@@ -40,11 +40,21 @@ nws.onmessage = (event) => {
   if (type === "online_notification") {
     const flagElement = document.getElementById(who)?.querySelector("div") ?? undefined;
     flagElement && !flagElement.classList.contains("connected") && flagElement.classList.add("connected");
+    // CASE PROFILE || HOME || DEPARTMENT (div.grid || div.users-board)
+    let listElement = document.querySelector("div.grid");
+    listElement && listElement.prepend(document.getElementById(who).parentNode.parentNode);
+    listElement = document.querySelector("div.users-board");
+    listElement && listElement.prepend(document.getElementById(who));
     return;
   }
   if (type === "offline_notification") {
     const flagElement = document.getElementById(who)?.querySelector("div") ?? undefined;
     flagElement && flagElement.classList.contains("connected") && flagElement.classList.remove("connected");
+    // CASE PROFILE || HOME || DEPARTMENT (div.grid || div.users-board)
+    let listElement = document.querySelector("div.grid");
+    listElement && listElement.append(document.getElementById(who).parentNode.parentNode);
+    listElement = document.querySelector("div.users-board");
+    listElement && listElement.append(document.getElementById(who));
     return;
   }
   if (type === "message_notification") {
@@ -64,7 +74,7 @@ nws.onmessage = (event) => {
 };
 
 async function getNotificationID(sender) {
-  const response = await fetch(`http://localhost:8080/app/chatid?sender=${sender}`, {
+  const response = await fetch(`http://localhost:8080/app/chatID?sender=${sender}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -89,3 +99,9 @@ getNotificationNumber().then((data) => {
   const notificationLabel = document.querySelector("div.notification > label");
   notificationLabel.innerHTML = data.count;
 });
+
+function handleLogout(event, redirectPath) {
+  event.preventDefault();
+  nws.send("logout");
+  location.href = redirectPath;
+}
