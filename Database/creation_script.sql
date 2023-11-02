@@ -44,12 +44,12 @@ CREATE TABLE IF NOT EXISTS notification (
     FOREIGN KEY (chatID) REFERENCES chat(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Add a check constraint to the chat table
-ALTER TABLE chat
-ADD CONSTRAINT UNIQUE_CHAT
-CHECK (NOT EXISTS (
-    SELECT 1
-    FROM chat AS c
-    WHERE (c.user1 = chat.user1 AND c.user2 = chat.user2)
-       OR (c.user1 = chat.user2 AND c.user2 = chat.user1)
-));
+-- -- Add a check constraint to the chat table
+-- ALTER TABLE chat
+-- ADD CONSTRAINT UNIQUE_CHAT
+-- CHECK (NOT EXISTS (
+--     SELECT 1
+--     FROM chat AS c
+--     WHERE (c.user1 = chat.user1 AND c.user2 = chat.user2)
+--        OR (c.user1 = chat.user2 AND c.user2 = chat.user1)
+-- ));
