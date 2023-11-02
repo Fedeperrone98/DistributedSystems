@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/nav_bar.css?v=1.4">
+<link rel="stylesheet" href="css/nav_bar.css?v=1.8">
 <script src="js/navbar.js?v=1.32" defer></script>
 
 <script>
@@ -7,7 +7,6 @@
 <nav class="navbar">
   <a href="${pageContext.request.contextPath}/home">Home</a>
   <a href="${pageContext.request.contextPath}/profile">Profile</a>
-  <a href="${pageContext.request.contextPath}/meetings">Meetings</a>
   <a onclick='handleLogout(event, "${pageContext.request.contextPath}/logout")'><img src="icons/close.png" width="30px"
       height="30px"></a>
   <div class="notification">

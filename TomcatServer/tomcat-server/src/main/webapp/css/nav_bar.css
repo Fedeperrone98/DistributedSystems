@@ -1,6 +1,6 @@
 .navbar {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 0.1fr 0.1fr;
+  grid-template-columns: 1fr 1fr 0.2fr 0.2fr;
   width: 100%;
   height: 2.5rem;
   justify-content: center;
@@ -33,8 +33,8 @@
 
 .navbar > .notification {
   height: 100%;
-  transition: all 0.2s ease-in-out;
   width: 100%;
+  transition: all 0.2s ease-in-out;
   position: relative;
 }
 .navbar > .notification > a {
@@ -43,9 +43,11 @@
   outline: none;
   border: none;
   height: 100%;
+  width: 100%;
   transition: all 0.2s ease-in-out;
   padding: 0px;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 .navbar > .notification > a:hover {
   cursor: pointer;
@@ -53,13 +55,17 @@
 }
 .navbar > .notification > label {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 2px;
-  right: 2px;
+  right: 15%;
   border-radius: 50%;
   background: brown;
   color: white;
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
+  aspect-ratio: 1 / 1;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
 }
