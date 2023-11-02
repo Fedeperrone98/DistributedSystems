@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="css/nav_bar.css?v=1.4">
-<script src="js/navbar.js?v=1.31" defer></script>
+<script src="js/navbar.js?v=1.32" defer></script>
 
 <script>
   var currentUsername = '<%=request.getParameter("loggedUser")%>';

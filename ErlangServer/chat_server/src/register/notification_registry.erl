@@ -32,6 +32,13 @@ registry_loop(Mappings) ->
           Caller ! {store_notification, Sender}
       end,
       registry_loop(Mappings);
+    {delete_chat, Who, Sender} ->
+      case maps:get(Who, Mappings, undefined) of
+        Pid when Pid =/= undefined ->
+          io:format("[Notification Register] -> Forwarding chat deletion message to ~p~n",[Who]),
+          Pid ! {delete_chat, Sender}
+      end,
+      registry_loop(Mappings);
     {unregister, Username} ->
       io:format("[Notification Register] -> user logged out, notifying active users~n"),
       NewMappings = maps:remove(Username, Mappings),

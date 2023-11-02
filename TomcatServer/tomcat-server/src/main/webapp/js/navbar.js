@@ -71,6 +71,16 @@ nws.onmessage = (event) => {
     notificationBoard && appendAndIncrementNotificationComponent(from, notificationBoard);
     return;
   }
+  if (type === "chat_deletion") {
+    const endpoints = new URL(location.href).pathname.split("/");
+    const isChat = endpoints[endpoints.length - 1] === "chat";
+    if (isChat) {
+      document.getElementById("modal").classList.add("visible");
+    } else {
+      const listElement = document.querySelector("div.grid");
+      listElement && listElement.removeChild(document.getElementById(who).parentNode.parentNode);
+    }
+  }
 };
 
 async function getNotificationID(sender) {
@@ -102,6 +112,6 @@ getNotificationNumber().then((data) => {
 
 function handleLogout(event, redirectPath) {
   event.preventDefault();
-  nws.send("logout");
+  nws.send(JSON.stringify({ type: "logout" }));
   location.href = redirectPath;
 }
