@@ -9,13 +9,13 @@
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="css/chat.css?v=1.10">
+            <link rel="stylesheet" href="css/chat.css?v=1.12">
             <title>Chat page</title>
             <% String currentUsername=AccessController.getUsername(request); %>
               <%String username=(String) request.getAttribute("username");%>
                 <% List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList"); %>
                     <% boolean isOnline=(boolean) request.getAttribute("isOnline"); %>
-                      <script src="js/chat.js?v=1.29" defer></script>
+                      <script src="js/chat.js?v=1.30" defer></script>
           </head>
 
           <body style="margin: 0px;">
@@ -23,6 +23,14 @@
               <jsp:param name="loggedUser" value="<%=AccessController.getUsername(request)%>" />
             </jsp:include>
             <div class="page">
+              <div class="modal" id="modal">
+                <div class="container">
+                  <h3>This chat has been deleted by <%=username%>, You will be redirected to your Homepage</h3>
+                  <form method="get" action="${pageContext.request.contextPath}/home">
+                    <button>Ok</button>
+                  </form>
+                </div>
+              </div>
               <div class="chat-name" id="<%=username%>">
                 <% String flagType="flag" + (isOnline ? " connected" : "" ); %>
                   <div class="<%= flagType %>"></div>

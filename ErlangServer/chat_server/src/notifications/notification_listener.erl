@@ -22,12 +22,28 @@ websocket_init(State)->
 % called when cowboy receives a text, binary, ping or pong frame from the client
 % override of the cowboy_websocket websocket_handle/2 method
 websocket_handle(_Frame={text, Message}, State) -> 
-  if 
-    Message == <<"logout">> ->
-      #{username := Sender, register_pid := RegisterPid} = State,
-      io:format("[notification WS:~p] -> Received logout request from: ~p",[self(), Sender]),
-      RegisterPid ! {unregister, Sender};
-    true -> ok
+  Json = jsone:try_decode(Message),
+  case Json of 
+    {ok, MessageMap, _} ->
+      Type = maps:get(<<"type">>, MessageMap, undefined),
+      if
+        Type == <<"logout">> ->
+          % logout request
+          #{username := Sender, register_pid := RegisterPid} = State,
+          io:format("[notification WS:~p] -> Received logout request from: ~p",[self(), Sender]),
+          RegisterPid ! {unregister, Sender};
+        Type == <<"delete">> ->
+          case maps:get(<<"who">>, MessageMap, undefined) of
+            Who when Who =/= undefined ->
+              % Chat deleted
+              #{username := RequestingUser, register_pid := RegisterPid} = State,
+              io:format("[notification WS:~p] -> Received delete request for ~p to ~p chat~n",[self(), RequestingUser, Who]),
+              RegisterPid ! {delete_chat, Who, RequestingUser};
+            _ -> ok
+          end;
+        true -> ok
+      end;
+    _ -> ok
   end,
   {ok, State}.
 
@@ -44,8 +60,11 @@ websocket_info(Info, State) ->
       {reply, {text, Reply}, State};
     {offline, Who} ->
       Reply = jsone:encode(#{<<"type">> => <<"offline_notification">>, <<"who">> => Who}),
+      {reply, {text, Reply}, State};
+    {delete_chat, Who} ->
+      Reply = jsone:encode(#{<<"type">> => <<"chat_deletion">>, <<"who">> => Who}),
       {reply, {text, Reply}, State}
-  end.
+  end. 
 
 % called when connection terminate
 terminate(Reason, _Req, State) ->
