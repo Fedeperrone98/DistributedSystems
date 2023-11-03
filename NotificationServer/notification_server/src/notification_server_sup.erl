@@ -1,9 +1,9 @@
 %%%-------------------------------------------------------------------
-%% @doc chat_server top level supervisor.
+%% @doc notification_server top level supervisor.
 %% @end
 %%%-------------------------------------------------------------------
 
--module(chat_server_sup).
+-module(notification_server_sup).
 
 -behaviour(supervisor).
 
@@ -26,7 +26,6 @@ start_link() ->
 %%                  type => worker(),       % optional
 %%                  modules => modules()}   % optional
 init([]) ->
-    io:format("[chat_server_sup] -> initializing the supervisor~n"),
     SupFlags = #{strategy => one_for_all,
                  intensity => 1,
                  period => 60},
@@ -34,8 +33,8 @@ init([]) ->
     Listener = #{
         id => cowboy_listener,
         start => {cowboy_listener, start_link, []},
-        restart => permanent
-    },
+        restart => permanent    
+    }
 
     ChildSpecs = [Listener],
     {ok, {SupFlags, ChildSpecs}}.

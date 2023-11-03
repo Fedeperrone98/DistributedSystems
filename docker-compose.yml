@@ -20,17 +20,29 @@ services:
     volumes:
       - ./TomcatServer:/workspace
 
-  erlang:
+  chat_server:
     build:
-      context: ./ErlangServer
+      context: ./ChatServer
       dockerfile: Dockerfile
-    container_name: erlang
+    container_name: erlang_chat
     ports:
       - 8081:8080
     stdin_open: true
     tty: true
     volumes:
-      - ./ErlangServer:/workspace
+      - ./ChatServer:/workspace
+
+  notification_server:
+    build:
+      context: ./NotificationServer
+      dockerfile: Dockerfile
+    container_name: erlang_notification
+    ports:
+      - 8083:8080
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./NotificationServer:/workspace
 
   mysql:
     image: mysql:latest

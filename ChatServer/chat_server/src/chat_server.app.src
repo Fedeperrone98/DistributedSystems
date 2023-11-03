@@ -11,7 +11,7 @@
    ]},
   {env,[
     {chat_endpoint, "/chat"},
-    {notification_endpoint, "/notify"},
+    {notification_node, notification@notification_server},
     {port, 8080}
   ]},
   {modules, []},

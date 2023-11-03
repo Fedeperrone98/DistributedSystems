@@ -1,17 +1,17 @@
 %%%-------------------------------------------------------------------
-%% @doc chat_server public API
+%% @doc notification_server public API
 %% @end
 %%%-------------------------------------------------------------------
 
--module(chat_server_app).
+-module(notification_server_app).
 
 -behaviour(application).
 
 -export([start/2, stop/1]).
 
 start(_StartType, _StartArgs) ->
-    io:format("[chat_server_app] -> starting a new supervisor~n"),
-    chat_server_sup:start_link().
+    io:format("[Notification Server] -> starting supervisor~n"),
+    notification_server_sup:start_link().
 
 stop(_State) ->
     ok.
