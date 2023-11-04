@@ -3,17 +3,17 @@
 
 %% API
 -export([start_link/0, init/1, handle_call/3, handle_cast/2]).
--import(chat_registry, [start_chat_registry/0]).
+-import(notification_registry, [start_notification_registry/0]).
 
 start_link() ->
   io:format("[Cowboy] -> starting new server~n"),
-  start_chat_registry(),
+  start_notification_registry(),
   gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 routes() ->
   {ok, NotificationEndpoint} = application:get_env(notification_endpoint),
   Routes = [
-    {NotificationEndpoint, socket_listener, []},
+    {NotificationEndpoint, socket_listener, []}
   ],
   {Routes}.
 

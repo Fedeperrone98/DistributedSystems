@@ -1,10 +1,14 @@
 -module(notification_registry).
 
 -export([start_notification_registry/0]).
+-import(mysql_handler, [start_mysql/0]).
 
 start_notification_registry()->
   Pid = spawn(fun() -> registry_loop(#{}) end),
   io:format("[Notification Registry] -> Starting register at pid ~p~n",[Pid]),
+  DBPid = spawn(fun() -> start_mysql() end),
+  io:format("[Notification Registry] -> Starting mysql handler at pid ~p~n",[DBPid]),
+  register(mysql_connection, DBPid),
   register(notification_registry, Pid).
 
 send_online(_Key, Value, Who) ->
@@ -22,8 +26,9 @@ registry_loop(Mappings) ->
       end,
       NewMappings = maps:put(Username, Pid, Mappings),
       registry_loop(NewMappings);
-    {increase, Username, Sender} ->
-      % save notification to MySQL
+    {increase, Username, Sender, ChatID} ->
+      DBPid = whereis(mysql_connection),
+      DBPid ! {save_notification, Username, Sender, ChatID},
       case maps:get(Username, Mappings, undefined) of 
         Pid when Pid =/= undefined-> 
           io:format("[Notification Registry] -> Pushing new notification to ~p by ~p~n",[Username, Sender]),

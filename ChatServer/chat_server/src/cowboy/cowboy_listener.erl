@@ -13,7 +13,7 @@ start_link() ->
 routes() ->
   {ok, ChatEndpoint} = application:get_env(chat_endpoint),
   Routes = [
-    {ChatEndpoint, socket_listener, []},
+    {ChatEndpoint, socket_listener, []}
   ],
   {Routes}.
 

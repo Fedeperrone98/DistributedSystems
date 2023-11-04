@@ -52,6 +52,7 @@ services:
     stdin_open: true
     tty: true
     environment:
+      - TZ="Europe/Rome"
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./Database/data:/var/lib/mysql

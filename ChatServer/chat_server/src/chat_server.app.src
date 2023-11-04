@@ -7,10 +7,17 @@
    [kernel,
     stdlib,
     cowboy,
-    jsone
+    jsone,
+    mysql
    ]},
   {env,[
     {chat_endpoint, "/chat"},
+    {db_config, [
+      {host, "mysql"},
+      {user, "root"},
+      {password, "root"},
+      {database, "DSMTDB"}    
+    ]},
     {notification_node, notification@notification_server},
     {port, 8080}
   ]},

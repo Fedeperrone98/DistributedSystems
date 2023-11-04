@@ -7,10 +7,17 @@
    [kernel,
     stdlib,
     cowboy,
-    jsone
+    jsone,
+    mysql
    ]},
   {env,[
     {notification_endpoint, "/notification"},
+    {db_config, [
+      {host, "mysql"},
+      {user, "root"},
+      {password, "root"},
+      {database, "DSMTDB"} 
+    ]},
     {port, 8080}
   ]},
   {modules, []},

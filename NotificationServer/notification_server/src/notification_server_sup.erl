@@ -34,7 +34,7 @@ init([]) ->
         id => cowboy_listener,
         start => {cowboy_listener, start_link, []},
         restart => permanent    
-    }
+    },
 
     ChildSpecs = [Listener],
     {ok, {SupFlags, ChildSpecs}}.

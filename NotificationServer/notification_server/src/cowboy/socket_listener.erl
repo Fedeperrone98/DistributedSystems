@@ -20,6 +20,7 @@ websocket_init(State)->
 % called when cowboy receives a text, binary, ping or pong frame from the client
 % override of the cowboy_websocket websocket_handle/2 method
 websocket_handle(_Frame={text, Message}, State) -> 
+  % WebSocket handling just for real-time notifications (not stored in DB)
   Json = jsone:try_decode(Message),
   case Json of 
     {ok, MessageMap, _} ->
