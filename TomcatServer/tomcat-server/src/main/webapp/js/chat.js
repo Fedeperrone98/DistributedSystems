@@ -14,18 +14,9 @@ function format(/** @type {Date}*/ date) {
   return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}.0`;
 }
 
-function runFetch(data, endpoint) {
-  fetch(`http://localhost:8080/app/${endpoint}`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}
-
 function appendMessageComponent(message, instant, type) {
   const newMessageComponent = document.createElement("div");
+  newMessageComponent.id = instant;
   newMessageComponent.classList.add("message-card");
   newMessageComponent.classList.add(type);
   newMessageComponent.innerHTML = `
@@ -49,35 +40,33 @@ function handleSend(event) {
     const message = event.target.value;
     const instant = Date.now();
     event.target.value = "";
-    runFetch({ chatID, message, timestampMillis: instant }, "message");
     appendMessageComponent(message, instant, "sender");
     cws.send(
       JSON.stringify({
         username: other_username,
         message,
+        chatID,
+        timestampMillis: instant,
       })
     );
   }
 }
 
-messagesBoard.scrollTo({ behavior: "instant", top: messagesBoard.scrollHeight });
-
 cws.onmessage = (event) => {
-  const other_username = document.getElementById("other_user").innerText;
   const message = JSON.parse(event.data);
   if (message.type && message.type === "message") {
     appendMessageComponent(message.content, Date.now(), "receiver");
-  } else {
-    runFetch(
-      {
-        user: other_username,
-        sender: message.sender,
-        timestampMillis: Date.now(),
-      },
-      "notification"
-    );
+    return;
+  }
+  if (message.type && message.type === "error") {
+    const problematicMessage = message.messageID ? document.getElementById(message.messageID) : undefined;
+    problematicMessage && problematicMessage.querySelector(".message-box").classList.add("message-error");
+    return;
   }
 };
+
 cws.onerror = (event) => {
   console.error(event);
 };
+
+messagesBoard.scrollTo({ behavior: "instant", top: messagesBoard.scrollHeight });

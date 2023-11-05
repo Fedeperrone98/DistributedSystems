@@ -9,13 +9,13 @@
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="css/chat.css?v=1.12">
+            <link rel="stylesheet" href="css/chat.css?v=1.16">
             <title>Chat page</title>
             <% String currentUsername=AccessController.getUsername(request); %>
               <%String username=(String) request.getAttribute("username");%>
                 <% List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList"); %>
                     <% boolean isOnline=(boolean) request.getAttribute("isOnline"); %>
-                      <script src="js/chat.js?v=1.30" defer></script>
+                      <script src="js/chat.js?v=1.35" defer></script>
           </head>
 
           <body style="margin: 0px;">

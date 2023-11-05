@@ -1,15 +1,5 @@
-const nws = new WebSocket(`ws://localhost:8081/notify?username=${currentUsername}`);
+const nws = new WebSocket(`ws://localhost:8083/notification?username=${currentUsername}`);
 const audio = new Audio("sounds/alert.wav");
-
-function postNotification(data) {
-  fetch(`http://localhost:8080/app/notification`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}
 
 function createNotificationComponent(sender, chatID) {
   const newNotificationComponent = document.createElement("a");
@@ -25,7 +15,7 @@ function createNotificationComponent(sender, chatID) {
 async function appendAndIncrementNotificationComponent(notificationBoxID, /**@type {HTMLDivElement}*/ board) {
   const notificationBox = document.getElementById(notificationBoxID);
   if (!notificationBox) {
-    const chatID = await getNotificationID(notificationBoxID);
+    const chatID = await getChatID(notificationBoxID);
     board.appendChild(createNotificationComponent(notificationBoxID, chatID));
   } else {
     const notificationLabel = notificationBox.querySelector("label");
@@ -62,11 +52,6 @@ nws.onmessage = (event) => {
     audio.play();
     const notificationLabel = document.querySelector("div.notification > label");
     notificationLabel.innerHTML = parseInt(notificationLabel.innerHTML) + 1;
-    postNotification({
-      user: currentUsername,
-      sender: from,
-      timestampMillis: Date.now(),
-    });
     const notificationBoard = document.getElementById("notification-board");
     notificationBoard && appendAndIncrementNotificationComponent(from, notificationBoard);
     return;
@@ -83,7 +68,7 @@ nws.onmessage = (event) => {
   }
 };
 
-async function getNotificationID(sender) {
+async function getChatID(sender) {
   const response = await fetch(`http://localhost:8080/app/chatID?sender=${sender}`, {
     method: "GET",
     headers: {
