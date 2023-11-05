@@ -1,4 +1,4 @@
-const cws = new WebSocket(`ws://localhost:8081/chat?username=${currentUsername}`);
+const cws = new WebSocket(`ws://10.2.1.57:8080/chat?username=${currentUsername}`);
 
 const messageList = [...document.querySelectorAll(".messages-board > .message-card").values()];
 const chatID = new URL(location.href).searchParams.get("chatID");
@@ -12,16 +12,6 @@ function format(/** @type {Date}*/ date) {
   const minutes = String(date.getMinutes()).padStart(2, "0");
   const seconds = String(date.getSeconds()).padStart(2, "0");
   return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}.0`;
-}
-
-function runFetch(data, endpoint) {
-  fetch(`http://localhost:8080/app/${endpoint}`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
 }
 
 function appendMessageComponent(message, instant, type) {

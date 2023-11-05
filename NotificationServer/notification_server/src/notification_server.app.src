@@ -13,7 +13,7 @@
   {env,[
     {notification_endpoint, "/notification"},
     {db_config, [
-      {host, "mysql"},
+      {host, "10.2.1.60"},
       {user, "root"},
       {password, "root"},
       {database, "DSMTDB"} 

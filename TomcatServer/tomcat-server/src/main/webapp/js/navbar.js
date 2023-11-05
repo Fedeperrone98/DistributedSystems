@@ -1,4 +1,4 @@
-const nws = new WebSocket(`ws://localhost:8083/notification?username=${currentUsername}`);
+const nws = new WebSocket(`ws://10.2.1.59:8080/notification?username=${currentUsername}`);
 const audio = new Audio("sounds/alert.wav");
 
 function createNotificationComponent(sender, chatID) {
@@ -10,6 +10,7 @@ function createNotificationComponent(sender, chatID) {
       <label> You have 1 new messages from: ${sender}</label>
     </div>
   `;
+  return newNotificationComponent;
 }
 
 async function appendAndIncrementNotificationComponent(notificationBoxID, /**@type {HTMLDivElement}*/ board) {
@@ -69,7 +70,7 @@ nws.onmessage = (event) => {
 };
 
 async function getChatID(sender) {
-  const response = await fetch(`http://localhost:8080/app/chatID?sender=${sender}`, {
+  const response = await fetch(`http://10.2.1.58:8084/app/chatID?sender=${sender}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -80,7 +81,7 @@ async function getChatID(sender) {
 }
 
 async function getNotificationNumber() {
-  const response = await fetch(`http://localhost:8080/app/notificationcount`, {
+  const response = await fetch(`http://10.2.1.58:8084/app/notificationcount`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

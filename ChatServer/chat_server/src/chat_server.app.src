@@ -13,12 +13,12 @@
   {env,[
     {chat_endpoint, "/chat"},
     {db_config, [
-      {host, "mysql"},
+      {host, "10.2.1.60"},
       {user, "root"},
       {password, "root"},
       {database, "DSMTDB"}    
     ]},
-    {notification_node, notification@notification_server},
+    {notification_node, 'notification@10.2.1.59'},
     {port, 8080}
   ]},
   {modules, []},
