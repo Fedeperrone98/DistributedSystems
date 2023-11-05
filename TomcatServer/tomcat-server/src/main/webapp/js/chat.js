@@ -14,16 +14,6 @@ function format(/** @type {Date}*/ date) {
   return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}.0`;
 }
 
-function runFetch(data, endpoint) {
-  fetch(`http://localhost:8080/app/${endpoint}`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}
-
 function appendMessageComponent(message, instant, type) {
   const newMessageComponent = document.createElement("div");
   newMessageComponent.id = instant;
