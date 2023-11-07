@@ -76,10 +76,12 @@ public class ChatServlet extends HttpServlet {
   }
 
   @Override
-  protected void doDelete(HttpServletRequest request, HttpServletResponse response){
+  protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
     try {
       ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-			int chatID = Integer.parseInt(request.getParameter("chatID"));
+      int chatID = Integer.parseInt(request.getParameter("chatID"));
+      String currentUsername = AccessController.getUsername(request);
+      chatDAO.validateChatIDWithUsername(chatID, currentUsername);
       chatDAO.deleteChatFromChatID(chatID);
       response.setStatus(200);
     } catch (Exception e) {
