@@ -62,7 +62,8 @@ websocket_info(Info, State) ->
       {reply, {text, Reply}, State};
     {delete_chat, Who} ->
       Reply = jsone:encode(#{<<"type">> => <<"chat_deletion">>, <<"who">> => Who}),
-      {reply, {text, Reply}, State}
+      {reply, {text, Reply}, State};
+    _ -> {ok, State}
   end. 
 
 % called when connection terminate

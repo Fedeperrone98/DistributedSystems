@@ -33,20 +33,20 @@ registry_loop(Mappings) ->
         Pid when Pid =/= undefined-> 
           io:format("[Notification Registry] -> Pushing new notification to ~p by ~p~n",[Username, Sender]),
           Pid ! {increase, Sender};
-        undefined ->
-          ok
+        undefined -> ok
       end,
       registry_loop(Mappings);
     {delete_chat, Who, Sender} ->
       case maps:get(Who, Mappings, undefined) of
         Pid when Pid =/= undefined ->
           io:format("[Notification Registry] -> Forwarding chat deletion message to ~p~n",[Who]),
-          Pid ! {delete_chat, Sender}
+          Pid ! {delete_chat, Sender};
+        undefined -> ok
       end,
       registry_loop(Mappings);
     {unregister, Username} ->
       io:format("[Notification Registry] -> user logged out, notifying active users~n"),
       NewMappings = maps:remove(Username, Mappings),
       maps:foreach(fun(Key, Value) -> send_offline(Key,Value,Username) end, Mappings),
-      registry_loop(NewMappings)
+      registry_loop(NewMappings);
     end.
