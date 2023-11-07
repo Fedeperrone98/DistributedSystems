@@ -70,7 +70,7 @@ nws.onmessage = (event) => {
 };
 
 async function getChatID(sender) {
-  const response = await fetch(`http://10.2.1.58:8084/app/chatID?sender=${sender}`, {
+  const response = await fetch(`http://10.2.1.62:80/app/chatID?sender=${sender}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -81,7 +81,7 @@ async function getChatID(sender) {
 }
 
 async function getNotificationNumber() {
-  const response = await fetch(`http://10.2.1.58:8084/app/notificationcount`, {
+  const response = await fetch(`http://10.2.1.62:80/app/notificationcount`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

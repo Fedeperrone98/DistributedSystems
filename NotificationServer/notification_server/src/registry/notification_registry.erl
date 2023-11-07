@@ -48,5 +48,5 @@ registry_loop(Mappings) ->
       io:format("[Notification Registry] -> user logged out, notifying active users~n"),
       NewMappings = maps:remove(Username, Mappings),
       maps:foreach(fun(Key, Value) -> send_offline(Key,Value,Username) end, Mappings),
-      registry_loop(NewMappings);
+      registry_loop(NewMappings)
     end.
