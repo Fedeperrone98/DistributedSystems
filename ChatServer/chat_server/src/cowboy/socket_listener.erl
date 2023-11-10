@@ -6,15 +6,15 @@
 % called when cowboy receives a request
 init(Req, _State)->
   % handing the websocket to cowboy_websocket module passing it the request using infinite idle timeout option
-  #{username:=CurrentUsername} = cowboy_req:match_qs([{username, nonempty}], Req),
+  #{username:=CurrentUsername, chatID:=ChatID} = cowboy_req:match_qs([{username, nonempty},{chatID, nonempty}], Req),
   RegisterPid = whereis(chat_registry),
-  InitialState = #{username => CurrentUsername, register_pid => RegisterPid},
+  InitialState = #{username => CurrentUsername, chatID => ChatID, register_pid => RegisterPid},
   {cowboy_websocket, Req, InitialState, #{idle_timeout => infinity}}.
 
 % stores the Username to Pid mapping in the registry
 websocket_init(State)->
-  #{username := CurrentUsername, register_pid := RegisterPid} = State,
-  RegisterPid ! {register, CurrentUsername, self()},
+  #{username := CurrentUsername, register_pid := RegisterPid, chatID := ChatID} = State,
+  RegisterPid ! {register, CurrentUsername, ChatID, self()},
   {ok, State}.
 
 % override of the cowboy_websocket websocket_handle/2 method

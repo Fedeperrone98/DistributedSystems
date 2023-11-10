@@ -15,7 +15,7 @@
               <%String username=(String) request.getAttribute("username");%>
                 <% List<MessageChatDTO> messageList = (List<MessageChatDTO>) request.getAttribute("messageList"); %>
                     <% boolean isOnline=(boolean) request.getAttribute("isOnline"); %>
-                      <script src="js/chat.js?v=1.37" defer></script>
+                      <script src="js/chat.js?v=1.38" defer></script>
           </head>
 
           <body style="margin: 0px;">
