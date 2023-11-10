@@ -1,7 +1,7 @@
-const cws = new WebSocket(`ws://localhost:8081/chat?username=${currentUsername}`);
+const chatID = new URL(location.href).searchParams.get("chatID");
+const cws = new WebSocket(`ws://localhost:8081/chat?username=${currentUsername}&chatID=${chatID}`);
 
 const messageList = [...document.querySelectorAll(".messages-board > .message-card").values()];
-const chatID = new URL(location.href).searchParams.get("chatID");
 const messagesBoard = document.querySelector(".messages-board");
 
 function format(/** @type {Date}*/ date) {

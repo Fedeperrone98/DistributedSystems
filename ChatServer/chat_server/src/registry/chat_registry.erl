@@ -11,13 +11,13 @@ start_chat_registry()->
   register(database_connection, DBPid),
   register(chat_registry, Pid).
 
-handle_mysql(DestinationPid, Destination, Content, Sender, ChatID, Instant, Caller) ->
+handle_mysql(DestinationPid, ChatIDDest, Destination, Content, Sender, ChatID, Instant, Caller) ->
   DBPid = whereis(database_connection),
   DBPid ! {save_message, Content, Sender, ChatID, Instant, self()},
   receive
     {ok, _Message} ->
       if 
-        DestinationPid =/= undefined -> 
+        DestinationPid =/= undefined andalso ChatIDDest == ChatID -> 
           io:format("[Message Handler] -> forwarding message to ~p~n",[DestinationPid]),
           DestinationPid ! {forwarded_message, Content};
         true ->
@@ -36,15 +36,23 @@ handle_mysql(DestinationPid, Destination, Content, Sender, ChatID, Instant, Call
 
 registry_loop(Mappings) ->
   receive 
-    {register, Username, Pid} ->
+    {register, Username, ChatID, Pid} ->
       io:format("[Chat Registry] -> adding user ~p with pid ~p~n",[Username, Pid]),
-      NewMappings = maps:put(Username, Pid, Mappings),
+      Values = #{pid => Pid, chatID => ChatID},
+      NewMappings = maps:put(Username, Values, Mappings),
       registry_loop(NewMappings);
     {forward, Destination, Content, ChatID, Instant, Sender, Caller} ->
-      DestinationPid = maps:get(Destination, Mappings, undefined),
+      DestinationInfo = maps:get(Destination, Mappings, undefined),
+      if 
+        DestinationInfo =/= undefined
+          -> #{pid := DestinationPid, chatID := ChatIDDest} = DestinationInfo;
+        true ->
+          DestinationPid = undefined,
+          ChatIDDest = undefined
+      end,
       spawn(fun() -> handle_mysql(
-        DestinationPid, 
-        Destination, 
+        DestinationPid,
+        ChatIDDest,  
         Content, 
         Sender, 
         ChatID, 
